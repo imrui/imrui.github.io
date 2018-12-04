@@ -1,0 +1,1039 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="Spring,OAuth2,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="七月流火 - 四零九六" type="application/atom+xml">
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0">
+
+
+
+
+
+
+<meta name="description" content="OAuth2 + JWT 授权认证服务 参考阅读 Spring Security整合JSON Web Token(JWT)提升REST安全性 Spring Cloud下微服务权限方案 使用JWT和Spring Security保护REST API 理解OAuth 2.0  JWT 简单介绍JWT长什么样JWT是由三段信息构成的，将这三段信息文本用.链接一起就构成了Jwt字符串。就像这样: 1eyJ">
+<meta name="keywords" content="Spring,OAuth2">
+<meta property="og:type" content="article">
+<meta property="og:title" content="OAuth2 + JWT 授权认证服务">
+<meta property="og:url" content="http://www.imrui.net/2017/10/20/oauth2-jwt/index.html">
+<meta property="og:site_name" content="七月流火 - 四零九六">
+<meta property="og:description" content="OAuth2 + JWT 授权认证服务 参考阅读 Spring Security整合JSON Web Token(JWT)提升REST安全性 Spring Cloud下微服务权限方案 使用JWT和Spring Security保护REST API 理解OAuth 2.0  JWT 简单介绍JWT长什么样JWT是由三段信息构成的，将这三段信息文本用.链接一起就构成了Jwt字符串。就像这样: 1eyJ">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-12-04T09:02:28.433Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="OAuth2 + JWT 授权认证服务">
+<meta name="twitter:description" content="OAuth2 + JWT 授权认证服务 参考阅读 Spring Security整合JSON Web Token(JWT)提升REST安全性 Spring Cloud下微服务权限方案 使用JWT和Spring Security保护REST API 理解OAuth 2.0  JWT 简单介绍JWT长什么样JWT是由三段信息构成的，将这三段信息文本用.链接一起就构成了Jwt字符串。就像这样: 1eyJ">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.imrui.net/2017/10/20/oauth2-jwt/">
+
+
+
+
+
+  <title> OAuth2 + JWT 授权认证服务 | 七月流火 - 四零九六 </title>
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-80328712-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//tajs.qq.com/stats?sId=62180273";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">七月流火 - 四零九六</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description">imrui</h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope="" itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://www.imrui.net/2017/10/20/oauth2-jwt/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Rui">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/res/icon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="七月流火 - 四零九六">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                OAuth2 + JWT 授权认证服务
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-20T00:00:00+08:00">
+                2017-10-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/Web/" itemprop="url" rel="index">
+                    <span itemprop="name">Web</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/10/20/oauth2-jwt/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/10/20/oauth2-jwt/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>OAuth2 + JWT 授权认证服务</p>
+<h2 id="参考阅读"><a href="#参考阅读" class="headerlink" title="参考阅读"></a>参考阅读</h2><ul>
+<li><a href="http://www.jianshu.com/p/ec9b7bc47de9" target="_blank" rel="noopener">Spring Security整合JSON Web Token(JWT)提升REST安全性</a></li>
+<li><a href="http://geek.csdn.net/news/detail/236321" target="_blank" rel="noopener">Spring Cloud下微服务权限方案</a></li>
+<li><a href="http://www.jianshu.com/p/6307c89fe3fa" target="_blank" rel="noopener">使用JWT和Spring Security保护REST API</a></li>
+<li><a href="http://www.ruanyifeng.com/blog/2014/05/oauth_2_0.html" target="_blank" rel="noopener">理解OAuth 2.0</a></li>
+</ul>
+<h2 id="JWT-简单介绍"><a href="#JWT-简单介绍" class="headerlink" title="JWT 简单介绍"></a>JWT 简单介绍</h2><h3 id="JWT长什么样"><a href="#JWT长什么样" class="headerlink" title="JWT长什么样"></a>JWT长什么样</h3><p>JWT是由三段信息构成的，将这三段信息文本用.链接一起就构成了Jwt字符串。就像这样:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1MDg0OTA1NjMsInVzZXJfbmFtZSI6ImFkbWluIiwiYXV0aG9yaXRpZXMiOlsiUk9MRV9BRE1JTiIsIlJPTEVfVVNFUiJdLCJqdGkiOiI3YjNiNTBlMC1hMjhjLTQ4NTQtYWNhMi0zMmQwZTIyZTY1ZmUiLCJjbGllbnRfaWQiOiJhYmMiLCJzY29wZSI6WyJhbGwiXX0.hPhvl1XbBMjoPER7BggWD1UO83o8SNtgg15rlUBndDo</span><br></pre></td></tr></table></figure>
+<h3 id="JWT的构成"><a href="#JWT的构成" class="headerlink" title="JWT的构成"></a>JWT的构成</h3><p>第一部分我们称它为头部（header),第二部分我们称其为载荷（payload, 类似于飞机上承载的物品)，第三部分是签证（signature).</p>
+<h4 id="header"><a href="#header" class="headerlink" title="header"></a>header</h4><h5 id="jwt的头部承载两部分信息"><a href="#jwt的头部承载两部分信息" class="headerlink" title="jwt的头部承载两部分信息"></a>jwt的头部承载两部分信息</h5><ul>
+<li>声明类型，这里是jwt</li>
+<li>声明加密的算法 通常直接使用 HMAC SHA256</li>
+</ul>
+<p>完整的头部就像下面这样的JSON：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"alg"</span>: <span class="string">"HS256"</span>,</span><br><span class="line">    <span class="attr">"typ"</span>: <span class="string">"JWT"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后将头部进行base64编码,构成了第一部分</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9</span><br></pre></td></tr></table></figure>
+<h4 id="playload"><a href="#playload" class="headerlink" title="playload"></a>playload</h4><p>载荷就是存放有效信息的地方。这个名字像是特指飞机上承载的货品，这些有效信息包含三个部分</p>
+<ul>
+<li>标准中注册的声明</li>
+<li>公共的声明</li>
+<li>私有的声明</li>
+</ul>
+<h5 id="标准中注册的声明-建议但不强制使用"><a href="#标准中注册的声明-建议但不强制使用" class="headerlink" title="标准中注册的声明 (建议但不强制使用)"></a>标准中注册的声明 (建议但不强制使用)</h5><ul>
+<li>iss: jwt签发者</li>
+<li>sub: jwt所面向的用户</li>
+<li>aud: 接收jwt的一方</li>
+<li>exp: jwt的过期时间，这个过期时间必须要大于签发时间</li>
+<li>nbf: 定义在什么时间之前，该jwt都是不可用的.</li>
+<li>iat: jwt的签发时间</li>
+<li>jti: jwt的唯一身份标识，主要用来作为一次性token,从而回避重放攻击。</li>
+</ul>
+<h5 id="公共的声明"><a href="#公共的声明" class="headerlink" title="公共的声明"></a>公共的声明</h5><p>公共的声明可以添加任何的信息，一般添加用户的相关信息或其他业务需要的必要信息.但不建议添加敏感信息，因为该部分在客户端可解密.</p>
+<h5 id="私有的声明"><a href="#私有的声明" class="headerlink" title="私有的声明"></a>私有的声明</h5><p>私有声明是提供者和消费者所共同定义的声明，一般不建议存放敏感信息，因为base64编码是可逆的，意味着该部分信息可以归类为明文信息。</p>
+<p>定义一个payload:</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"exp"</span>: <span class="number">1508490563</span>,</span><br><span class="line">    <span class="attr">"user_name"</span>: <span class="string">"admin"</span>,</span><br><span class="line">    <span class="attr">"authorities"</span>: [</span><br><span class="line">        <span class="string">"ROLE_ADMIN"</span>,</span><br><span class="line">        <span class="string">"ROLE_USER"</span></span><br><span class="line">    ],</span><br><span class="line">    <span class="attr">"jti"</span>: <span class="string">"7b3b50e0-a28c-4854-aca2-32d0e22e65fe"</span>,</span><br><span class="line">    <span class="attr">"client_id"</span>: <span class="string">"abc"</span>,</span><br><span class="line">    <span class="attr">"scope"</span>: [</span><br><span class="line">        <span class="string">"all"</span></span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后将其进行base64编码，得到Jwt的第二部分</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">eyJleHAiOjE1MDg0OTA1NjMsInVzZXJfbmFtZSI6ImFkbWluIiwiYXV0aG9yaXRpZXMiOlsiUk9MRV9BRE1JTiIsIlJPTEVfVVNFUiJdLCJqdGkiOiI3YjNiNTBlMC1hMjhjLTQ4NTQtYWNhMi0zMmQwZTIyZTY1ZmUiLCJjbGllbnRfaWQiOiJhYmMiLCJzY29wZSI6WyJhbGwiXX0</span><br></pre></td></tr></table></figure>
+<h4 id="signature"><a href="#signature" class="headerlink" title="signature"></a>signature</h4><p>jwt的第三部分是一个签证信息，这个签证信息由三部分组成：</p>
+<ul>
+<li>header (base64后的)</li>
+<li>payload (base64后的)</li>
+<li>secret</li>
+</ul>
+<p>这个部分需要base64编码后的header和base64编码后的payload使用.连接组成的字符串，然后通过header中声明的加密方式进行加盐secret组合加密，然后就构成了jwt的第三部分。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">// javascript</span><br><span class="line">var encodedString = base64UrlEncode(header) + &apos;.&apos; + base64UrlEncode(payload);</span><br><span class="line">var signature = HMACSHA256(encodedString, &apos;secret&apos;);</span><br></pre></td></tr></table></figure>
+<p>将这三部分用.连接成一个完整的字符串,构成了最终的jwt</p>
+<p><strong>注意</strong></p>
+<p>secret是保存在服务器端的，jwt的签发生成也是在服务器端的，secret就是用来进行jwt的签发和jwt的验证，所以，它就是你服务端的私钥，在任何场景都不应该流露出去。一旦客户端得知这个secret, 那就意味着客户端是可以自我签发jwt了。</p>
+<h2 id="OAuth2-介绍及使用"><a href="#OAuth2-介绍及使用" class="headerlink" title="OAuth2 介绍及使用"></a>OAuth2 介绍及使用</h2><h3 id="名词定义"><a href="#名词定义" class="headerlink" title="名词定义"></a>名词定义</h3><ul>
+<li>Third-party application：第三方应用程序，本文中又称”客户端”（client），即上一节例子中的”云冲印”。</li>
+<li>HTTP service：HTTP服务提供商，本文中简称”服务提供商”，即上一节例子中的Google。</li>
+<li>Resource Owner：资源所有者，本文中又称”用户”（user）。</li>
+<li>User Agent：用户代理，本文中就是指浏览器。</li>
+<li>Authorization server：认证服务器，即服务提供商专门用来处理认证的服务器。</li>
+<li>Resource server：资源服务器，即服务提供商存放用户生成的资源的服务器。它与认证服务器，可以是同一台服务器，也可以是不同的服务器。</li>
+</ul>
+<h3 id="OAuth的思路"><a href="#OAuth的思路" class="headerlink" title="OAuth的思路"></a>OAuth的思路</h3><p>OAuth在”客户端”与”服务提供商”之间，设置了一个授权层（authorization layer）。”客户端”不能直接登录”服务提供商”，只能登录授权层，以此将用户与客户端区分开来。”客户端”登录授权层所用的令牌（token），与用户的密码不同。用户可以在登录的时候，指定授权层令牌的权限范围和有效期。<br>“客户端”登录授权层以后，”服务提供商”根据令牌的权限范围和有效期，向”客户端”开放用户储存的资料。</p>
+<h3 id="运行流程"><a href="#运行流程" class="headerlink" title="运行流程"></a>运行流程</h3><ul>
+<li>A 用户打开客户端以后，客户端要求用户给予授权。</li>
+<li>B 用户同意给予客户端授权。</li>
+<li>C 客户端使用上一步获得的授权，向认证服务器申请令牌。</li>
+<li>D 认证服务器对客户端进行认证以后，确认无误，同意发放令牌。</li>
+<li>E 客户端使用令牌，向资源服务器申请获取资源。</li>
+<li>F 资源服务器确认令牌无误，同意向客户端开放资源。</li>
+</ul>
+<h3 id="客户端的授权模式"><a href="#客户端的授权模式" class="headerlink" title="客户端的授权模式"></a>客户端的授权模式</h3><p>客户端必须得到用户的授权(authorization grant), 才能获得令牌(access token)</p>
+<p>OAuth 2.0定义了四种授权方式：</p>
+<ol>
+<li>授权码模式 (authorization code)</li>
+<li>简化模式 (implicit)</li>
+<li>密码模式 (resource owner password credentials)</li>
+<li>客户端模式 (client credentials)</li>
+</ol>
+<h3 id="验证token接口-oauth-check-token"><a href="#验证token接口-oauth-check-token" class="headerlink" title="验证token接口 /oauth/check_token"></a>验证token接口 /oauth/check_token</h3><p>参数 token: 访问令牌</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://localhost:8080/oauth/check_token?token=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1MDg0NzcyNjgsInVzZXJfbmFtZSI6ImFkbWluIiwiYXV0aG9yaXRpZXMiOlsiUk9MRV9BRE1JTiIsIlJPTEVfVVNFUiJdLCJqdGkiOiJmZTk1MTNiZS1kZjEwLTQ2MDEtYWM0Yy0zOTc4Njc2NzQ1M2IiLCJjbGllbnRfaWQiOiJhYmMiLCJzY29wZSI6WyJhcHAiXX0.AOWIDfMfqzvMhV1T6eYDVpnvU03vST8XpNY35gNrNnyy_DQcLtFB0n_KIYieG4CYaVGlKnMGGXL7L592Njx6xy3bCdmSHw5_4MZZxxWN9_hj96ZTvi4H5Yc3vVzlXNHIvTTJxUsst15EbmN5s5ZBlZptv_3T70bG6x1iq6sbmMQ8zjHRgSKsZM1hvZ5pAO6BwYmPgIKFDPFtxB36I0LegLypUmzjgUFU5dAfgY-w00yyOf9aNooisM22CmbR0QXg3NAlzeufe_Jjf5W0jBTRzdhnVFreRUeOMMwlyKUb_rXUf53Yx0AXhcEhZYtYaYQpDyGxazcoO_VWSgM89S3nQuf23r20gp-jxgElNvRUnPhbO_jIuOcn2FQlvm-L37FfzlO6cK7BGqegE4ItVERfchznWFPq4Jm98IEKV5mQgAcutrE393uIL2137cNzfdg-DZ5HjFoPeEpiJ_ZL7IydxXgOsVTgYsLZ8Ccl0mO51kOCRC4tRBQxXVS9vtRQtp0TVjGTpdXK7SfLyohK1Ga0TXOA76HZv_nAoKy1BRg-i2bejV900g7-nkQGgthPdZbFk4rylXZe6t8grxCIDgtdYFGNLXiMjmnUYU9MJ35AFc1yGhqjwMX8lzdGsTNPLwNeKq9rt82rZxZuuKpiK3ph4LZgnQX5th6XiNBZDfnRz1M</span><br></pre></td></tr></table></figure>
+<p>响应内容 JSON</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"exp"</span>:<span class="number">1508477268</span>,</span><br><span class="line">    <span class="attr">"user_name"</span>:<span class="string">"admin"</span>,</span><br><span class="line">    <span class="attr">"authorities"</span>:[</span><br><span class="line">        <span class="string">"ROLE_ADMIN"</span>,</span><br><span class="line">        <span class="string">"ROLE_USER"</span></span><br><span class="line">    ],</span><br><span class="line">    <span class="attr">"jti"</span>:<span class="string">"fe9513be-df10-4601-ac4c-39786767453b"</span>,</span><br><span class="line">    <span class="attr">"client_id"</span>:<span class="string">"abc"</span>,</span><br><span class="line">    <span class="attr">"scope"</span>:[</span><br><span class="line">      <span class="string">"all"</span></span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="刷新token接口-oauth-token"><a href="#刷新token接口-oauth-token" class="headerlink" title="刷新token接口 /oauth/token"></a>刷新token接口 /oauth/token</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -d &apos;grant_type=refresh_token&amp;refresh_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX25hbWUiOiJhZG1pbiIsInNjb3BlIjpbImFsbCJdLCJhdGkiOiI4MzRmY2FmOS1hOGVhLTQwYWItYjkxMi1jNjU3NDFmOWJkYmMiLCJleHAiOjE1MDg0ODY2MDMsImF1dGhvcml0aWVzIjpbIlJPTEVfQURNSU4iLCJST0xFX1VTRVIiXSwianRpIjoiNWJkYmEzNTctZTRjOS00MzdjLWE2Y2EtODdhM2FiNGVlZTUzIiwiY2xpZW50X2lkIjoiYWJjIn0.JEttthKb3Laj6iNeMZFvnj_2CHLW5WjzQF0RA5RMyGs&amp;client_id=abc&amp;client_secret=aaaabbbb&apos; &quot;http://localhost:8080/oauth/token&quot;</span><br></pre></td></tr></table></figure>
+<p>响应内容 JSON</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"access_token"</span>: <span class="string">"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1MDg0ODY5NzAsInVzZXJfbmFtZSI6ImFkbWluIiwiYXV0aG9yaXRpZXMiOlsiUk9MRV9BRE1JTiIsIlJPTEVfVVNFUiJdLCJqdGkiOiI2ZTQ2Yzg4Yi01YzczLTQxNTktYWY1ZC01YjFlOTVlMGQ2MjIiLCJjbGllbnRfaWQiOiJhYmMiLCJzY29wZSI6WyJhbGwiXX0.3OAl_Tjz-btYjQz5PxrYqc5I1T2iNYPcPrzXeog9eqE"</span>,</span><br><span class="line">    <span class="attr">"token_type"</span>: <span class="string">"bearer"</span>,</span><br><span class="line">    <span class="attr">"refresh_token"</span>: <span class="string">"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX25hbWUiOiJhZG1pbiIsInNjb3BlIjpbImFsbCJdLCJhdGkiOiI2ZTQ2Yzg4Yi01YzczLTQxNTktYWY1ZC01YjFlOTVlMGQ2MjIiLCJleHAiOjE1MDg0ODY2MDMsImF1dGhvcml0aWVzIjpbIlJPTEVfQURNSU4iLCJST0xFX1VTRVIiXSwianRpIjoiNWJkYmEzNTctZTRjOS00MzdjLWE2Y2EtODdhM2FiNGVlZTUzIiwiY2xpZW50X2lkIjoiYWJjIn0.IvO62nDVawLiVv3oqkjS_P2vlsSntviVltULCcOXQzw"</span>,</span><br><span class="line">    <span class="attr">"expires_in"</span>: <span class="number">3599</span>,</span><br><span class="line">    <span class="attr">"scope"</span>: <span class="string">"all"</span>,</span><br><span class="line">    <span class="attr">"jti"</span>: <span class="string">"6e46c88b-5c73-4159-af5d-5b1e95e0d622"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="授权码模式-authorization-code"><a href="#授权码模式-authorization-code" class="headerlink" title="授权码模式 (authorization code)"></a>授权码模式 (authorization code)</h2><p>授权码模式（authorization code）是功能最完整、流程最严密的授权模式。它的特点就是通过客户端的后台服务器，与”服务提供商”的认证服务器进行互动。</p>
+<ul>
+<li>A 用户访问客户端，后者将前者导向认证服务器。</li>
+<li>B 用户选择是否给予客户端授权。</li>
+<li>C 假设用户给予授权，认证服务器将用户导向客户端事先指定的”重定向URI”（redirection URI），同时附上一个授权码。</li>
+<li>D 客户端收到授权码，附上早先的”重定向URI”，向认证服务器申请令牌。这一步是在客户端的后台的服务器上完成的，对用户不可见。</li>
+<li>E 认证服务器核对了授权码和重定向URI，确认无误后，向客户端发送访问令牌（access token）和更新令牌（refresh token）。</li>
+</ul>
+<h3 id="获取code接口-oauth-authorize"><a href="#获取code接口-oauth-authorize" class="headerlink" title="获取code接口 /oauth/authorize"></a>获取code接口 /oauth/authorize</h3><p>客户端申请认证的URI，包含以下参数：</p>
+<ul>
+<li>response_type：表示授权类型，必选项，此处的值固定为”code”</li>
+<li>client_id：表示客户端的ID，必选项</li>
+<li>redirect_uri：表示重定向URI，可选项</li>
+<li>scope：表示申请的权限范围，可选项</li>
+<li>state：表示客户端的当前状态，可以指定任意值，认证服务器会原封不动地返回这个值。</li>
+</ul>
+<p>服务器回应客户端的URI，包含以下参数：</p>
+<ul>
+<li>code：表示授权码，必选项。该码的有效期应该很短，通常设为10分钟，客户端只能使用该码一次，否则会被授权服务器拒绝。该码与客户端ID和重定向URI，是一一对应关系。</li>
+<li>state：如果客户端的请求中包含这个参数，认证服务器的回应也必须一模一样包含这个参数。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">GET http://localhost:8080/oauth/authorize?client_id=abc&amp;response_type=code&amp;redirect_uri=http://localhost:8080/resources/roles</span><br><span class="line">授权之后 302 http://localhost:8080/resources/roles?code=zmpbg2</span><br></pre></td></tr></table></figure>
+<h3 id="获取token接口-oauth-token"><a href="#获取token接口-oauth-token" class="headerlink" title="获取token接口 /oauth/token"></a>获取token接口 /oauth/token</h3><p>D 步骤中，客户端向认证服务器申请令牌的HTTP请求，包含以下参数：</p>
+<p>_ grant_type：表示使用的授权模式，必选项，此处的值固定为”authorization_code”。<br>_ code：表示上一步获得的授权码，必选项。<br>_ redirect_uri：表示重定向URI，必选项，且必须与A步骤中的该参数值保持一致。<br>_ client_id：表示客户端ID，必选项。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -d &apos;grant_type=authorization_code&amp;redirect_uri=http://localhost:8080/resources/roles&amp;client_id=abc&amp;client_secret=aaaabbbb&amp;code=zmpbg2&apos; &quot;http://localhost:8080/oauth/token&quot;</span><br></pre></td></tr></table></figure>
+<p>Response Header content-type: application/json;charset=UTF-8</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"access_token"</span>: <span class="string">"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1MDg0ODEzOTAsInVzZXJfbmFtZSI6ImFkbWluIiwiYXV0aG9yaXRpZXMiOlsiUk9MRV9BRE1JTiIsIlJPTEVfVVNFUiJdLCJqdGkiOiIwMDE3NGQyNC1jNWVhLTRhN2ItOTYxZS1jNDdkN2Y4YTNhYmQiLCJjbGllbnRfaWQiOiJhYmMiLCJzY29wZSI6WyJhbGwiXX0.cCAJ-r1qARUQCYjwLswWhui7g48lD_MPaarkPyIZMkM"</span>,</span><br><span class="line">    <span class="attr">"token_type"</span>: <span class="string">"bearer"</span>,</span><br><span class="line">    <span class="attr">"refresh_token"</span>: <span class="string">"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX25hbWUiOiJhZG1pbiIsInNjb3BlIjpbImFsbCJdLCJhdGkiOiIwMDE3NGQyNC1jNWVhLTRhN2ItOTYxZS1jNDdkN2Y4YTNhYmQiLCJleHAiOjE1MDg0ODEzOTAsImF1dGhvcml0aWVzIjpbIlJPTEVfQURNSU4iLCJST0xFX1VTRVIiXSwianRpIjoiMTZjMmNiNzktNDE5My00Y2ZiLWJhODgtZGMyMDU5MzRiNGEzIiwiY2xpZW50X2lkIjoiYWJjIn0.mAZSTghSNFEaoV22jwOQjeD35KVa6Sb-zhxYM_ppimE"</span>,</span><br><span class="line">    <span class="attr">"expires_in"</span>: <span class="number">3599</span>,</span><br><span class="line">    <span class="attr">"scope"</span>: <span class="string">"all"</span>,</span><br><span class="line">    <span class="attr">"jti"</span>: <span class="string">"00174d24-c5ea-4a7b-961e-c47d7f8a3abd"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="简化模式-implicit"><a href="#简化模式-implicit" class="headerlink" title="简化模式 (implicit)"></a>简化模式 (implicit)</h2><p>简化模式（implicit grant type）不通过第三方应用程序的服务器，直接在浏览器中向认证服务器申请令牌，跳过了”授权码”这个步骤，因此得名。所有步骤在浏览器中完成，令牌对访问者是可见的，且客户端不需要认证。</p>
+<ul>
+<li>A 客户端将用户导向认证服务器。</li>
+<li>B 用户决定是否给于客户端授权。</li>
+<li>C 假设用户给予授权，认证服务器将用户导向客户端指定的”重定向URI”，并在URI的Hash部分包含了访问令牌。</li>
+<li>D 浏览器向资源服务器发出请求，其中不包括上一步收到的Hash值。</li>
+<li>E 资源服务器返回一个网页，其中包含的代码可以获取Hash值中的令牌。</li>
+<li>F 浏览器执行上一步获得的脚本，提取出令牌。</li>
+<li>G 浏览器将令牌发给客户端。</li>
+</ul>
+<h3 id="获取token接口-oauth-token-1"><a href="#获取token接口-oauth-token-1" class="headerlink" title="获取token接口 /oauth/token"></a>获取token接口 /oauth/token</h3><p>A步骤中，客户端发出的HTTP请求，包含以下参数：</p>
+<ul>
+<li>response_type：表示授权类型，此处的值固定为”token”，必选项。</li>
+<li>client_id：表示客户端的ID，必选项。</li>
+<li>redirect_uri：表示重定向的URI，可选项。</li>
+<li>scope：表示权限范围，可选项。</li>
+<li>state：表示客户端的当前状态，可以指定任意值，认证服务器会原封不动地返回这个值。</li>
+</ul>
+<p>C步骤中，认证服务器回应客户端的URI，包含以下参数：</p>
+<ul>
+<li>access_token：表示访问令牌，必选项。</li>
+<li>token_type：表示令牌类型，该值大小写不敏感，必选项。</li>
+<li>expires_in：表示过期时间，单位为秒。如果省略该参数，必须其他方式设置过期时间。</li>
+<li>scope：表示权限范围，如果与客户端申请的范围一致，此项可省略。</li>
+<li>state：如果客户端的请求中包含这个参数，认证服务器的回应也必须一模一样包含这个参数。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">http://localhost:8080/oauth/authorize?client_id=abc&amp;response_type=token&amp;redirect_uri=http://localhost:8080/resources/roles</span><br><span class="line">授权之后 302</span><br><span class="line">http://localhost:8080/resources/roles#access_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1MDg0Nzc3MDIsInVzZXJfbmFtZSI6ImFkbWluIiwiYXV0aG9yaXRpZXMiOlsiUk9MRV9BRE1JTiIsIlJPTEVfVVNFUiJdLCJqdGkiOiI4ZTA2ZGFlZi0xMGVkLTQ3ZmYtOWY3Ni04ZjM2YmFmNDNiNjciLCJjbGllbnRfaWQiOiJhYmMiLCJzY29wZSI6WyJhcHAiXX0.7ygi5Z64CvZnjThSf2IlZ1PdLkOOTPQbiqXYrbhg8wM&amp;token_type=bearer&amp;expires_in=3599&amp;scope=app&amp;jti=8e06daef-10ed-47ff-9f76-8f36baf43b67</span><br></pre></td></tr></table></figure>
+<h2 id="密码模式-resource-owner-password-credentials"><a href="#密码模式-resource-owner-password-credentials" class="headerlink" title="密码模式 (resource owner password credentials)"></a>密码模式 (resource owner password credentials)</h2><p>密码模式（Resource Owner Password Credentials Grant）中，用户向客户端提供自己的用户名和密码。客户端使用这些信息，向”服务商提供商”索要授权。<br>在这种模式中，用户必须把自己的密码给客户端，但是客户端不得储存密码。这通常用在用户对客户端高度信任的情况下，比如客户端是操作系统的一部分，或者由一个著名公司出品。而认证服务器只有在其他授权模式无法执行的情况下，才能考虑使用这种模式。</p>
+<ul>
+<li>A 用户向客户端提供用户名和密码。</li>
+<li>B 客户端将用户名和密码发给认证服务器，向后者请求令牌。</li>
+<li>C 认证服务器确认无误后，向客户端提供访问令牌。</li>
+</ul>
+<h3 id="获取token接口-oauth-token-2"><a href="#获取token接口-oauth-token-2" class="headerlink" title="获取token接口 /oauth/token"></a>获取token接口 /oauth/token</h3><p>B步骤中，客户端发出的HTTP请求，包含以下参数：</p>
+<ul>
+<li>grant_type：表示授权类型，此处的值固定为”password”，必选项。</li>
+<li>username：表示用户名，必选项。</li>
+<li>password：表示用户的密码，必选项。</li>
+<li>scope：表示权限范围，可选项。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -d &apos;grant_type=password&amp;username=admin&amp;password=admin&amp;client_id=abc&amp;client_secret=aaaabbbb&apos; &quot;http://localhost:8080/oauth/token&quot;</span><br></pre></td></tr></table></figure>
+<p>响应内容 JSON</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"access_token"</span>: <span class="string">"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1MDg0OTAyNTgsInVzZXJfbmFtZSI6ImFkbWluIiwiYXV0aG9yaXRpZXMiOlsiUk9MRV9BRE1JTiIsIlJPTEVfVVNFUiJdLCJqdGkiOiIyY2NjYzUyZC0xMTg2LTQ1NzMtOWEyZC1mNzQ3NzM4MTIyZWIiLCJjbGllbnRfaWQiOiJhYmMiLCJzY29wZSI6WyJhbGwiXX0.4ql81lMcnBVUarwIVqcJBGTEQdCMrl1iSdoUsehuH8Y"</span>,</span><br><span class="line">    <span class="attr">"token_type"</span>: <span class="string">"bearer"</span>,</span><br><span class="line">    <span class="attr">"refresh_token"</span>: <span class="string">"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX25hbWUiOiJhZG1pbiIsInNjb3BlIjpbImFsbCJdLCJhdGkiOiIyY2NjYzUyZC0xMTg2LTQ1NzMtOWEyZC1mNzQ3NzM4MTIyZWIiLCJleHAiOjE1MDg0OTAyNTgsImF1dGhvcml0aWVzIjpbIlJPTEVfQURNSU4iLCJST0xFX1VTRVIiXSwianRpIjoiNjE2N2I3MjEtZTYyYS00ZjViLWI2YmQtMWQyZDY3OTIyYWYwIiwiY2xpZW50X2lkIjoiYWJjIn0.y-UBydaYeAbw0ctD3OseHfpT5WrHvpw1bZkVihPGLrY"</span>,</span><br><span class="line">    <span class="attr">"expires_in"</span>: <span class="number">3599</span>,</span><br><span class="line">    <span class="attr">"scope"</span>: <span class="string">"all"</span>,</span><br><span class="line">    <span class="attr">"jti"</span>: <span class="string">"2cccc52d-1186-4573-9a2d-f747738122eb"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="客户端模式-client-credentials"><a href="#客户端模式-client-credentials" class="headerlink" title="客户端模式 (client credentials)"></a>客户端模式 (client credentials)</h2><p>客户端模式（Client Credentials Grant）指客户端以自己的名义，而不是以用户的名义，向”服务提供商”进行认证。严格地说，客户端模式并不属于OAuth框架所要解决的问题。在这种模式中，用户直接向客户端注册，客户端以自己的名义要求”服务提供商”提供服务，其实不存在授权问题。</p>
+<ul>
+<li>A 客户端向认证服务器进行身份认证，并要求一个访问令牌。</li>
+<li>B 认证服务器确认无误后，向客户端提供访问令牌。</li>
+</ul>
+<h3 id="获取token接口-oauth-token-3"><a href="#获取token接口-oauth-token-3" class="headerlink" title="获取token接口 /oauth/token"></a>获取token接口 /oauth/token</h3><p>A步骤中，客户端发出的HTTP请求，包含以下参数：</p>
+<ul>
+<li>granttype：表示授权类型，此处的值固定为”clientcredentials”，必选项。</li>
+<li>scope：表示权限范围，可选项。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -d &apos;grant_type=client_credentials&amp;client_id=abc&amp;client_secret=aaaabbbb&apos; &quot;http://localhost:8080/oauth/token&quot;</span><br></pre></td></tr></table></figure>
+<p>响应内容 JSON</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"access_token"</span>: <span class="string">"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzY29wZSI6WyJhbGwiXSwiZXhwIjoxNTA4NDg3MzAzLCJqdGkiOiJiYTBmMDVmOS1iYTY1LTQ5MTItOGMzOC1lMWRmYjU1NWZkZTAiLCJjbGllbnRfaWQiOiJhYmMifQ.Shxb0filgBLtQEfspWpmTYfrzFbkC48DX4lSrMxRvX4"</span>,</span><br><span class="line">    <span class="attr">"token_type"</span>: <span class="string">"bearer"</span>,</span><br><span class="line">    <span class="attr">"expires_in"</span>: <span class="number">3599</span>,</span><br><span class="line">    <span class="attr">"scope"</span>: <span class="string">"all"</span>,</span><br><span class="line">    <span class="attr">"jti"</span>: <span class="string">"ba0f05f9-ba65-4912-8c38-e1dfb555fde0"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持技术分享，您的支持将鼓励我继续创作！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/res/wechat.jpg" alt="Rui WeChat Pay">
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="/res/alipay.jpg" alt="Rui Alipay">
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Spring/" rel="tag"># Spring</a>
+          
+            <a href="/tags/OAuth2/" rel="tag"># OAuth2</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/09/30/spring-restful-auth/" rel="next" title="RESTful风格鉴权设计">
+                <i class="fa fa-chevron-left"></i> RESTful风格鉴权设计
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="/res/icon.jpg" alt="Rui">
+          <p class="site-author-name" itemprop="name">Rui</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">18</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/imrui" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://coding.net/u/hilo" target="_blank" title="Coding">
+                  
+                    <i class="fa fa-fw fa-code-fork"></i>
+                  
+                  Coding
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/qlcr" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              友情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://www.66hjh.com/" title="画江湖盟主" target="_blank">画江湖盟主</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://leetcode.com/" title="LeetCode" target="_blank">LeetCode</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#参考阅读"><span class="nav-number">1.</span> <span class="nav-text">参考阅读</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JWT-简单介绍"><span class="nav-number">2.</span> <span class="nav-text">JWT 简单介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#JWT长什么样"><span class="nav-number">2.1.</span> <span class="nav-text">JWT长什么样</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JWT的构成"><span class="nav-number">2.2.</span> <span class="nav-text">JWT的构成</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#header"><span class="nav-number">2.2.1.</span> <span class="nav-text">header</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#jwt的头部承载两部分信息"><span class="nav-number">2.2.1.1.</span> <span class="nav-text">jwt的头部承载两部分信息</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#playload"><span class="nav-number">2.2.2.</span> <span class="nav-text">playload</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#标准中注册的声明-建议但不强制使用"><span class="nav-number">2.2.2.1.</span> <span class="nav-text">标准中注册的声明 (建议但不强制使用)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#公共的声明"><span class="nav-number">2.2.2.2.</span> <span class="nav-text">公共的声明</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#私有的声明"><span class="nav-number">2.2.2.3.</span> <span class="nav-text">私有的声明</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#signature"><span class="nav-number">2.2.3.</span> <span class="nav-text">signature</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#OAuth2-介绍及使用"><span class="nav-number">3.</span> <span class="nav-text">OAuth2 介绍及使用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#名词定义"><span class="nav-number">3.1.</span> <span class="nav-text">名词定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#OAuth的思路"><span class="nav-number">3.2.</span> <span class="nav-text">OAuth的思路</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#运行流程"><span class="nav-number">3.3.</span> <span class="nav-text">运行流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#客户端的授权模式"><span class="nav-number">3.4.</span> <span class="nav-text">客户端的授权模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#验证token接口-oauth-check-token"><span class="nav-number">3.5.</span> <span class="nav-text">验证token接口 /oauth/check_token</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#刷新token接口-oauth-token"><span class="nav-number">3.6.</span> <span class="nav-text">刷新token接口 /oauth/token</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#授权码模式-authorization-code"><span class="nav-number">4.</span> <span class="nav-text">授权码模式 (authorization code)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#获取code接口-oauth-authorize"><span class="nav-number">4.1.</span> <span class="nav-text">获取code接口 /oauth/authorize</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#获取token接口-oauth-token"><span class="nav-number">4.2.</span> <span class="nav-text">获取token接口 /oauth/token</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#简化模式-implicit"><span class="nav-number">5.</span> <span class="nav-text">简化模式 (implicit)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#获取token接口-oauth-token-1"><span class="nav-number">5.1.</span> <span class="nav-text">获取token接口 /oauth/token</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#密码模式-resource-owner-password-credentials"><span class="nav-number">6.</span> <span class="nav-text">密码模式 (resource owner password credentials)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#获取token接口-oauth-token-2"><span class="nav-number">6.1.</span> <span class="nav-text">获取token接口 /oauth/token</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#客户端模式-client-credentials"><span class="nav-number">7.</span> <span class="nav-text">客户端模式 (client credentials)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#获取token接口-oauth-token-3"><span class="nav-number">7.1.</span> <span class="nav-text">获取token接口 /oauth/token</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Rui</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="powered-by">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+
+<div class="powered-by">
+  <a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=11010502033928" target="_blank"><img src="/res/beian.png" style="float:left;">京公网安备 11010502033928号</a>
+</div>
+
+
+
+<div class="theme-info">
+  <a href="http://www.miitbeian.gov.cn" target="_blank">京ICP备17046037号-1</a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+  
+  <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://imrui.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://www.imrui.net/2017/10/20/oauth2-jwt/';
+          this.page.identifier = '2017/10/20/oauth2-jwt/';
+          this.page.title = 'OAuth2 + JWT 授权认证服务';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://imrui.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+
+  
+
+</body>
+</html>

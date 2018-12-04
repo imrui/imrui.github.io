@@ -1,0 +1,1137 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="Spring,Redis,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="七月流火 - 四零九六" type="application/atom+xml">
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0">
+
+
+
+
+
+
+<meta name="description" content="Redis 数据结构简介Redis 可以存储键与5种不同数据结构类型之间的映射，这5种数据结构类型分别为String（字符串）、List（列表）、Set（集合）、Hash（散列）和 Zset（有序集合）。了解更多内容，请参阅官方网站： 官网、中文网站">
+<meta name="keywords" content="Spring,Redis">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spring RedisTemplate的使用">
+<meta property="og:url" content="http://www.imrui.net/2017/09/29/spring-redis-template/index.html">
+<meta property="og:site_name" content="七月流火 - 四零九六">
+<meta property="og:description" content="Redis 数据结构简介Redis 可以存储键与5种不同数据结构类型之间的映射，这5种数据结构类型分别为String（字符串）、List（列表）、Set（集合）、Hash（散列）和 Zset（有序集合）。了解更多内容，请参阅官方网站： 官网、中文网站">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-12-04T09:02:28.432Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Spring RedisTemplate的使用">
+<meta name="twitter:description" content="Redis 数据结构简介Redis 可以存储键与5种不同数据结构类型之间的映射，这5种数据结构类型分别为String（字符串）、List（列表）、Set（集合）、Hash（散列）和 Zset（有序集合）。了解更多内容，请参阅官方网站： 官网、中文网站">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.imrui.net/2017/09/29/spring-redis-template/">
+
+
+
+
+
+  <title> Spring RedisTemplate的使用 | 七月流火 - 四零九六 </title>
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-80328712-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//tajs.qq.com/stats?sId=62180273";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">七月流火 - 四零九六</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description">imrui</h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope="" itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://www.imrui.net/2017/09/29/spring-redis-template/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Rui">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/res/icon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="七月流火 - 四零九六">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                Spring RedisTemplate的使用
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-29T00:00:00+08:00">
+                2017-09-29
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/Spring/" itemprop="url" rel="index">
+                    <span itemprop="name">Spring</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/09/29/spring-redis-template/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/09/29/spring-redis-template/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="Redis-数据结构简介"><a href="#Redis-数据结构简介" class="headerlink" title="Redis 数据结构简介"></a>Redis 数据结构简介</h2><p>Redis 可以存储键与5种不同数据结构类型之间的映射，这5种数据结构类型分别为String（字符串）、List（列表）、Set（集合）、Hash（散列）和 Zset（有序集合）。<br>了解更多内容，请参阅官方网站： <a href="https://redis.io/" target="_blank" rel="noopener">官网</a>、<a href="http://www.redis.cn/" target="_blank" rel="noopener">中文网站</a><br><a id="more"></a><br>下面来对这5种数据结构类型作简单的介绍：</p>
+<table>
+<thead>
+<tr>
+<th>结构类型</th>
+<th>结构存储的值</th>
+<th>结构的读写能力</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>String</td>
+<td>可以是字符串、整数或者浮点数</td>
+<td>对整个字符串或者字符串的其中一部分执行操作；对象和浮点数执行自增(increment)或者自减(decrement)</td>
+</tr>
+<tr>
+<td>List</td>
+<td>一个链表，链表上的每个节点都包含了一个字符串</td>
+<td>从链表的两端推入或者弹出元素；根据偏移量对链表进行修剪(trim)；读取单个或者多个元素；根据值来查找或者移除元素</td>
+</tr>
+<tr>
+<td>Set</td>
+<td>包含字符串的无序收集器(unorderedcollection)，并且被包含的每个字符串都是独一无二的、各不相同</td>
+<td>添加、获取、移除单个元素；检查一个元素是否存在于某个集合中；计算交集、并集、差集；从集合里卖弄随机获取元素</td>
+</tr>
+<tr>
+<td>Hash</td>
+<td>包含键值对的无序散列表</td>
+<td>添加、获取、移除单个键值对；获取所有键值对</td>
+</tr>
+<tr>
+<td>Zset</td>
+<td>字符串成员(member)与浮点数分值(score)之间的有序映射，元素的排列顺序由分值的大小决定</td>
+<td>添加、获取、删除单个元素；根据分值范围(range)或者成员来获取元素</td>
+</tr>
+</tbody>
+</table>
+<p>Redis 5种数据结构的概念大致介绍到这边，下面将结合Spring封装的RedisTemplate来对这5种数据结构的运用进行演示。</p>
+<h2 id="RedisTemplate介绍"><a href="#RedisTemplate介绍" class="headerlink" title="RedisTemplate介绍"></a>RedisTemplate介绍</h2><p>Spring 封装了 RedisTemplate 对象来进行对redis的各种操作，它支持所有的 redis 原生的 API 。</p>
+<h3 id="RedisTemplate在spring代码中的结构如下："><a href="#RedisTemplate在spring代码中的结构如下：" class="headerlink" title="RedisTemplate在spring代码中的结构如下："></a>RedisTemplate在spring代码中的结构如下：</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">org.springframework.data.redis.core</span><br><span class="line">Class RedisTemplate&lt;K,V&gt;</span><br><span class="line">java.lang.Object</span><br><span class="line">    org.springframework.data.redis.core.RedisAccessor</span><br><span class="line">        org.springframework.data.redis.core.RedisTemplate&lt;K,V&gt;</span><br></pre></td></tr></table></figure>
+<p>Type Parameters:</p>
+<ul>
+<li>K: the Redis key type against which the template works (usually a String) 模板中的Redis key的类型（通常为String）如：RedisTemplate&lt;String, Object&gt; 注意：<code>如果没特殊情况，切勿定义成RedisTemplate&lt;Object, Object&gt;</code>，否则根据里氏替换原则，使用的时候会造成类型错误 。</li>
+<li>V: the Redis value type against which the template works 模板中的Redis value的类型</li>
+</ul>
+<h3 id="RedisTemplate中定义了对5种数据结构操作"><a href="#RedisTemplate中定义了对5种数据结构操作" class="headerlink" title="RedisTemplate中定义了对5种数据结构操作"></a>RedisTemplate中定义了对5种数据结构操作</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">redisTemplate.opsForValue();<span class="comment">//操作字符串</span></span><br><span class="line">redisTemplate.opsForHash();<span class="comment">//操作hash</span></span><br><span class="line">redisTemplate.opsForList();<span class="comment">//操作list</span></span><br><span class="line">redisTemplate.opsForSet();<span class="comment">//操作set</span></span><br><span class="line">redisTemplate.opsForZSet();<span class="comment">//操作有序set</span></span><br><span class="line">StringRedisTemplate与RedisTemplate</span><br></pre></td></tr></table></figure>
+<ul>
+<li>两者的关系是StringRedisTemplate继承RedisTemplate。</li>
+<li>两者的数据是不共通的；也就是说StringRedisTemplate只能管理StringRedisTemplate里面的数据，RedisTemplate只能管理RedisTemplate中的数据。</li>
+<li>SDR默认采用的序列化策略有两种，一种是String的序列化策略，一种是JDK的序列化策略。</li>
+<li>StringRedisTemplate默认采用的是String的序列化策略，保存的key和value都是采用此策略序列化保存的。</li>
+<li>RedisTemplate默认采用的是JDK的序列化策略，保存的key和value都是采用此策略序列化保存的。</li>
+</ul>
+<h3 id="RedisTemplate配置"><a href="#RedisTemplate配置" class="headerlink" title="RedisTemplate配置"></a>RedisTemplate配置</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Bean</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> RedisTemplate&lt;String, Object&gt; <span class="title">redisTemplate</span><span class="params">(RedisConnectionFactory redisConnectionFactory)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    Jackson2JsonRedisSerializer&lt;Object&gt; jackson2JsonRedisSerializer = <span class="keyword">new</span> Jackson2JsonRedisSerializer&lt;Object&gt;(Object.class);</span><br><span class="line">    ObjectMapper om = <span class="keyword">new</span> ObjectMapper();</span><br><span class="line">    om.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);</span><br><span class="line">    om.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);</span><br><span class="line">    jackson2JsonRedisSerializer.setObjectMapper(om);</span><br><span class="line">    RedisTemplate&lt;String, Object&gt; template = <span class="keyword">new</span> RedisTemplate&lt;String, Object&gt;();</span><br><span class="line">    template.setConnectionFactory(redisConnectionFactory);</span><br><span class="line">    template.setKeySerializer(jackson2JsonRedisSerializer);</span><br><span class="line">    template.setValueSerializer(jackson2JsonRedisSerializer);</span><br><span class="line">    template.setHashKeySerializer(jackson2JsonRedisSerializer);</span><br><span class="line">    template.setHashValueSerializer(jackson2JsonRedisSerializer);</span><br><span class="line">    template.afterPropertiesSet();</span><br><span class="line">    <span class="keyword">return</span> template;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Redis的String数据结构"><a href="#Redis的String数据结构" class="headerlink" title="Redis的String数据结构"></a>Redis的String数据结构</h2><p><strong> 推荐使用StringRedisTemplate </strong>  如果使用RedisTemplate需要更改序列化方式</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">RedisSerializer&lt;String&gt; stringSerializer = <span class="keyword">new</span> StringRedisSerializer();</span><br><span class="line">template.setKeySerializer(stringSerializer );</span><br><span class="line">template.setValueSerializer(stringSerializer );</span><br><span class="line">template.setHashKeySerializer(stringSerializer );</span><br><span class="line">template.setHashValueSerializer(stringSerializer );</span><br></pre></td></tr></table></figure>
+<h3 id="set-void-set-K-key-V-value"><a href="#set-void-set-K-key-V-value" class="headerlink" title="set void set(K key, V value)"></a>set void set(K key, V value)</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">redisTemplate.opsForValue().set(<span class="string">"name"</span>,<span class="string">"tom"</span>);</span><br><span class="line">redisTemplate.opsForValue().get(<span class="string">"name"</span>);</span><br><span class="line">输出结果为tom</span><br></pre></td></tr></table></figure>
+<h3 id="set-void-set-K-key-V-value-long-timeout-TimeUnit-unit"><a href="#set-void-set-K-key-V-value-long-timeout-TimeUnit-unit" class="headerlink" title="set void set(K key, V value, long timeout, TimeUnit unit)"></a>set void set(K key, V value, long timeout, TimeUnit unit)</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">redisTemplate.opsForValue().set(<span class="string">"name"</span>,<span class="string">"tom"</span>,<span class="number">10</span>, TimeUnit.SECONDS);</span><br><span class="line">redisTemplate.opsForValue().get(<span class="string">"name"</span>);</span><br><span class="line">由于设置的是<span class="number">10</span>秒失效，十秒之内查询有结果，十秒之后返回为<span class="keyword">null</span></span><br></pre></td></tr></table></figure>
+<h3 id="set-void-set-K-key-V-value-long-offset"><a href="#set-void-set-K-key-V-value-long-offset" class="headerlink" title="set void set(K key, V value, long offset)"></a>set void set(K key, V value, long offset)</h3><p>该方法是用 value 参数覆写(overwrite)给定 key 所储存的字符串值，从偏移量 offset 开始</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">template.opsForValue().set(<span class="string">"key"</span>,<span class="string">"hello world"</span>);</span><br><span class="line">template.opsForValue().set(<span class="string">"key"</span>,<span class="string">"redis"</span>, <span class="number">6</span>);</span><br><span class="line">System.out.println(<span class="string">"***************"</span>+template.opsForValue().get(<span class="string">"key"</span>));</span><br><span class="line">结果：***************hello redis</span><br></pre></td></tr></table></figure>
+<h3 id="setIfAbsent-Boolean-setIfAbsent-K-key-V-value"><a href="#setIfAbsent-Boolean-setIfAbsent-K-key-V-value" class="headerlink" title="setIfAbsent Boolean setIfAbsent(K key, V value)"></a>setIfAbsent Boolean setIfAbsent(K key, V value)</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">System.out.println(template.opsForValue().setIfAbsent(<span class="string">"multi1"</span>,<span class="string">"multi1"</span>));<span class="comment">//false  multi1之前已经存在</span></span><br><span class="line">System.out.println(template.opsForValue().setIfAbsent(<span class="string">"multi111"</span>,<span class="string">"multi111"</span>));<span class="comment">//true  multi111之前不存在</span></span><br><span class="line">结果：<span class="keyword">false</span></span><br><span class="line"><span class="keyword">true</span></span><br></pre></td></tr></table></figure>
+<h3 id="multiSet-void-multiSet-Map-lt-extends-K-extends-V-gt-m"><a href="#multiSet-void-multiSet-Map-lt-extends-K-extends-V-gt-m" class="headerlink" title="multiSet void multiSet(Map&lt;? extends K, ? extends V&gt; m)"></a>multiSet void multiSet(Map&lt;? extends K, ? extends V&gt; m)</h3><p>为多个键分别设置它们的值</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">Map&lt;String,String&gt; maps = <span class="keyword">new</span> HashMap&lt;String, String&gt;();</span><br><span class="line">maps.put(<span class="string">"multi1"</span>,<span class="string">"multi1"</span>);</span><br><span class="line">maps.put(<span class="string">"multi2"</span>,<span class="string">"multi2"</span>);</span><br><span class="line">maps.put(<span class="string">"multi3"</span>,<span class="string">"multi3"</span>);</span><br><span class="line">template.opsForValue().multiSet(maps);</span><br><span class="line">List&lt;String&gt; keys = <span class="keyword">new</span> ArrayList&lt;String&gt;();</span><br><span class="line">keys.add(<span class="string">"multi1"</span>);</span><br><span class="line">keys.add(<span class="string">"multi2"</span>);</span><br><span class="line">keys.add(<span class="string">"multi3"</span>);</span><br><span class="line">System.out.println(template.opsForValue().multiGet(keys));</span><br><span class="line">结果：[multi1, multi2, multi3]</span><br></pre></td></tr></table></figure>
+<h3 id="multiSetIfAbsent-Boolean-multiSetIfAbsent-Map-lt-extends-K-extends-V-gt-m"><a href="#multiSetIfAbsent-Boolean-multiSetIfAbsent-Map-lt-extends-K-extends-V-gt-m" class="headerlink" title="multiSetIfAbsent Boolean multiSetIfAbsent(Map&lt;? extends K, ? extends V&gt; m)"></a>multiSetIfAbsent Boolean multiSetIfAbsent(Map&lt;? extends K, ? extends V&gt; m)</h3><p>为多个键分别设置它们的值，如果存在则返回false，不存在返回true</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Map&lt;String,String&gt; maps = <span class="keyword">new</span> HashMap&lt;String, String&gt;();</span><br><span class="line">maps.put(<span class="string">"multi11"</span>,<span class="string">"multi11"</span>);</span><br><span class="line">maps.put(<span class="string">"multi22"</span>,<span class="string">"multi22"</span>);</span><br><span class="line">maps.put(<span class="string">"multi33"</span>,<span class="string">"multi33"</span>);</span><br><span class="line">Map&lt;String,String&gt; maps2 = <span class="keyword">new</span> HashMap&lt;String, String&gt;();</span><br><span class="line">maps2.put(<span class="string">"multi1"</span>,<span class="string">"multi1"</span>);</span><br><span class="line">maps2.put(<span class="string">"multi2"</span>,<span class="string">"multi2"</span>);</span><br><span class="line">maps2.put(<span class="string">"multi3"</span>,<span class="string">"multi3"</span>);</span><br><span class="line">System.out.println(template.opsForValue().multiSetIfAbsent(maps));</span><br><span class="line">System.out.println(template.opsForValue().multiSetIfAbsent(maps2));</span><br><span class="line">结果：<span class="keyword">true</span></span><br><span class="line"><span class="keyword">false</span></span><br></pre></td></tr></table></figure>
+<h3 id="get-V-get-Object-key"><a href="#get-V-get-Object-key" class="headerlink" title="get V get(Object key)"></a>get V get(Object key)</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">template.opsForValue().set(<span class="string">"key"</span>,<span class="string">"hello world"</span>);</span><br><span class="line">System.out.println(<span class="string">"***************"</span>+template.opsForValue().get(<span class="string">"key"</span>));</span><br><span class="line">结果：***************hello world</span><br></pre></td></tr></table></figure>
+<h3 id="getAndSet-V-getAndSet-K-key-V-value"><a href="#getAndSet-V-getAndSet-K-key-V-value" class="headerlink" title="getAndSet V getAndSet(K key, V value)"></a>getAndSet V getAndSet(K key, V value)</h3><p>设置键的字符串值并返回其旧值</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">template.opsForValue().set(<span class="string">"getSetTest"</span>,<span class="string">"test"</span>);</span><br><span class="line">System.out.println(template.opsForValue().getAndSet(<span class="string">"getSetTest"</span>,<span class="string">"test2"</span>));</span><br><span class="line">结果：test</span><br></pre></td></tr></table></figure>
+<h3 id="multiGet-List-multiGet-Collection-keys"><a href="#multiGet-List-multiGet-Collection-keys" class="headerlink" title="multiGet List multiGet(Collection keys)"></a>multiGet List<v> multiGet(Collection<k> keys)</k></v></h3><p>为多个键分别取出它们的值</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">Map&lt;String,String&gt; maps = <span class="keyword">new</span> HashMap&lt;String, String&gt;();</span><br><span class="line">maps.put(<span class="string">"multi1"</span>,<span class="string">"multi1"</span>);</span><br><span class="line">maps.put(<span class="string">"multi2"</span>,<span class="string">"multi2"</span>);</span><br><span class="line">maps.put(<span class="string">"multi3"</span>,<span class="string">"multi3"</span>);</span><br><span class="line">template.opsForValue().multiSet(maps);</span><br><span class="line">List&lt;String&gt; keys = <span class="keyword">new</span> ArrayList&lt;String&gt;();</span><br><span class="line">keys.add(<span class="string">"multi1"</span>);</span><br><span class="line">keys.add(<span class="string">"multi2"</span>);</span><br><span class="line">keys.add(<span class="string">"multi3"</span>);</span><br><span class="line">System.out.println(template.opsForValue().multiGet(keys));</span><br><span class="line">结果：[multi1, multi2, multi3]</span><br></pre></td></tr></table></figure>
+<h3 id="increment-Long-increment-K-key-long-delta"><a href="#increment-Long-increment-K-key-long-delta" class="headerlink" title="increment Long increment(K key, long delta)"></a>increment Long increment(K key, long delta)</h3><p>支持整数</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">template.opsForValue().increment(<span class="string">"increlong"</span>,<span class="number">1</span>);</span><br><span class="line">System.out.println(<span class="string">"***************"</span>+template.opsForValue().get(<span class="string">"increlong"</span>));</span><br><span class="line">结果：***************<span class="number">1</span></span><br></pre></td></tr></table></figure>
+<h3 id="increment-Double-increment-K-key-double-delta"><a href="#increment-Double-increment-K-key-double-delta" class="headerlink" title="increment Double increment(K key, double delta)"></a>increment Double increment(K key, double delta)</h3><p>也支持浮点数</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">template.opsForValue().increment(<span class="string">"increlong"</span>,<span class="number">1.2</span>);</span><br><span class="line">System.out.println(<span class="string">"***************"</span>+template.opsForValue().get(<span class="string">"increlong"</span>));</span><br><span class="line">***************<span class="number">2.2</span></span><br></pre></td></tr></table></figure>
+<h3 id="append-Integer-append-K-key-String-value"><a href="#append-Integer-append-K-key-String-value" class="headerlink" title="append Integer append(K key, String value)"></a>append Integer append(K key, String value)</h3><p>如果key已经存在并且是一个字符串，则该命令将该值追加到字符串的末尾。如果键不存在，则它被创建并设置为空字符串，因此APPEND在这种特殊情况下将类似于SET。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">template.opsForValue().append(<span class="string">"appendTest"</span>,<span class="string">"Hello"</span>);</span><br><span class="line">System.out.println(template.opsForValue().get(<span class="string">"appendTest"</span>));</span><br><span class="line">template.opsForValue().append(<span class="string">"appendTest"</span>,<span class="string">"world"</span>);</span><br><span class="line">System.out.println(template.opsForValue().get(<span class="string">"appendTest"</span>));</span><br><span class="line">结果：Hello</span><br><span class="line">Helloworld</span><br></pre></td></tr></table></figure>
+<h3 id="get-String-get-K-key-long-start-long-end"><a href="#get-String-get-K-key-long-start-long-end" class="headerlink" title="get String get(K key, long start, long end)"></a>get String get(K key, long start, long end)</h3><p>截取key所对应的value字符串</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">appendTest对应的value为Helloworld</span><br><span class="line">System.out.println(<span class="string">"*********"</span>+template.opsForValue().get(<span class="string">"appendTest"</span>,<span class="number">0</span>,<span class="number">5</span>));</span><br><span class="line">结果：*********Hellow</span><br><span class="line">System.out.println(<span class="string">"*********"</span>+template.opsForValue().get(<span class="string">"appendTest"</span>,<span class="number">0</span>,-<span class="number">1</span>));</span><br><span class="line">结果：*********Helloworld</span><br><span class="line">System.out.println(<span class="string">"*********"</span>+template.opsForValue().get(<span class="string">"appendTest"</span>,-<span class="number">3</span>,-<span class="number">1</span>));</span><br><span class="line">结果：*********rld</span><br></pre></td></tr></table></figure>
+<h3 id="size-Long-size-K-key"><a href="#size-Long-size-K-key" class="headerlink" title="size Long size(K key)"></a>size Long size(K key)</h3><p>返回key所对应的value值得长度</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">template.opsForValue().set(<span class="string">"key"</span>,<span class="string">"hello world"</span>);</span><br><span class="line">System.out.println(<span class="string">"***************"</span>+template.opsForValue().size(<span class="string">"key"</span>));</span><br><span class="line">结果：***************<span class="number">11</span></span><br></pre></td></tr></table></figure>
+<h3 id="setBit-Boolean-setBit-K-key-long-offset-boolean-value"><a href="#setBit-Boolean-setBit-K-key-long-offset-boolean-value" class="headerlink" title="setBit Boolean setBit(K key, long offset, boolean value)"></a>setBit Boolean setBit(K key, long offset, boolean value)</h3><p>对 key 所储存的字符串值，设置或清除指定偏移量上的位(bit) key键对应的值value对应的ascii码,在offset的位置(从左向右数)变为value</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">template.opsForValue().set(<span class="string">"bitTest"</span>,<span class="string">"a"</span>);</span><br><span class="line"><span class="comment">// 'a' 的ASCII码是 97。转换为二进制是：01100001</span></span><br><span class="line"><span class="comment">// 'b' 的ASCII码是 98  转换为二进制是：01100010</span></span><br><span class="line"><span class="comment">// 'c' 的ASCII码是 99  转换为二进制是：01100011</span></span><br><span class="line"><span class="comment">//因为二进制只有0和1，在setbit中true为1，false为0，因此我要变为'b'的话第六位设置为1，第七位设置为0</span></span><br><span class="line">template.opsForValue().setBit(<span class="string">"bitTest"</span>,<span class="number">6</span>, <span class="keyword">true</span>);</span><br><span class="line">template.opsForValue().setBit(<span class="string">"bitTest"</span>,<span class="number">7</span>, <span class="keyword">false</span>);</span><br><span class="line">System.out.println(template.opsForValue().get(<span class="string">"bitTest"</span>));</span><br><span class="line">结果：b</span><br></pre></td></tr></table></figure>
+<h3 id="K-key-long-offset"><a href="#K-key-long-offset" class="headerlink" title="(K key, long offset)"></a>(K key, long offset)</h3><p>获取键对应值的ascii码的在offset处位值</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">System.out.println(template.opsForValue().getBit(<span class="string">"bitTest"</span>,<span class="number">7</span>));</span><br><span class="line">结果：<span class="keyword">false</span></span><br></pre></td></tr></table></figure>
+<h2 id="Redis的List数据结构"><a href="#Redis的List数据结构" class="headerlink" title="Redis的List数据结构"></a>Redis的List数据结构</h2><p>这边我们把RedisTemplate序列化方式改回之前的</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">Jackson2JsonRedisSerializer&lt;Object&gt; jackson2JsonRedisSerializer = <span class="keyword">new</span> Jackson2JsonRedisSerializer&lt;Object&gt;(Object.class);</span><br><span class="line">ObjectMapper om = <span class="keyword">new</span> ObjectMapper();</span><br><span class="line">om.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);</span><br><span class="line">om.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);</span><br><span class="line">jackson2JsonRedisSerializer.setObjectMapper(om);</span><br><span class="line"></span><br><span class="line">RedisTemplate&lt;String, Object&gt; template = <span class="keyword">new</span> RedisTemplate&lt;String, Object&gt;();</span><br><span class="line">template.setKeySerializer(jackson2JsonRedisSerializer);</span><br><span class="line">template.setValueSerializer(jackson2JsonRedisSerializer);</span><br><span class="line">template.setHashKeySerializer(jackson2JsonRedisSerializer);</span><br><span class="line">template.setHashValueSerializer(jackson2JsonRedisSerializer);</span><br></pre></td></tr></table></figure>
+<p>public interface ListOperations&lt;K,V&gt;<br>Redis列表是简单的字符串列表，按照插入顺序排序。你可以添加一个元素导列表的头部（左边）或者尾部（右边）<br>ListOperations专门操作list列表</p>
+<h3 id="List-range-K-key-long-start-long-end"><a href="#List-range-K-key-long-start-long-end" class="headerlink" title="List range(K key, long start, long end)"></a>List<v> range(K key, long start, long end)</v></h3><p>返回存储在键中的列表的指定元素。偏移开始和停止是基于零的索引，其中0是列表的第一个元素（列表的头部），1是下一个元素</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">System.out.println(template.opsForList().range(<span class="string">"list"</span>,<span class="number">0</span>,-<span class="number">1</span>));</span><br><span class="line">结果:[c#, c++, python, java, c#, c#]</span><br></pre></td></tr></table></figure>
+<h3 id="void-trim-K-key-long-start-long-end"><a href="#void-trim-K-key-long-start-long-end" class="headerlink" title="void trim(K key, long start, long end)"></a>void trim(K key, long start, long end)</h3><p>修剪现有列表，使其只包含指定的指定范围的元素，起始和停止都是基于0的索引</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">System.out.println(template.opsForList().range(<span class="string">"list"</span>,<span class="number">0</span>,-<span class="number">1</span>));</span><br><span class="line">template.opsForList().trim(<span class="string">"list"</span>,<span class="number">1</span>,-<span class="number">1</span>);<span class="comment">//裁剪第一个元素</span></span><br><span class="line">System.out.println(template.opsForList().range(<span class="string">"list"</span>,<span class="number">0</span>,-<span class="number">1</span>));</span><br><span class="line">结果:[c#, c++, python, java, c#, c#]</span><br><span class="line">[c++, python, java, c#, c#]</span><br></pre></td></tr></table></figure>
+<h3 id="Long-size-K-key"><a href="#Long-size-K-key" class="headerlink" title="Long size(K key)"></a>Long size(K key)</h3><p>返回存储在键中的列表的长度。如果键不存在，则将其解释为空列表，并返回0。当key存储的值不是列表时返回错误。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">System.out.println(template.opsForList().size(<span class="string">"list"</span>));</span><br><span class="line">结果:<span class="number">6</span></span><br></pre></td></tr></table></figure>
+<h3 id="Long-leftPush-K-key-V-value"><a href="#Long-leftPush-K-key-V-value" class="headerlink" title="Long leftPush(K key, V value)"></a>Long leftPush(K key, V value)</h3><p>将所有指定的值插入存储在键的列表的头部。如果键不存在，则在执行推送操作之前将其创建为空列表。（从左边插入）</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">template.opsForList().leftPush(<span class="string">"list"</span>,<span class="string">"java"</span>);</span><br><span class="line">template.opsForList().leftPush(<span class="string">"list"</span>,<span class="string">"python"</span>);</span><br><span class="line">template.opsForList().leftPush(<span class="string">"list"</span>,<span class="string">"c++"</span>);</span><br><span class="line">结果:返回的结果为推送操作后的列表的长度</span><br><span class="line"><span class="number">1</span></span><br><span class="line"><span class="number">2</span></span><br><span class="line"><span class="number">3</span></span><br></pre></td></tr></table></figure>
+<h3 id="Long-leftPushAll-K-key-V…-values"><a href="#Long-leftPushAll-K-key-V…-values" class="headerlink" title="Long leftPushAll(K key, V… values)"></a>Long leftPushAll(K key, V… values)</h3><p>批量把一个数组插入到列表中</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">String[] stringarrays = <span class="keyword">new</span> String[]&#123;<span class="string">"1"</span>,<span class="string">"2"</span>,<span class="string">"3"</span>&#125;;</span><br><span class="line">template.opsForList().leftPushAll(<span class="string">"listarray"</span>,stringarrays);</span><br><span class="line">System.out.println(template.opsForList().range(<span class="string">"listarray"</span>,<span class="number">0</span>,-<span class="number">1</span>));</span><br><span class="line">结果:[<span class="number">3</span>, <span class="number">2</span>, <span class="number">1</span>]</span><br></pre></td></tr></table></figure>
+<h3 id="Long-leftPushAll-K-key-Collection-values"><a href="#Long-leftPushAll-K-key-Collection-values" class="headerlink" title="Long leftPushAll(K key, Collection values)"></a>Long leftPushAll(K key, Collection<v> values)</v></h3><p>批量把一个集合插入到列表中</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">List&lt;Object&gt; strings = <span class="keyword">new</span> ArrayList&lt;Object&gt;();</span><br><span class="line">strings.add(<span class="string">"1"</span>);</span><br><span class="line">strings.add(<span class="string">"2"</span>);</span><br><span class="line">strings.add(<span class="string">"3"</span>);</span><br><span class="line">template.opsForList().leftPushAll(<span class="string">"listcollection4"</span>, strings);</span><br><span class="line">System.out.println(template.opsForList().range(<span class="string">"listcollection4"</span>,<span class="number">0</span>,-<span class="number">1</span>));</span><br><span class="line">结果:[<span class="number">3</span>, <span class="number">2</span>, <span class="number">1</span>]</span><br></pre></td></tr></table></figure>
+<h3 id="Long-leftPushIfPresent-K-key-V-value"><a href="#Long-leftPushIfPresent-K-key-V-value" class="headerlink" title="Long leftPushIfPresent(K key, V value)"></a>Long leftPushIfPresent(K key, V value)</h3><p>只有存在key对应的列表才能将这个value值插入到key所对应的列表中</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">System.out.println(template.opsForList().leftPushIfPresent(<span class="string">"leftPushIfPresent"</span>,<span class="string">"aa"</span>));</span><br><span class="line">System.out.println(template.opsForList().leftPushIfPresent(<span class="string">"leftPushIfPresent"</span>,<span class="string">"bb"</span>));</span><br><span class="line">==========分割线===========</span><br><span class="line">System.out.println(template.opsForList().leftPush(<span class="string">"leftPushIfPresent"</span>,<span class="string">"aa"</span>));</span><br><span class="line">System.out.println(template.opsForList().leftPushIfPresent(<span class="string">"leftPushIfPresent"</span>,<span class="string">"bb"</span>));</span><br><span class="line">结果:</span><br><span class="line"><span class="number">0</span></span><br><span class="line"><span class="number">0</span></span><br><span class="line">==========分割线===========</span><br><span class="line"><span class="number">1</span></span><br><span class="line"><span class="number">2</span></span><br></pre></td></tr></table></figure>
+<h3 id="Long-leftPush-K-key-V-pivot-V-value"><a href="#Long-leftPush-K-key-V-pivot-V-value" class="headerlink" title="Long leftPush(K key, V pivot, V value)"></a>Long leftPush(K key, V pivot, V value)</h3><p>把value值放到key对应列表中pivot值的左面，如果pivot值存在的话</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">template.opsForList().leftPush(<span class="string">"list"</span>,<span class="string">"java"</span>,<span class="string">"oc"</span>);</span><br><span class="line">System.out.print(template.opsForList().range(<span class="string">"list"</span>,<span class="number">0</span>,-<span class="number">1</span>));</span><br><span class="line">结果：[c++, python, oc, java, c#, c#]</span><br></pre></td></tr></table></figure>
+<h3 id="Long-rightPush-K-key-V-value"><a href="#Long-rightPush-K-key-V-value" class="headerlink" title="Long rightPush(K key, V value)"></a>Long rightPush(K key, V value)</h3><p>将所有指定的值插入存储在键的列表的头部。如果键不存在，则在执行推送操作之前将其创建为空列表。（从右边插入）</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">template.opsForList().rightPush(<span class="string">"listRight"</span>,<span class="string">"java"</span>);</span><br><span class="line">template.opsForList().rightPush(<span class="string">"listRight"</span>,<span class="string">"python"</span>);</span><br><span class="line">template.opsForList().rightPush(<span class="string">"listRight"</span>,<span class="string">"c++"</span>);</span><br><span class="line">结果:</span><br><span class="line"><span class="number">1</span></span><br><span class="line"><span class="number">2</span></span><br><span class="line"><span class="number">3</span></span><br></pre></td></tr></table></figure>
+<h3 id="Long-rightPushAll-K-key-V…-values"><a href="#Long-rightPushAll-K-key-V…-values" class="headerlink" title="Long rightPushAll(K key, V… values)"></a>Long rightPushAll(K key, V… values)</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">String[] stringarrays = <span class="keyword">new</span> String[]&#123;<span class="string">"1"</span>,<span class="string">"2"</span>,<span class="string">"3"</span>&#125;;</span><br><span class="line">template.opsForList().rightPushAll(<span class="string">"listarrayright"</span>,stringarrays);</span><br><span class="line">System.out.println(template.opsForList().range(<span class="string">"listarrayright"</span>,<span class="number">0</span>,-<span class="number">1</span>));</span><br><span class="line">结果:[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</span><br></pre></td></tr></table></figure>
+<h3 id="Long-rightPushAll-K-key-Collection-values"><a href="#Long-rightPushAll-K-key-Collection-values" class="headerlink" title="Long rightPushAll(K key, Collection values)"></a>Long rightPushAll(K key, Collection<v> values)</v></h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">List&lt;Object&gt; strings = <span class="keyword">new</span> ArrayList&lt;Object&gt;();</span><br><span class="line">strings.add(<span class="string">"1"</span>);</span><br><span class="line">strings.add(<span class="string">"2"</span>);</span><br><span class="line">strings.add(<span class="string">"3"</span>);</span><br><span class="line">template.opsForList().rightPushAll(<span class="string">"listcollectionright"</span>, strings);</span><br><span class="line">System.out.println(template.opsForList().range(<span class="string">"listcollectionright"</span>,<span class="number">0</span>,-<span class="number">1</span>));</span><br><span class="line">结果:[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</span><br></pre></td></tr></table></figure>
+<h3 id="Long-rightPushIfPresent-K-key-V-value"><a href="#Long-rightPushIfPresent-K-key-V-value" class="headerlink" title="Long rightPushIfPresent(K key, V value)"></a>Long rightPushIfPresent(K key, V value)</h3><p>只有存在key对应的列表才能将这个value值插入到key所对应的列表中</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">System.out.println(template.opsForList().rightPushIfPresent(<span class="string">"rightPushIfPresent"</span>,<span class="string">"aa"</span>));</span><br><span class="line">System.out.println(template.opsForList().rightPushIfPresent(<span class="string">"rightPushIfPresent"</span>,<span class="string">"bb"</span>));</span><br><span class="line">System.out.println(<span class="string">"==========分割线==========="</span>);</span><br><span class="line">System.out.println(template.opsForList().rightPush(<span class="string">"rightPushIfPresent"</span>,<span class="string">"aa"</span>));</span><br><span class="line">System.out.println(template.opsForList().rightPushIfPresent(<span class="string">"rightPushIfPresent"</span>,<span class="string">"bb"</span>));</span><br><span class="line">结果:<span class="number">0</span></span><br><span class="line"><span class="number">0</span></span><br><span class="line">==========分割线===========</span><br><span class="line"><span class="number">1</span></span><br><span class="line"><span class="number">2</span></span><br></pre></td></tr></table></figure>
+<h3 id="Long-rightPush-K-key-V-pivot-V-value"><a href="#Long-rightPush-K-key-V-pivot-V-value" class="headerlink" title="Long rightPush(K key, V pivot, V value)"></a>Long rightPush(K key, V pivot, V value)</h3><p>把value值放到key对应列表中pivot值的右面，如果pivot值存在的话</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">System.out.println(template.opsForList().range(<span class="string">"listRight"</span>,<span class="number">0</span>,-<span class="number">1</span>));</span><br><span class="line">template.opsForList().rightPush(<span class="string">"listRight"</span>,<span class="string">"python"</span>,<span class="string">"oc"</span>);</span><br><span class="line">System.out.println(template.opsForList().range(<span class="string">"listRight"</span>,<span class="number">0</span>,-<span class="number">1</span>));</span><br><span class="line">结果:[java, python, c++]</span><br><span class="line">[java, python, oc, c++]</span><br></pre></td></tr></table></figure>
+<h3 id="void-set-K-key-long-index-V-value"><a href="#void-set-K-key-long-index-V-value" class="headerlink" title="void set(K key, long index, V value)"></a>void set(K key, long index, V value)</h3><p>在列表中index的位置设置value值</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">System.out.println(template.opsForList().range(<span class="string">"listRight"</span>,<span class="number">0</span>,-<span class="number">1</span>));</span><br><span class="line">template.opsForList().set(<span class="string">"listRight"</span>,<span class="number">1</span>,<span class="string">"setValue"</span>);</span><br><span class="line">System.out.println(template.opsForList().range(<span class="string">"listRight"</span>,<span class="number">0</span>,-<span class="number">1</span>));</span><br><span class="line">结果:[java, python, oc, c++]</span><br><span class="line">[java, setValue, oc, c++]</span><br></pre></td></tr></table></figure>
+<h3 id="Long-remove-K-key-long-count-Object-value"><a href="#Long-remove-K-key-long-count-Object-value" class="headerlink" title="Long remove(K key, long count, Object value)"></a>Long remove(K key, long count, Object value)</h3><p>从存储在键中的列表中删除等于值的元素的第一个计数事件。<br>计数参数以下列方式影响操作：<br>count&gt; 0：删除等于从头到尾移动的值的元素。<br>count &lt;0：删除等于从尾到头移动的值的元素。<br>count = 0：删除等于value的所有元素。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">System.out.println(template.opsForList().range(<span class="string">"listRight"</span>,<span class="number">0</span>,-<span class="number">1</span>));</span><br><span class="line">template.opsForList().remove(<span class="string">"listRight"</span>,<span class="number">1</span>,<span class="string">"setValue"</span>);<span class="comment">//将删除列表中存储的列表中第一次次出现的“setValue”。</span></span><br><span class="line">System.out.println(template.opsForList().range(<span class="string">"listRight"</span>,<span class="number">0</span>,-<span class="number">1</span>));</span><br><span class="line">结果:[java, setValue, oc, c++]</span><br><span class="line">[java, oc, c++]</span><br></pre></td></tr></table></figure>
+<h3 id="V-index-K-key-long-index"><a href="#V-index-K-key-long-index" class="headerlink" title="V index(K key, long index)"></a>V index(K key, long index)</h3><p>根据下表获取列表中的值，下标是从0开始的</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">System.out.println(template.opsForList().range(<span class="string">"listRight"</span>,<span class="number">0</span>,-<span class="number">1</span>));</span><br><span class="line">System.out.println(template.opsForList().index(<span class="string">"listRight"</span>,<span class="number">2</span>));</span><br><span class="line">结果:[java, oc, c++]</span><br><span class="line">c++</span><br></pre></td></tr></table></figure>
+<h3 id="V-leftPop-K-key"><a href="#V-leftPop-K-key" class="headerlink" title="V leftPop(K key)"></a>V leftPop(K key)</h3><p>弹出最左边的元素，弹出之后该值在列表中将不复存在</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">System.out.println(template.opsForList().range(<span class="string">"list"</span>,<span class="number">0</span>,-<span class="number">1</span>));</span><br><span class="line">System.out.println(template.opsForList().leftPop(<span class="string">"list"</span>));</span><br><span class="line">System.out.println(template.opsForList().range(<span class="string">"list"</span>,<span class="number">0</span>,-<span class="number">1</span>));</span><br><span class="line">结果:</span><br><span class="line">[c++, python, oc, java, c#, c#]</span><br><span class="line">c++</span><br><span class="line">[python, oc, java, c#, c#]</span><br></pre></td></tr></table></figure>
+<h3 id="V-leftPop-K-key-long-timeout-TimeUnit-unit"><a href="#V-leftPop-K-key-long-timeout-TimeUnit-unit" class="headerlink" title="V leftPop(K key, long timeout, TimeUnit unit)"></a>V leftPop(K key, long timeout, TimeUnit unit)</h3><p>移出并获取列表的第一个元素， 如果列表没有元素会阻塞列表直到等待超时或发现可弹出元素为止。<br>用法与 leftPop(K key);一样</p>
+<h3 id="V-rightPop-K-key"><a href="#V-rightPop-K-key" class="headerlink" title="V rightPop(K key);"></a>V rightPop(K key);</h3><p>弹出最右边的元素，弹出之后该值在列表中将不复存在</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">System.out.println(template.opsForList().range(<span class="string">"list"</span>,<span class="number">0</span>,-<span class="number">1</span>));</span><br><span class="line">System.out.println(template.opsForList().rightPop(<span class="string">"list"</span>));</span><br><span class="line">System.out.println(template.opsForList().range(<span class="string">"list"</span>,<span class="number">0</span>,-<span class="number">1</span>));</span><br><span class="line">结果:[python, oc, java, c#, c#]</span><br><span class="line">c#</span><br><span class="line">[python, oc, java, c#]</span><br></pre></td></tr></table></figure>
+<h3 id="V-rightPop-K-key-long-timeout-TimeUnit-unit"><a href="#V-rightPop-K-key-long-timeout-TimeUnit-unit" class="headerlink" title="V rightPop(K key, long timeout, TimeUnit unit)"></a>V rightPop(K key, long timeout, TimeUnit unit)</h3><p>移出并获取列表的最后一个元素， 如果列表没有元素会阻塞列表直到等待超时或发现可弹出元素为止。<br>用法与 rightPop(K key);一样</p>
+<h3 id="V-rightPopAndLeftPush-K-sourceKey-K-destinationKey"><a href="#V-rightPopAndLeftPush-K-sourceKey-K-destinationKey" class="headerlink" title="V rightPopAndLeftPush(K sourceKey, K destinationKey)"></a>V rightPopAndLeftPush(K sourceKey, K destinationKey)</h3><p>用于移除列表的最后一个元素，并将该元素添加到另一个列表并返回。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">System.out.println(template.opsForList().range(<span class="string">"list"</span>,<span class="number">0</span>,-<span class="number">1</span>));</span><br><span class="line">template.opsForList().rightPopAndLeftPush(<span class="string">"list"</span>,<span class="string">"rightPopAndLeftPush"</span>);</span><br><span class="line">System.out.println(template.opsForList().range(<span class="string">"list"</span>,<span class="number">0</span>,-<span class="number">1</span>));</span><br><span class="line">System.out.println(template.opsForList().range(<span class="string">"rightPopAndLeftPush"</span>,<span class="number">0</span>,-<span class="number">1</span>));</span><br><span class="line">结果:[oc, java,c#]</span><br><span class="line">[oc, java]</span><br><span class="line">[c#]</span><br></pre></td></tr></table></figure>
+<h3 id="V-rightPopAndLeftPush-K-sourceKey-K-destinationKey-long-timeout-TimeUnit-unit"><a href="#V-rightPopAndLeftPush-K-sourceKey-K-destinationKey-long-timeout-TimeUnit-unit" class="headerlink" title="V rightPopAndLeftPush(K sourceKey, K destinationKey, long timeout, TimeUnit unit)"></a>V rightPopAndLeftPush(K sourceKey, K destinationKey, long timeout, TimeUnit unit)</h3><p>用于移除列表的最后一个元素，并将该元素添加到另一个列表并返回，如果列表没有元素会阻塞列表直到等待超时或发现可弹出元素为止。<br>用法与rightPopAndLeftPush(K sourceKey, K destinationKey)一样</p>
+<h2 id="Redis的Hash数据机构"><a href="#Redis的Hash数据机构" class="headerlink" title="Redis的Hash数据机构"></a>Redis的Hash数据机构</h2><p>Redis的散列可以让用户将多个键值对存储到一个Redis键里面。<br>public interface HashOperations&lt;H,HK,HV&gt;<br>HashOperations提供一系列方法操作hash</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">初始数据:</span><br><span class="line"><span class="comment">//template.opsForHash().put("redisHash","name","tom");</span></span><br><span class="line"><span class="comment">//template.opsForHash().put("redisHash","age",26);</span></span><br><span class="line"><span class="comment">//template.opsForHash().put("redisHash","class","6");</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//Map&lt;String,Object&gt; testMap = new HashMap();</span></span><br><span class="line"><span class="comment">//testMap.put("name","jack");</span></span><br><span class="line"><span class="comment">//testMap.put("age",27);</span></span><br><span class="line"><span class="comment">//testMap.put("class","1");</span></span><br><span class="line"><span class="comment">//template.opsForHash().putAll("redisHash1",testMap);</span></span><br></pre></td></tr></table></figure>
+<h3 id="Long-delete-H-key-Object…-hashKeys"><a href="#Long-delete-H-key-Object…-hashKeys" class="headerlink" title="Long delete(H key, Object… hashKeys)"></a>Long delete(H key, Object… hashKeys)</h3><p>删除给定的哈希hashKeys</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">System.out.println(template.opsForHash().delete(<span class="string">"redisHash"</span>,<span class="string">"name"</span>));</span><br><span class="line">System.out.println(template.opsForHash().entries(<span class="string">"redisHash"</span>));</span><br><span class="line">结果：<span class="number">1</span></span><br><span class="line">&#123;<span class="class"><span class="keyword">class</span></span>=<span class="number">6</span>, age=<span class="number">28.1</span>&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="Boolean-hasKey-H-key-Object-hashKey"><a href="#Boolean-hasKey-H-key-Object-hashKey" class="headerlink" title="Boolean hasKey(H key, Object hashKey)"></a>Boolean hasKey(H key, Object hashKey)</h3><p>确定哈希hashKey是否存在</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">System.out.println(template.opsForHash().hasKey(<span class="string">"redisHash"</span>,<span class="string">"age"</span>));</span><br><span class="line">System.out.println(template.opsForHash().hasKey(<span class="string">"redisHash"</span>,<span class="string">"ttt"</span>));</span><br><span class="line">结果：<span class="keyword">true</span></span><br><span class="line"><span class="keyword">false</span></span><br></pre></td></tr></table></figure>
+<h3 id="HV-get-H-key-Object-hashKey"><a href="#HV-get-H-key-Object-hashKey" class="headerlink" title="HV get(H key, Object hashKey)"></a>HV get(H key, Object hashKey)</h3><p>从键中的哈希获取给定hashKey的值</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">System.out.println(template.opsForHash().get(<span class="string">"redisHash"</span>,<span class="string">"age"</span>));</span><br><span class="line">结果：<span class="number">26</span></span><br></pre></td></tr></table></figure>
+<h3 id="List-multiGet-H-key-Collection-hashKeys"><a href="#List-multiGet-H-key-Collection-hashKeys" class="headerlink" title="List multiGet(H key, Collection hashKeys)"></a>List<hv> multiGet(H key, Collection<hk> hashKeys)</hk></hv></h3><p>从哈希中获取给定hashKey的值</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">List&lt;Object&gt; kes = <span class="keyword">new</span> ArrayList&lt;Object&gt;();</span><br><span class="line">kes.add(<span class="string">"name"</span>);</span><br><span class="line">kes.add(<span class="string">"age"</span>);</span><br><span class="line">System.out.println(template.opsForHash().multiGet(<span class="string">"redisHash"</span>,kes));</span><br><span class="line">结果：[jack, <span class="number">28.1</span>]</span><br></pre></td></tr></table></figure>
+<h3 id="Long-increment-H-key-HK-hashKey-long-delta"><a href="#Long-increment-H-key-HK-hashKey-long-delta" class="headerlink" title="Long increment(H key, HK hashKey, long delta)"></a>Long increment(H key, HK hashKey, long delta)</h3><p>通过给定的delta增加散列hashKey的值（整型）</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">System.out.println(template.opsForHash().get(<span class="string">"redisHash"</span>,<span class="string">"age"</span>));</span><br><span class="line">System.out.println(template.opsForHash().increment(<span class="string">"redisHash"</span>,<span class="string">"age"</span>,<span class="number">1</span>));</span><br><span class="line">结果：<span class="number">26</span></span><br><span class="line"><span class="number">27</span></span><br></pre></td></tr></table></figure>
+<h3 id="Double-increment-H-key-HK-hashKey-double-delta"><a href="#Double-increment-H-key-HK-hashKey-double-delta" class="headerlink" title="Double increment(H key, HK hashKey, double delta)"></a>Double increment(H key, HK hashKey, double delta)</h3><p>通过给定的delta增加散列hashKey的值（浮点数）</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">System.out.println(template.opsForHash().get(<span class="string">"redisHash"</span>,<span class="string">"age"</span>));</span><br><span class="line">System.out.println(template.opsForHash().increment(<span class="string">"redisHash"</span>,<span class="string">"age"</span>,<span class="number">1.1</span>));</span><br><span class="line">结果：<span class="number">27</span></span><br><span class="line"><span class="number">28.1</span></span><br></pre></td></tr></table></figure>
+<h3 id="Set-keys-H-key"><a href="#Set-keys-H-key" class="headerlink" title="Set keys(H key)"></a>Set<hk> keys(H key)</hk></h3><p>获取key所对应的散列表的key</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">System.out.println(template.opsForHash().keys(<span class="string">"redisHash1"</span>));</span><br><span class="line"><span class="comment">//redisHash1所对应的散列表为&#123;class=1, name=jack, age=27&#125;</span></span><br><span class="line">结果：[name, class, age]</span><br></pre></td></tr></table></figure>
+<h3 id="Long-size-H-key"><a href="#Long-size-H-key" class="headerlink" title="Long size(H key)"></a>Long size(H key)</h3><p>获取key所对应的散列表的大小个数</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">System.out.println(template.opsForHash().size(<span class="string">"redisHash1"</span>));</span><br><span class="line"><span class="comment">//redisHash1所对应的散列表为&#123;class=1, name=jack, age=27&#125;</span></span><br><span class="line">结果：<span class="number">3</span></span><br></pre></td></tr></table></figure>
+<h3 id="void-putAll-H-key-Map-lt-extends-HK-extends-HV-gt-m"><a href="#void-putAll-H-key-Map-lt-extends-HK-extends-HV-gt-m" class="headerlink" title="void putAll(H key, Map&lt;? extends HK, ? extends HV&gt; m)"></a>void putAll(H key, Map&lt;? extends HK, ? extends HV&gt; m)</h3><p>使用m中提供的多个散列字段设置到key对应的散列表中</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Map&lt;String,Object&gt; testMap = <span class="keyword">new</span> HashMap();</span><br><span class="line">testMap.put(<span class="string">"name"</span>,<span class="string">"jack"</span>);</span><br><span class="line">testMap.put(<span class="string">"age"</span>,<span class="number">27</span>);</span><br><span class="line">testMap.put(<span class="string">"class"</span>,<span class="string">"1"</span>);</span><br><span class="line">template.opsForHash().putAll(<span class="string">"redisHash1"</span>,testMap);</span><br><span class="line">System.out.println(template.opsForHash().entries(<span class="string">"redisHash1"</span>));</span><br><span class="line">结果：&#123;<span class="class"><span class="keyword">class</span></span>=<span class="number">1</span>, name=jack, age=<span class="number">27</span>&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="void-put-H-key-HK-hashKey-HV-value"><a href="#void-put-H-key-HK-hashKey-HV-value" class="headerlink" title="void put(H key, HK hashKey, HV value)"></a>void put(H key, HK hashKey, HV value)</h3><p>设置散列hashKey的值</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">template.opsForHash().put(<span class="string">"redisHash"</span>,<span class="string">"name"</span>,<span class="string">"tom"</span>);</span><br><span class="line">template.opsForHash().put(<span class="string">"redisHash"</span>,<span class="string">"age"</span>,<span class="number">26</span>);</span><br><span class="line">template.opsForHash().put(<span class="string">"redisHash"</span>,<span class="string">"class"</span>,<span class="string">"6"</span>);</span><br><span class="line">System.out.println(template.opsForHash().entries(<span class="string">"redisHash"</span>));</span><br><span class="line">结果：&#123;age=<span class="number">26</span>, <span class="class"><span class="keyword">class</span></span>=<span class="number">6</span>, name=tom&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="Boolean-putIfAbsent-H-key-HK-hashKey-HV-value"><a href="#Boolean-putIfAbsent-H-key-HK-hashKey-HV-value" class="headerlink" title="Boolean putIfAbsent(H key, HK hashKey, HV value)"></a>Boolean putIfAbsent(H key, HK hashKey, HV value)</h3><p>仅当hashKey不存在时才设置散列hashKey的值。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">System.out.println(template.opsForHash().putIfAbsent(<span class="string">"redisHash"</span>,<span class="string">"age"</span>,<span class="number">30</span>));</span><br><span class="line">System.out.println(template.opsForHash().putIfAbsent(<span class="string">"redisHash"</span>,<span class="string">"kkk"</span>,<span class="string">"kkk"</span>));</span><br><span class="line">结果：<span class="keyword">false</span></span><br><span class="line"><span class="keyword">true</span></span><br></pre></td></tr></table></figure>
+<h3 id="List-values-H-key"><a href="#List-values-H-key" class="headerlink" title="List values(H key)"></a>List<hv> values(H key)</hv></h3><p>获取整个哈希存储的值根据密钥</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">System.out.println(template.opsForHash().values(<span class="string">"redisHash"</span>));</span><br><span class="line">结果：[tom, <span class="number">26</span>, <span class="number">6</span>]</span><br></pre></td></tr></table></figure>
+<h3 id="Map-lt-HK-HV-gt-entries-H-key"><a href="#Map-lt-HK-HV-gt-entries-H-key" class="headerlink" title="Map&lt;HK, HV&gt; entries(H key)"></a>Map&lt;HK, HV&gt; entries(H key)</h3><p>获取整个哈希存储根据密钥</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">System.out.println(template.opsForHash().entries(<span class="string">"redisHash"</span>));</span><br><span class="line">结果：&#123;age=<span class="number">26</span>, <span class="class"><span class="keyword">class</span></span>=<span class="number">6</span>, name=tom&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="Cursor-lt-Map-Entry-lt-HK-HV-gt-gt-scan-H-key-ScanOptions-options"><a href="#Cursor-lt-Map-Entry-lt-HK-HV-gt-gt-scan-H-key-ScanOptions-options" class="headerlink" title="Cursor&lt;Map.Entry&lt;HK, HV&gt;&gt; scan(H key, ScanOptions options)"></a>Cursor&lt;Map.Entry&lt;HK, HV&gt;&gt; scan(H key, ScanOptions options)</h3><p>使用Cursor在key的hash中迭代，相当于迭代器。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Cursor&lt;Map.Entry&lt;Object, Object&gt;&gt; curosr = template.opsForHash().scan(<span class="string">"redisHash"</span>, ScanOptions.ScanOptions.NONE);</span><br><span class="line"><span class="keyword">while</span>(curosr.hasNext())&#123;</span><br><span class="line">    Map.Entry&lt;Object, Object&gt; entry = curosr.next();</span><br><span class="line">    System.out.println(entry.getKey()+<span class="string">":"</span>+entry.getValue());</span><br><span class="line">&#125;</span><br><span class="line">结果：age:<span class="number">28.1</span></span><br><span class="line">class:6</span><br><span class="line">kkk:kkk</span><br></pre></td></tr></table></figure>
+<h2 id="Redis的Set数据结构"><a href="#Redis的Set数据结构" class="headerlink" title="Redis的Set数据结构"></a>Redis的Set数据结构</h2><p>Redis的Set是string类型的无序集合。集合成员是唯一的，这就意味着集合中不能出现重复的数据。<br>Redis 中 集合是通过哈希表实现的，所以添加，删除，查找的复杂度都是O(1)。<br>public interface SetOperations&lt;K,V&gt;<br>SetOperations提供了对无序集合的一系列操作</p>
+<h3 id="Long-add-K-key-V…-values"><a href="#Long-add-K-key-V…-values" class="headerlink" title="Long add(K key, V… values)"></a>Long add(K key, V… values)</h3><p>无序集合中添加元素，返回添加个数<br>也可以直接在add里面添加多个值 如：template.opsForSet().add(“setTest”,”aaa”,”bbb”)</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">String[] strarrays = <span class="keyword">new</span> String[]&#123;<span class="string">"strarr1"</span>,<span class="string">"sgtarr2"</span>&#125;;</span><br><span class="line">System.out.println(template.opsForSet().add(<span class="string">"setTest"</span>, strarrays));</span><br><span class="line">结果：<span class="number">2</span></span><br></pre></td></tr></table></figure>
+<h3 id="Long-remove-K-key-Object…-values"><a href="#Long-remove-K-key-Object…-values" class="headerlink" title="Long remove(K key, Object… values)"></a>Long remove(K key, Object… values)</h3><p>移除集合中一个或多个成员</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">String[] strarrays = <span class="keyword">new</span> String[]&#123;<span class="string">"strarr1"</span>,<span class="string">"sgtarr2"</span>&#125;;</span><br><span class="line">System.out.println(template.opsForSet().remove(<span class="string">"setTest"</span>,strarrays));</span><br><span class="line">结果：<span class="number">2</span></span><br></pre></td></tr></table></figure>
+<h3 id="V-pop-K-key"><a href="#V-pop-K-key" class="headerlink" title="V pop(K key)"></a>V pop(K key)</h3><p>移除并返回集合中的一个随机元素</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">System.out.println(template.opsForSet().pop(<span class="string">"setTest"</span>));</span><br><span class="line">System.out.println(template.opsForSet().members(<span class="string">"setTest"</span>));</span><br><span class="line">结果：bbb</span><br><span class="line">[aaa, ccc]</span><br></pre></td></tr></table></figure>
+<h3 id="Boolean-move-K-key-V-value-K-destKey"><a href="#Boolean-move-K-key-V-value-K-destKey" class="headerlink" title="Boolean move(K key, V value, K destKey)"></a>Boolean move(K key, V value, K destKey)</h3><p>将 member 元素从 source 集合移动到 destination 集合</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">template.opsForSet().move(<span class="string">"setTest"</span>,<span class="string">"aaa"</span>,<span class="string">"setTest2"</span>);</span><br><span class="line">System.out.println(template.opsForSet().members(<span class="string">"setTest"</span>));</span><br><span class="line">System.out.println(template.opsForSet().members(<span class="string">"setTest2"</span>));</span><br><span class="line">结果：[ccc]</span><br><span class="line">[aaa]</span><br></pre></td></tr></table></figure>
+<h3 id="Long-size-K-key-1"><a href="#Long-size-K-key-1" class="headerlink" title="Long size(K key)"></a>Long size(K key)</h3><p>无序集合的大小长度</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">System.out.println(template.opsForSet().size(<span class="string">"setTest"</span>));</span><br><span class="line">结果：<span class="number">1</span></span><br></pre></td></tr></table></figure>
+<h3 id="Boolean-isMember-K-key-Object-o"><a href="#Boolean-isMember-K-key-Object-o" class="headerlink" title="Boolean isMember(K key, Object o)"></a>Boolean isMember(K key, Object o)</h3><p>判断 member 元素是否是集合 key 的成员</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">System.out.println(template.opsForSet().isMember(<span class="string">"setTest"</span>,<span class="string">"ccc"</span>));</span><br><span class="line">System.out.println(template.opsForSet().isMember(<span class="string">"setTest"</span>,<span class="string">"asd"</span>));</span><br><span class="line">结果：<span class="keyword">true</span></span><br><span class="line"><span class="keyword">false</span></span><br></pre></td></tr></table></figure>
+<h3 id="Set-intersect-K-key-K-otherKey"><a href="#Set-intersect-K-key-K-otherKey" class="headerlink" title="Set intersect(K key, K otherKey)"></a>Set<v> intersect(K key, K otherKey)</v></h3><p>key对应的无序集合与otherKey对应的无序集合求交集</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">System.out.println(template.opsForSet().members(<span class="string">"setTest"</span>));</span><br><span class="line">System.out.println(template.opsForSet().members(<span class="string">"setTest2"</span>));</span><br><span class="line">System.out.println(template.opsForSet().intersect(<span class="string">"setTest"</span>,<span class="string">"setTest2"</span>));</span><br><span class="line">结果：[aaa, ccc]</span><br><span class="line">[aaa]</span><br><span class="line">[aaa]</span><br></pre></td></tr></table></figure>
+<h3 id="Set-intersect-K-key-Collection-otherKeys"><a href="#Set-intersect-K-key-Collection-otherKeys" class="headerlink" title="Set intersect(K key, Collection otherKeys)"></a>Set<v> intersect(K key, Collection<k> otherKeys)</k></v></h3><p>key对应的无序集合与多个otherKey对应的无序集合求交集</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">System.out.println(template.opsForSet().members(<span class="string">"setTest"</span>));</span><br><span class="line">System.out.println(template.opsForSet().members(<span class="string">"setTest2"</span>));</span><br><span class="line">System.out.println(template.opsForSet().members(<span class="string">"setTest3"</span>));</span><br><span class="line">List&lt;String&gt; strlist = <span class="keyword">new</span> ArrayList&lt;String&gt;();</span><br><span class="line">strlist.add(<span class="string">"setTest2"</span>);</span><br><span class="line">strlist.add(<span class="string">"setTest3"</span>);</span><br><span class="line">System.out.println(template.opsForSet().intersect(<span class="string">"setTest"</span>,strlist));</span><br><span class="line">结果：[aaa, ccc]</span><br><span class="line">[aaa]</span><br><span class="line">[ccc, aaa]</span><br><span class="line">[aaa]</span><br></pre></td></tr></table></figure>
+<h3 id="Long-intersectAndStore-K-key-K-otherKey-K-destKey"><a href="#Long-intersectAndStore-K-key-K-otherKey-K-destKey" class="headerlink" title="Long intersectAndStore(K key, K otherKey, K destKey)"></a>Long intersectAndStore(K key, K otherKey, K destKey)</h3><p>key无序集合与otherkey无序集合的交集存储到destKey无序集合中</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">System.out.println(<span class="string">"setTest:"</span> + template.opsForSet().members(<span class="string">"setTest"</span>));</span><br><span class="line">System.out.println(<span class="string">"setTest2:"</span> + template.opsForSet().members(<span class="string">"setTest2"</span>));</span><br><span class="line">System.out.println(template.opsForSet().intersectAndStore(<span class="string">"setTest"</span>,<span class="string">"setTest2"</span>,<span class="string">"destKey1"</span>));</span><br><span class="line">System.out.println(template.opsForSet().members(<span class="string">"destKey1"</span>));</span><br><span class="line">结果：setTest:[ddd, bbb, aaa, ccc]</span><br><span class="line">setTest2:[ccc, aaa]</span><br><span class="line"><span class="number">2</span></span><br><span class="line">[aaa, ccc]</span><br></pre></td></tr></table></figure>
+<h3 id="Long-intersectAndStore-K-key-Collection-otherKeys-K-destKey"><a href="#Long-intersectAndStore-K-key-Collection-otherKeys-K-destKey" class="headerlink" title="Long intersectAndStore(K key, Collection otherKeys, K destKey)"></a>Long intersectAndStore(K key, Collection<k> otherKeys, K destKey)</k></h3><p>key对应的无序集合与多个otherKey对应的无序集合求交集存储到destKey无序集合中</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">System.out.println(<span class="string">"setTest:"</span> + template.opsForSet().members(<span class="string">"setTest"</span>));</span><br><span class="line">System.out.println(<span class="string">"setTest2:"</span> + template.opsForSet().members(<span class="string">"setTest2"</span>));</span><br><span class="line">System.out.println(<span class="string">"setTest3:"</span> + template.opsForSet().members(<span class="string">"setTest3"</span>));</span><br><span class="line">List&lt;String&gt; strlist = <span class="keyword">new</span> ArrayList&lt;String&gt;();</span><br><span class="line">strlist.add(<span class="string">"setTest2"</span>);</span><br><span class="line">strlist.add(<span class="string">"setTest3"</span>);</span><br><span class="line">System.out.println(template.opsForSet().intersectAndStore(<span class="string">"setTest"</span>,strlist,<span class="string">"destKey2"</span>));</span><br><span class="line">System.out.println(template.opsForSet().members(<span class="string">"destKey2"</span>));</span><br><span class="line">结果：setTest:[ddd, bbb, aaa, ccc]</span><br><span class="line">setTest2:[ccc, aaa]</span><br><span class="line">setTest3:[ccc, aaa]</span><br><span class="line"><span class="number">2</span></span><br><span class="line">[aaa, ccc]</span><br></pre></td></tr></table></figure>
+<h3 id="Set-union-K-key-K-otherKey"><a href="#Set-union-K-key-K-otherKey" class="headerlink" title="Set union(K key, K otherKey)"></a>Set<v> union(K key, K otherKey)</v></h3><p>key无序集合与otherKey无序集合的并集</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">System.out.println(<span class="string">"setTest:"</span> + template.opsForSet().members(<span class="string">"setTest"</span>));</span><br><span class="line">System.out.println(<span class="string">"setTest2:"</span> + template.opsForSet().members(<span class="string">"setTest2"</span>));</span><br><span class="line">System.out.println(template.opsForSet().union(<span class="string">"setTest"</span>,<span class="string">"setTest2"</span>));</span><br><span class="line">结果：setTest:[ddd, bbb, aaa, ccc]</span><br><span class="line">setTest2:[ccc, aaa]</span><br><span class="line">[ccc, aaa, ddd, bbb]</span><br></pre></td></tr></table></figure>
+<h3 id="Set-union-K-key-Collection-otherKeys"><a href="#Set-union-K-key-Collection-otherKeys" class="headerlink" title="Set union(K key, Collection otherKeys)"></a>Set<v> union(K key, Collection<k> otherKeys)</k></v></h3><p>key无序集合与多个otherKey无序集合的并集</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">System.out.println(<span class="string">"setTest:"</span> + template.opsForSet().members(<span class="string">"setTest"</span>));</span><br><span class="line">System.out.println(<span class="string">"setTest2:"</span> + template.opsForSet().members(<span class="string">"setTest2"</span>));</span><br><span class="line">System.out.println(<span class="string">"setTest3:"</span> + template.opsForSet().members(<span class="string">"setTest3"</span>));</span><br><span class="line">List&lt;String&gt; strlist = <span class="keyword">new</span> ArrayList&lt;String&gt;();</span><br><span class="line">strlist.add(<span class="string">"setTest2"</span>);</span><br><span class="line">strlist.add(<span class="string">"setTest3"</span>);</span><br><span class="line">System.out.println(template.opsForSet().union(<span class="string">"setTest"</span>,strlist));</span><br><span class="line">结果：setTest:[ddd, bbb, aaa, ccc]</span><br><span class="line">setTest2:[ccc, aaa]</span><br><span class="line">setTest3:[xxx, ccc, aaa]</span><br><span class="line">[ddd, xxx, bbb, aaa, ccc]</span><br></pre></td></tr></table></figure>
+<h3 id="Long-unionAndStore-K-key-K-otherKey-K-destKey"><a href="#Long-unionAndStore-K-key-K-otherKey-K-destKey" class="headerlink" title="Long unionAndStore(K key, K otherKey, K destKey)"></a>Long unionAndStore(K key, K otherKey, K destKey)</h3><p>key无序集合与otherkey无序集合的并集存储到destKey无序集合中</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">System.out.println(<span class="string">"setTest:"</span> + template.opsForSet().members(<span class="string">"setTest"</span>));</span><br><span class="line">System.out.println(<span class="string">"setTest2:"</span> + template.opsForSet().members(<span class="string">"setTest2"</span>));</span><br><span class="line">System.out.println(template.opsForSet().unionAndStore(<span class="string">"setTest"</span>,<span class="string">"setTest2"</span>,<span class="string">"unionAndStoreTest1"</span>));</span><br><span class="line">System.out.println(<span class="string">"unionAndStoreTest1:"</span> + template.opsForSet().members(<span class="string">"unionAndStoreTest1"</span>));</span><br><span class="line">结果：setTest:[ddd, bbb, aaa, ccc]</span><br><span class="line">setTest2:[ccc, aaa]</span><br><span class="line">unionAndStoreTest1:[ccc, aaa, ddd, bbb]</span><br><span class="line"><span class="number">4</span></span><br></pre></td></tr></table></figure>
+<h3 id="Long-unionAndStore-K-key-Collection-otherKeys-K-destKey"><a href="#Long-unionAndStore-K-key-Collection-otherKeys-K-destKey" class="headerlink" title="Long unionAndStore(K key, Collection otherKeys, K destKey)"></a>Long unionAndStore(K key, Collection<k> otherKeys, K destKey)</k></h3><p>key无序集合与多个otherkey无序集合的并集存储到destKey无序集合中</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">System.out.println(<span class="string">"setTest:"</span> + template.opsForSet().members(<span class="string">"setTest"</span>));</span><br><span class="line">System.out.println(<span class="string">"setTest2:"</span> + template.opsForSet().members(<span class="string">"setTest2"</span>));</span><br><span class="line">System.out.println(<span class="string">"setTest3:"</span> + template.opsForSet().members(<span class="string">"setTest3"</span>));</span><br><span class="line">List&lt;String&gt; strlist = <span class="keyword">new</span> ArrayList&lt;String&gt;();</span><br><span class="line">strlist.add(<span class="string">"setTest2"</span>);</span><br><span class="line">strlist.add(<span class="string">"setTest3"</span>);</span><br><span class="line">System.out.println(template.opsForSet().unionAndStore(<span class="string">"setTest"</span>,strlist,<span class="string">"unionAndStoreTest2"</span>));</span><br><span class="line">System.out.println(<span class="string">"unionAndStoreTest2:"</span> + template.opsForSet().members(<span class="string">"unionAndStoreTest2"</span>));</span><br><span class="line">结果：setTest:[ddd, bbb, aaa, ccc]</span><br><span class="line">setTest2:[ccc, aaa]</span><br><span class="line">setTest3:[xxx, ccc, aaa]</span><br><span class="line"><span class="number">5</span></span><br><span class="line">unionAndStoreTest2:[ddd, xxx, bbb, aaa, ccc]</span><br></pre></td></tr></table></figure>
+<h3 id="Set-difference-K-key-K-otherKey"><a href="#Set-difference-K-key-K-otherKey" class="headerlink" title="Set difference(K key, K otherKey)"></a>Set<v> difference(K key, K otherKey)</v></h3><p>key无序集合与otherKey无序集合的差集</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">System.out.println(<span class="string">"setTest:"</span> + template.opsForSet().members(<span class="string">"setTest"</span>));</span><br><span class="line">System.out.println(<span class="string">"setTest2:"</span> + template.opsForSet().members(<span class="string">"setTest2"</span>));</span><br><span class="line">System.out.println(template.opsForSet().difference(<span class="string">"setTest"</span>,<span class="string">"setTest2"</span>));</span><br><span class="line">结果：setTest:[ddd, bbb, aaa, ccc]</span><br><span class="line">setTest2:[ccc, aaa]</span><br><span class="line">[bbb, ddd]</span><br></pre></td></tr></table></figure>
+<h3 id="Set-difference-K-key-Collection-otherKeys"><a href="#Set-difference-K-key-Collection-otherKeys" class="headerlink" title="Set difference(K key, Collection otherKeys)"></a>Set<v> difference(K key, Collection<k> otherKeys)</k></v></h3><p>key无序集合与多个otherKey无序集合的差集</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">System.out.println(<span class="string">"setTest:"</span> + template.opsForSet().members(<span class="string">"setTest"</span>));</span><br><span class="line">System.out.println(<span class="string">"setTest2:"</span> + template.opsForSet().members(<span class="string">"setTest2"</span>));</span><br><span class="line">System.out.println(<span class="string">"setTest3:"</span> + template.opsForSet().members(<span class="string">"setTest3"</span>));</span><br><span class="line">List&lt;String&gt; strlist = <span class="keyword">new</span> ArrayList&lt;String&gt;();</span><br><span class="line">strlist.add(<span class="string">"setTest2"</span>);</span><br><span class="line">strlist.add(<span class="string">"setTest3"</span>);</span><br><span class="line">System.out.println(template.opsForSet().difference(<span class="string">"setTest"</span>,strlist));</span><br><span class="line">结果：setTest:[ddd, bbb, aaa, ccc]</span><br><span class="line">setTest2:[ccc, aaa]</span><br><span class="line">setTest3:[xxx, ccc, aaa]</span><br><span class="line">[bbb, ddd]</span><br></pre></td></tr></table></figure>
+<h3 id="Long-differenceAndStore-K-key-K-otherKey-K-destKey"><a href="#Long-differenceAndStore-K-key-K-otherKey-K-destKey" class="headerlink" title="Long differenceAndStore(K key, K otherKey, K destKey)"></a>Long differenceAndStore(K key, K otherKey, K destKey)</h3><p>key无序集合与otherkey无序集合的差集存储到destKey无序集合中</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">System.out.println(<span class="string">"setTest:"</span> + template.opsForSet().members(<span class="string">"setTest"</span>));</span><br><span class="line">System.out.println(<span class="string">"setTest2:"</span> + template.opsForSet().members(<span class="string">"setTest2"</span>));</span><br><span class="line">System.out.println(template.opsForSet().differenceAndStore(<span class="string">"setTest"</span>,<span class="string">"setTest2"</span>,<span class="string">"differenceAndStore1"</span>));</span><br><span class="line">System.out.println(<span class="string">"differenceAndStore1:"</span> + template.opsForSet().members(<span class="string">"differenceAndStore1"</span>));</span><br><span class="line">结果：setTest:[ddd, bbb, aaa, ccc]</span><br><span class="line">setTest2:[ccc, aaa]</span><br><span class="line"><span class="number">2</span></span><br><span class="line">differenceAndStore1:[bbb, ddd]</span><br></pre></td></tr></table></figure>
+<h3 id="Long-differenceAndStore-K-key-Collection-otherKeys-K-destKey"><a href="#Long-differenceAndStore-K-key-Collection-otherKeys-K-destKey" class="headerlink" title="Long differenceAndStore(K key, Collection otherKeys, K destKey)"></a>Long differenceAndStore(K key, Collection<k> otherKeys, K destKey)</k></h3><p>key无序集合与多个otherkey无序集合的差集存储到destKey无序集合中</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">System.out.println(<span class="string">"setTest:"</span> + template.opsForSet().members(<span class="string">"setTest"</span>));</span><br><span class="line">System.out.println(<span class="string">"setTest2:"</span> + template.opsForSet().members(<span class="string">"setTest2"</span>));</span><br><span class="line">System.out.println(<span class="string">"setTest3:"</span> + template.opsForSet().members(<span class="string">"setTest3"</span>));</span><br><span class="line">List&lt;String&gt; strlist = <span class="keyword">new</span> ArrayList&lt;String&gt;();</span><br><span class="line">strlist.add(<span class="string">"setTest2"</span>);</span><br><span class="line">strlist.add(<span class="string">"setTest3"</span>);</span><br><span class="line">System.out.println(template.opsForSet().differenceAndStore(<span class="string">"setTest"</span>,strlist,<span class="string">"differenceAndStore2"</span>));</span><br><span class="line">System.out.println(<span class="string">"differenceAndStore2:"</span> + template.opsForSet().members(<span class="string">"differenceAndStore2"</span>));</span><br><span class="line">结果：setTest:[ddd, bbb, aaa, ccc]</span><br><span class="line">setTest2:[ccc, aaa]</span><br><span class="line">setTest3:[xxx, ccc, aaa]</span><br><span class="line"><span class="number">2</span></span><br><span class="line">differenceAndStore2:[bbb, ddd]</span><br></pre></td></tr></table></figure>
+<p>Set<v> members(K key);<br>返回集合中的所有成员</v></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">System.out.println(template.opsForSet().members(<span class="string">"setTest"</span>));</span><br><span class="line">结果：[ddd, bbb, aaa, ccc]</span><br></pre></td></tr></table></figure>
+<h3 id="V-randomMember-K-key"><a href="#V-randomMember-K-key" class="headerlink" title="V randomMember(K key)"></a>V randomMember(K key)</h3><p>随机获取key无序集合中的一个元素</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">System.out.println(<span class="string">"setTest:"</span> + template.opsForSet().members(<span class="string">"setTest"</span>));</span><br><span class="line">System.out.println(<span class="string">"setTestrandomMember:"</span> + template.opsForSet().randomMember(<span class="string">"setTest"</span>));</span><br><span class="line">System.out.println(<span class="string">"setTestrandomMember:"</span> + template.opsForSet().randomMember(<span class="string">"setTest"</span>));</span><br><span class="line">System.out.println(<span class="string">"setTestrandomMember:"</span> + template.opsForSet().randomMember(<span class="string">"setTest"</span>));</span><br><span class="line">System.out.println(<span class="string">"setTestrandomMember:"</span> + template.opsForSet().randomMember(<span class="string">"setTest"</span>));</span><br><span class="line">结果：setTest:[ddd, bbb, aaa, ccc]</span><br><span class="line">setTestrandomMember:aaa</span><br><span class="line">setTestrandomMember:bbb</span><br><span class="line">setTestrandomMember:aaa</span><br><span class="line">setTestrandomMember:ddd</span><br></pre></td></tr></table></figure>
+<h3 id="Set-distinctRandomMembers-K-key-long-count"><a href="#Set-distinctRandomMembers-K-key-long-count" class="headerlink" title="Set distinctRandomMembers(K key, long count)"></a>Set<v> distinctRandomMembers(K key, long count)</v></h3><p>获取多个key无序集合中的元素（去重），count表示个数</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">System.out.println(<span class="string">"randomMembers:"</span> + template.opsForSet().distinctRandomMembers(<span class="string">"setTest"</span>,<span class="number">5</span>));</span><br><span class="line">结果：randomMembers:[aaa, bbb, ddd, ccc]</span><br></pre></td></tr></table></figure>
+<h3 id="List-randomMembers-K-key-long-count"><a href="#List-randomMembers-K-key-long-count" class="headerlink" title="List randomMembers(K key, long count)"></a>List<v> randomMembers(K key, long count)</v></h3><p>获取多个key无序集合中的元素，count表示个数</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">System.out.println(<span class="string">"randomMembers:"</span> + template.opsForSet().randomMembers(<span class="string">"setTest"</span>,<span class="number">5</span>));</span><br><span class="line">结果：randomMembers:[ccc, ddd, ddd, ddd, aaa]</span><br></pre></td></tr></table></figure>
+<h3 id="Cursor-scan-K-key-ScanOptions-options"><a href="#Cursor-scan-K-key-ScanOptions-options" class="headerlink" title="Cursor scan(K key, ScanOptions options)"></a>Cursor<v> scan(K key, ScanOptions options)</v></h3><p>遍历set</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Cursor&lt;Object&gt; curosr = template.opsForSet().scan(<span class="string">"setTest"</span>, ScanOptions.NONE);</span><br><span class="line"><span class="keyword">while</span>(curosr.hasNext())&#123;</span><br><span class="line">    System.out.println(curosr.next());</span><br><span class="line">&#125;</span><br><span class="line">结果：ddd</span><br><span class="line">bbb</span><br><span class="line">aaa</span><br><span class="line">ccc</span><br></pre></td></tr></table></figure>
+<h2 id="Redis的ZSet数据结构"><a href="#Redis的ZSet数据结构" class="headerlink" title="Redis的ZSet数据结构"></a>Redis的ZSet数据结构</h2><p>Redis 有序集合和无序集合一样也是string类型元素的集合,且不允许重复的成员。<br>不同的是每个元素都会关联一个double类型的分数。redis正是通过分数来为集合中的成员进行从小到大的排序。<br>有序集合的成员是唯一的,但分数(score)却可以重复。<br>public interface ZSetOperations&lt;K,V&gt;<br>ZSetOperations提供了一系列方法对有序集合进行操作</p>
+<h3 id="Boolean-add-K-key-V-value-double-score"><a href="#Boolean-add-K-key-V-value-double-score" class="headerlink" title="Boolean add(K key, V value, double score)"></a>Boolean add(K key, V value, double score)</h3><p>新增一个有序集合，存在的话为false，不存在的话为true</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">System.out.println(template.opsForZSet().add(<span class="string">"zset1"</span>,<span class="string">"zset-1"</span>,<span class="number">1.0</span>));</span><br><span class="line">结果：<span class="keyword">true</span></span><br></pre></td></tr></table></figure>
+<h3 id="Long-add-K-key-Set-lt-TypedTuple-gt-tuples"><a href="#Long-add-K-key-Set-lt-TypedTuple-gt-tuples" class="headerlink" title="Long add(K key, Set&lt;TypedTuple&gt; tuples)"></a>Long add(K key, Set&lt;TypedTuple<v>&gt; tuples)</v></h3><p>新增一个有序集合</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">ZSetOperations.TypedTuple&lt;Object&gt; objectTypedTuple1 = <span class="keyword">new</span> DefaultTypedTuple&lt;Object&gt;(<span class="string">"zset-5"</span>,<span class="number">9.6</span>);</span><br><span class="line">ZSetOperations.TypedTuple&lt;Object&gt; objectTypedTuple2 = <span class="keyword">new</span> DefaultTypedTuple&lt;Object&gt;(<span class="string">"zset-6"</span>,<span class="number">9.9</span>);</span><br><span class="line">Set&lt;ZSetOperations.TypedTuple&lt;Object&gt;&gt; tuples = <span class="keyword">new</span> HashSet&lt;ZSetOperations.TypedTuple&lt;Object&gt;&gt;();</span><br><span class="line">tuples.add(objectTypedTuple1);</span><br><span class="line">tuples.add(objectTypedTuple2);</span><br><span class="line">System.out.println(template.opsForZSet().add(<span class="string">"zset1"</span>,tuples));</span><br><span class="line">System.out.println(template.opsForZSet().range(<span class="string">"zset1"</span>,<span class="number">0</span>,-<span class="number">1</span>));</span><br><span class="line">结果：[zset-<span class="number">1</span>, zset-<span class="number">2</span>, zset-<span class="number">3</span>, zset-<span class="number">4</span>, zset-<span class="number">5</span>, zset-<span class="number">6</span>]</span><br></pre></td></tr></table></figure>
+<h3 id="Long-remove-K-key-Object…-values-1"><a href="#Long-remove-K-key-Object…-values-1" class="headerlink" title="Long remove(K key, Object… values)"></a>Long remove(K key, Object… values)</h3><p>从有序集合中移除一个或者多个元素</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">System.out.println(template.opsForZSet().range(<span class="string">"zset1"</span>,<span class="number">0</span>,-<span class="number">1</span>));</span><br><span class="line">System.out.println(template.opsForZSet().remove(<span class="string">"zset1"</span>,<span class="string">"zset-6"</span>));</span><br><span class="line">System.out.println(template.opsForZSet().range(<span class="string">"zset1"</span>,<span class="number">0</span>,-<span class="number">1</span>));</span><br><span class="line">结果：[zset-<span class="number">1</span>, zset-<span class="number">2</span>, zset-<span class="number">3</span>, zset-<span class="number">4</span>, zset-<span class="number">5</span>, zset-<span class="number">6</span>]</span><br><span class="line"><span class="number">1</span></span><br><span class="line">[zset-<span class="number">1</span>, zset-<span class="number">2</span>, zset-<span class="number">3</span>, zset-<span class="number">4</span>, zset-<span class="number">5</span>]</span><br></pre></td></tr></table></figure>
+<h3 id="Double-incrementScore-K-key-V-value-double-delta"><a href="#Double-incrementScore-K-key-V-value-double-delta" class="headerlink" title="Double incrementScore(K key, V value, double delta)"></a>Double incrementScore(K key, V value, double delta)</h3><p>增加元素的score值，并返回增加后的值</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">System.out.println(template.opsForZSet().incrementScore(<span class="string">"zset1"</span>,<span class="string">"zset-1"</span>,<span class="number">1.1</span>));  <span class="comment">//原为1.1</span></span><br><span class="line">结果：<span class="number">2.2</span></span><br></pre></td></tr></table></figure>
+<h3 id="Long-rank-K-key-Object-o"><a href="#Long-rank-K-key-Object-o" class="headerlink" title="Long rank(K key, Object o)"></a>Long rank(K key, Object o)</h3><p>返回有序集中指定成员的排名，其中有序集成员按分数值递增(从小到大)顺序排列</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">System.out.println(template.opsForZSet().range(<span class="string">"zset1"</span>,<span class="number">0</span>,-<span class="number">1</span>));</span><br><span class="line">System.out.println(template.opsForZSet().rank(<span class="string">"zset1"</span>,<span class="string">"zset-2"</span>));</span><br><span class="line">结果：[zset-<span class="number">2</span>, zset-<span class="number">1</span>, zset-<span class="number">3</span>, zset-<span class="number">4</span>, zset-<span class="number">5</span>]</span><br><span class="line"><span class="number">0</span>   <span class="comment">//表明排名第一</span></span><br></pre></td></tr></table></figure>
+<h3 id="Long-reverseRank-K-key-Object-o"><a href="#Long-reverseRank-K-key-Object-o" class="headerlink" title="Long reverseRank(K key, Object o)"></a>Long reverseRank(K key, Object o)</h3><p>返回有序集中指定成员的排名，其中有序集成员按分数值递减(从大到小)顺序排列</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">System.out.println(template.opsForZSet().range(<span class="string">"zset1"</span>,<span class="number">0</span>,-<span class="number">1</span>));</span><br><span class="line">System.out.println(template.opsForZSet().reverseRank(<span class="string">"zset1"</span>,<span class="string">"zset-2"</span>));</span><br><span class="line">结果：[zset-<span class="number">2</span>, zset-<span class="number">1</span>, zset-<span class="number">3</span>, zset-<span class="number">4</span>, zset-<span class="number">5</span>]</span><br><span class="line"><span class="number">4</span> <span class="comment">//递减之后排到第五位去了</span></span><br></pre></td></tr></table></figure>
+<h3 id="Set-range-K-key-long-start-long-end"><a href="#Set-range-K-key-long-start-long-end" class="headerlink" title="Set range(K key, long start, long end)"></a>Set<v> range(K key, long start, long end)</v></h3><p>通过索引区间返回有序集合成指定区间内的成员，其中有序集成员按分数值递增(从小到大)顺序排列</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">System.out.println(template.opsForZSet().range(<span class="string">"zset1"</span>,<span class="number">0</span>,-<span class="number">1</span>));</span><br><span class="line">结果：[zset-<span class="number">2</span>, zset-<span class="number">1</span>, zset-<span class="number">3</span>, zset-<span class="number">4</span>, zset-<span class="number">5</span>]</span><br></pre></td></tr></table></figure>
+<h3 id="Set-lt-TypedTuple-gt-rangeWithScores-K-key-long-start-long-end"><a href="#Set-lt-TypedTuple-gt-rangeWithScores-K-key-long-start-long-end" class="headerlink" title="Set&lt;TypedTuple&gt; rangeWithScores(K key, long start, long end)"></a>Set&lt;TypedTuple<v>&gt; rangeWithScores(K key, long start, long end)</v></h3><p>通过索引区间返回有序集合成指定区间内的成员对象，其中有序集成员按分数值递增(从小到大)顺序排列</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Set&lt;ZSetOperations.TypedTuple&lt;Object&gt;&gt; tuples = template.opsForZSet().rangeWithScores(<span class="string">"zset1"</span>,<span class="number">0</span>,-<span class="number">1</span>);</span><br><span class="line">Iterator&lt;ZSetOperations.TypedTuple&lt;Object&gt;&gt; iterator = tuples.iterator();</span><br><span class="line"><span class="keyword">while</span> (iterator.hasNext())</span><br><span class="line">&#123;</span><br><span class="line">    ZSetOperations.TypedTuple&lt;Object&gt; typedTuple = iterator.next();</span><br><span class="line">    System.out.println(<span class="string">"value:"</span> + typedTuple.getValue() + <span class="string">"score:"</span> + typedTuple.getScore());</span><br><span class="line">&#125;</span><br><span class="line">结果：value:zset-<span class="number">2</span>score:<span class="number">1.2</span></span><br><span class="line">value:zset-<span class="number">1</span>score:<span class="number">2.2</span></span><br><span class="line">value:zset-<span class="number">3</span>score:<span class="number">2.3</span></span><br><span class="line">value:zset-<span class="number">4</span>score:<span class="number">6.6</span></span><br><span class="line">value:zset-<span class="number">5</span>score:<span class="number">9.6</span></span><br></pre></td></tr></table></figure>
+<h3 id="Set-rangeByScore-K-key-double-min-double-max"><a href="#Set-rangeByScore-K-key-double-min-double-max" class="headerlink" title="Set rangeByScore(K key, double min, double max)"></a>Set<v> rangeByScore(K key, double min, double max)</v></h3><p>通过分数返回有序集合指定区间内的成员，其中有序集成员按分数值递增(从小到大)顺序排列</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">System.out.println(template.opsForZSet().rangeByScore(<span class="string">"zset1"</span>,<span class="number">0</span>,<span class="number">5</span>));</span><br><span class="line">结果：[zset-<span class="number">2</span>, zset-<span class="number">1</span>, zset-<span class="number">3</span>]</span><br></pre></td></tr></table></figure>
+<h3 id="Set-lt-TypedTuple-gt-rangeByScoreWithScores-K-key-double-min-double-max"><a href="#Set-lt-TypedTuple-gt-rangeByScoreWithScores-K-key-double-min-double-max" class="headerlink" title="Set&lt;TypedTuple&gt; rangeByScoreWithScores(K key, double min, double max)"></a>Set&lt;TypedTuple<v>&gt; rangeByScoreWithScores(K key, double min, double max)</v></h3><p>通过分数返回有序集合指定区间内的成员对象，其中有序集成员按分数值递增(从小到大)顺序排列</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Set&lt;ZSetOperations.TypedTuple&lt;Object&gt;&gt; tuples = template.opsForZSet().rangeByScoreWithScores(<span class="string">"zset1"</span>,<span class="number">0</span>,<span class="number">5</span>);</span><br><span class="line">Iterator&lt;ZSetOperations.TypedTuple&lt;Object&gt;&gt; iterator = tuples.iterator();</span><br><span class="line"><span class="keyword">while</span> (iterator.hasNext())</span><br><span class="line">&#123;</span><br><span class="line">    ZSetOperations.TypedTuple&lt;Object&gt; typedTuple = iterator.next();</span><br><span class="line">    System.out.println(<span class="string">"value:"</span> + typedTuple.getValue() + <span class="string">"score:"</span> + typedTuple.getScore());</span><br><span class="line">&#125;</span><br><span class="line">结果：value:zset-<span class="number">2</span>score:<span class="number">1.2</span></span><br><span class="line">value:zset-<span class="number">1</span>score:<span class="number">2.2</span></span><br><span class="line">value:zset-<span class="number">3</span>score:<span class="number">2.3</span></span><br></pre></td></tr></table></figure>
+<h3 id="Set-rangeByScore-K-key-double-min-double-max-long-offset-long-count"><a href="#Set-rangeByScore-K-key-double-min-double-max-long-offset-long-count" class="headerlink" title="Set rangeByScore(K key, double min, double max, long offset, long count)"></a>Set<v> rangeByScore(K key, double min, double max, long offset, long count)</v></h3><p>通过分数返回有序集合指定区间内的成员，并在索引范围内，其中有序集成员按分数值递增(从小到大)顺序排列</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">System.out.println(template.opsForZSet().rangeByScore(<span class="string">"zset1"</span>,<span class="number">0</span>,<span class="number">5</span>));</span><br><span class="line">System.out.println(template.opsForZSet().rangeByScore(<span class="string">"zset1"</span>,<span class="number">0</span>,<span class="number">5</span>,<span class="number">1</span>,<span class="number">2</span>));</span><br><span class="line">结果：[zset-<span class="number">2</span>, zset-<span class="number">1</span>, zset-<span class="number">3</span>]</span><br><span class="line">[zset-<span class="number">1</span>, zset-<span class="number">3</span>]</span><br></pre></td></tr></table></figure>
+<h3 id="Set-lt-TypedTuple-gt-rangeByScoreWithScores-K-key-double-min-double-max-long-offset-long-count"><a href="#Set-lt-TypedTuple-gt-rangeByScoreWithScores-K-key-double-min-double-max-long-offset-long-count" class="headerlink" title="Set&lt;TypedTuple&gt; rangeByScoreWithScores(K key, double min, double max, long offset, long count)"></a>Set&lt;TypedTuple<v>&gt; rangeByScoreWithScores(K key, double min, double max, long offset, long count)</v></h3><p>通过分数返回有序集合指定区间内的成员对象，并在索引范围内，其中有序集成员按分数值递增(从小到大)顺序排列</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Set&lt;ZSetOperations.TypedTuple&lt;Object&gt;&gt; tuples = template.opsForZSet().rangeByScoreWithScores(<span class="string">"zset1"</span>,<span class="number">0</span>,<span class="number">5</span>,<span class="number">1</span>,<span class="number">2</span>);</span><br><span class="line">Iterator&lt;ZSetOperations.TypedTuple&lt;Object&gt;&gt; iterator = tuples.iterator();</span><br><span class="line"><span class="keyword">while</span> (iterator.hasNext())</span><br><span class="line">&#123;</span><br><span class="line">    ZSetOperations.TypedTuple&lt;Object&gt; typedTuple = iterator.next();</span><br><span class="line">    System.out.println(<span class="string">"value:"</span> + typedTuple.getValue() + <span class="string">"score:"</span> + typedTuple.getScore());</span><br><span class="line">&#125;</span><br><span class="line">结果：value:zset-<span class="number">1</span>score:<span class="number">2.2</span></span><br><span class="line">value:zset-<span class="number">3</span>score:<span class="number">2.3</span></span><br></pre></td></tr></table></figure>
+<h3 id="Set-reverseRange-K-key-long-start-long-end"><a href="#Set-reverseRange-K-key-long-start-long-end" class="headerlink" title="Set reverseRange(K key, long start, long end)"></a>Set<v> reverseRange(K key, long start, long end)</v></h3><p>通过索引区间返回有序集合成指定区间内的成员，其中有序集成员按分数值递减(从大到小)顺序排列</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">System.out.println(template.opsForZSet().reverseRange(<span class="string">"zset1"</span>,<span class="number">0</span>,-<span class="number">1</span>));</span><br><span class="line">结果：[zset-<span class="number">5</span>, zset-<span class="number">4</span>, zset-<span class="number">3</span>, zset-<span class="number">1</span>, zset-<span class="number">2</span>]</span><br></pre></td></tr></table></figure>
+<h3 id="Set-lt-TypedTuple-gt-reverseRangeWithScores-K-key-long-start-long-end"><a href="#Set-lt-TypedTuple-gt-reverseRangeWithScores-K-key-long-start-long-end" class="headerlink" title="Set&lt;TypedTuple&gt; reverseRangeWithScores(K key, long start, long end)"></a>Set&lt;TypedTuple<v>&gt; reverseRangeWithScores(K key, long start, long end)</v></h3><p>通过索引区间返回有序集合成指定区间内的成员对象，其中有序集成员按分数值递减(从大到小)顺序排列</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Set&lt;ZSetOperations.TypedTuple&lt;Object&gt;&gt; tuples = template.opsForZSet().reverseRangeWithScores(<span class="string">"zset1"</span>,<span class="number">0</span>,-<span class="number">1</span>);</span><br><span class="line">Iterator&lt;ZSetOperations.TypedTuple&lt;Object&gt;&gt; iterator = tuples.iterator();</span><br><span class="line"><span class="keyword">while</span> (iterator.hasNext())</span><br><span class="line">&#123;</span><br><span class="line">    ZSetOperations.TypedTuple&lt;Object&gt; typedTuple = iterator.next();</span><br><span class="line">    System.out.println(<span class="string">"value:"</span> + typedTuple.getValue() + <span class="string">"score:"</span> + typedTuple.getScore());</span><br><span class="line">&#125;</span><br><span class="line">结果：value:zset-<span class="number">5</span>score:<span class="number">9.6</span></span><br><span class="line">value:zset-<span class="number">4</span>score:<span class="number">6.6</span></span><br><span class="line">value:zset-<span class="number">3</span>score:<span class="number">2.3</span></span><br><span class="line">value:zset-<span class="number">1</span>score:<span class="number">2.2</span></span><br><span class="line">value:zset-<span class="number">2</span>score:<span class="number">1.2</span></span><br></pre></td></tr></table></figure>
+<h3 id="Set-reverseRangeByScore-K-key-double-min-double-max"><a href="#Set-reverseRangeByScore-K-key-double-min-double-max" class="headerlink" title="Set reverseRangeByScore(K key, double min, double max)"></a>Set<v> reverseRangeByScore(K key, double min, double max)</v></h3><p>与rangeByScore调用方法一样，其中有序集成员按分数值递减(从大到小)顺序排列</p>
+<h3 id="Set-lt-TypedTuple-gt-reverseRangeByScoreWithScores-K-key-double-min-double-max"><a href="#Set-lt-TypedTuple-gt-reverseRangeByScoreWithScores-K-key-double-min-double-max" class="headerlink" title="Set&lt;TypedTuple&gt; reverseRangeByScoreWithScores(K key, double min, double max)"></a>Set&lt;TypedTuple<v>&gt; reverseRangeByScoreWithScores(K key, double min, double max)</v></h3><p>与rangeByScoreWithScores调用方法一样，其中有序集成员按分数值递减(从大到小)顺序排列</p>
+<h3 id="Set-reverseRangeByScore-K-key-double-min-double-max-long-offset-long-count"><a href="#Set-reverseRangeByScore-K-key-double-min-double-max-long-offset-long-count" class="headerlink" title="Set reverseRangeByScore(K key, double min, double max, long offset, long count)"></a>Set<v> reverseRangeByScore(K key, double min, double max, long offset, long count)</v></h3><p>与rangeByScore调用方法一样，其中有序集成员按分数值递减(从大到小)顺序排列</p>
+<h3 id="Set-lt-TypedTuple-gt-reverseRangeByScoreWithScores-K-key-double-min-double-max-long-offset-long-count"><a href="#Set-lt-TypedTuple-gt-reverseRangeByScoreWithScores-K-key-double-min-double-max-long-offset-long-count" class="headerlink" title="Set&lt;TypedTuple&gt; reverseRangeByScoreWithScores(K key, double min, double max, long offset, long count)"></a>Set&lt;TypedTuple<v>&gt; reverseRangeByScoreWithScores(K key, double min, double max, long offset, long count)</v></h3><p>与rangeByScoreWithScores调用方法一样，其中有序集成员按分数值递减(从大到小)顺序排列</p>
+<h3 id="Long-count-K-key-double-min-double-max"><a href="#Long-count-K-key-double-min-double-max" class="headerlink" title="Long count(K key, double min, double max)"></a>Long count(K key, double min, double max)</h3><p>通过分数返回有序集合指定区间内的成员个数</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">System.out.println(template.opsForZSet().rangeByScore(<span class="string">"zset1"</span>,<span class="number">0</span>,<span class="number">5</span>));</span><br><span class="line">System.out.println(template.opsForZSet().count(<span class="string">"zset1"</span>,<span class="number">0</span>,<span class="number">5</span>));</span><br><span class="line">结果：[zset-<span class="number">2</span>, zset-<span class="number">1</span>, zset-<span class="number">3</span>]</span><br><span class="line"><span class="number">3</span></span><br></pre></td></tr></table></figure>
+<h3 id="Long-size-K-key-2"><a href="#Long-size-K-key-2" class="headerlink" title="Long size(K key)"></a>Long size(K key)</h3><p>获取有序集合的成员数，内部调用的就是zCard方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">System.out.println(template.opsForZSet().size(<span class="string">"zset1"</span>));</span><br><span class="line">结果：<span class="number">6</span></span><br></pre></td></tr></table></figure>
+<h3 id="Long-zCard-K-key"><a href="#Long-zCard-K-key" class="headerlink" title="Long zCard(K key)"></a>Long zCard(K key)</h3><p>获取有序集合的成员数</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">System.out.println(template.opsForZSet().zCard(<span class="string">"zset1"</span>));</span><br><span class="line">结果：<span class="number">6</span></span><br></pre></td></tr></table></figure>
+<h3 id="Double-score-K-key-Object-o"><a href="#Double-score-K-key-Object-o" class="headerlink" title="Double score(K key, Object o)"></a>Double score(K key, Object o)</h3><p>获取指定成员的score值</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">System.out.println(template.opsForZSet().score(<span class="string">"zset1"</span>,<span class="string">"zset-1"</span>));</span><br><span class="line">结果：<span class="number">2.2</span></span><br></pre></td></tr></table></figure>
+<h3 id="Long-removeRange-K-key-long-start-long-end"><a href="#Long-removeRange-K-key-long-start-long-end" class="headerlink" title="Long removeRange(K key, long start, long end)"></a>Long removeRange(K key, long start, long end)</h3><p>移除指定索引位置的成员，其中有序集成员按分数值递增(从小到大)顺序排列</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">System.out.println(template.opsForZSet().range(<span class="string">"zset2"</span>,<span class="number">0</span>,-<span class="number">1</span>));</span><br><span class="line">System.out.println(template.opsForZSet().removeRange(<span class="string">"zset2"</span>,<span class="number">1</span>,<span class="number">2</span>));</span><br><span class="line">System.out.println(template.opsForZSet().range(<span class="string">"zset2"</span>,<span class="number">0</span>,-<span class="number">1</span>));</span><br><span class="line">结果：[zset-<span class="number">1</span>, zset-<span class="number">2</span>, zset-<span class="number">3</span>, zset-<span class="number">4</span>]</span><br><span class="line"><span class="number">2</span></span><br><span class="line">[zset-<span class="number">1</span>, zset-<span class="number">4</span>]</span><br></pre></td></tr></table></figure>
+<h3 id="Long-removeRangeByScore-K-key-double-min-double-max"><a href="#Long-removeRangeByScore-K-key-double-min-double-max" class="headerlink" title="Long removeRangeByScore(K key, double min, double max)"></a>Long removeRangeByScore(K key, double min, double max)</h3><p>根据指定的score值得范围来移除成员</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//System.out.println(template.opsForZSet().add("zset2","zset-1",1.1));</span></span><br><span class="line"><span class="comment">//System.out.println(template.opsForZSet().add("zset2","zset-2",1.2));</span></span><br><span class="line"><span class="comment">//System.out.println(template.opsForZSet().add("zset2","zset-3",2.3));</span></span><br><span class="line"><span class="comment">//System.out.println(template.opsForZSet().add("zset2","zset-4",6.6));</span></span><br><span class="line">System.out.println(template.opsForZSet().range(<span class="string">"zset2"</span>,<span class="number">0</span>,-<span class="number">1</span>));</span><br><span class="line">System.out.println(template.opsForZSet().removeRangeByScore(<span class="string">"zset2"</span>,<span class="number">2</span>,<span class="number">3</span>));</span><br><span class="line">System.out.println(template.opsForZSet().range(<span class="string">"zset2"</span>,<span class="number">0</span>,-<span class="number">1</span>));</span><br><span class="line">结果：[zset-<span class="number">1</span>, zset-<span class="number">2</span>, zset-<span class="number">3</span>,zset-<span class="number">4</span>]</span><br><span class="line"><span class="number">1</span></span><br><span class="line">[zset-<span class="number">1</span>, zset-<span class="number">2</span>, zset-<span class="number">4</span>]</span><br></pre></td></tr></table></figure>
+<h3 id="Long-unionAndStore-K-key-K-otherKey-K-destKey-1"><a href="#Long-unionAndStore-K-key-K-otherKey-K-destKey-1" class="headerlink" title="Long unionAndStore(K key, K otherKey, K destKey)"></a>Long unionAndStore(K key, K otherKey, K destKey)</h3><p>计算给定的一个有序集的并集，并存储在新的 destKey中，key相同的话会把score值相加</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">System.out.println(template.opsForZSet().add(<span class="string">"zzset1"</span>,<span class="string">"zset-1"</span>,<span class="number">1.0</span>));</span><br><span class="line">System.out.println(template.opsForZSet().add(<span class="string">"zzset1"</span>,<span class="string">"zset-2"</span>,<span class="number">2.0</span>));</span><br><span class="line">System.out.println(template.opsForZSet().add(<span class="string">"zzset1"</span>,<span class="string">"zset-3"</span>,<span class="number">3.0</span>));</span><br><span class="line">System.out.println(template.opsForZSet().add(<span class="string">"zzset1"</span>,<span class="string">"zset-4"</span>,<span class="number">6.0</span>));</span><br><span class="line"></span><br><span class="line">System.out.println(template.opsForZSet().add(<span class="string">"zzset2"</span>,<span class="string">"zset-1"</span>,<span class="number">1.0</span>));</span><br><span class="line">System.out.println(template.opsForZSet().add(<span class="string">"zzset2"</span>,<span class="string">"zset-2"</span>,<span class="number">2.0</span>));</span><br><span class="line">System.out.println(template.opsForZSet().add(<span class="string">"zzset2"</span>,<span class="string">"zset-3"</span>,<span class="number">3.0</span>));</span><br><span class="line">System.out.println(template.opsForZSet().add(<span class="string">"zzset2"</span>,<span class="string">"zset-4"</span>,<span class="number">6.0</span>));</span><br><span class="line">System.out.println(template.opsForZSet().add(<span class="string">"zzset2"</span>,<span class="string">"zset-5"</span>,<span class="number">7.0</span>));</span><br><span class="line">System.out.println(template.opsForZSet().unionAndStore(<span class="string">"zzset1"</span>,<span class="string">"zzset2"</span>,<span class="string">"destZset11"</span>));</span><br><span class="line"></span><br><span class="line">Set&lt;ZSetOperations.TypedTuple&lt;Object&gt;&gt; tuples = template.opsForZSet().rangeWithScores(<span class="string">"destZset11"</span>,<span class="number">0</span>,-<span class="number">1</span>);</span><br><span class="line">Iterator&lt;ZSetOperations.TypedTuple&lt;Object&gt;&gt; iterator = tuples.iterator();</span><br><span class="line"><span class="keyword">while</span> (iterator.hasNext())</span><br><span class="line">&#123;</span><br><span class="line">    ZSetOperations.TypedTuple&lt;Object&gt; typedTuple = iterator.next();</span><br><span class="line">    System.out.println(<span class="string">"value:"</span> + typedTuple.getValue() + <span class="string">"score:"</span> + typedTuple.getScore());</span><br><span class="line">&#125;</span><br><span class="line">结果：value:zset-<span class="number">1</span>score:<span class="number">2.0</span></span><br><span class="line">value:zset-<span class="number">2</span>score:<span class="number">4.0</span></span><br><span class="line">value:zset-<span class="number">3</span>score:<span class="number">6.0</span></span><br><span class="line">value:zset-<span class="number">5</span>score:<span class="number">7.0</span></span><br><span class="line">value:zset-<span class="number">4</span>score:<span class="number">12.0</span></span><br></pre></td></tr></table></figure>
+<h3 id="Long-unionAndStore-K-key-Collection-otherKeys-K-destKey-1"><a href="#Long-unionAndStore-K-key-Collection-otherKeys-K-destKey-1" class="headerlink" title="Long unionAndStore(K key, Collection otherKeys, K destKey)"></a>Long unionAndStore(K key, Collection<k> otherKeys, K destKey)</k></h3><p>计算给定的多个有序集的并集，并存储在新的 destKey中</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//System.out.println(template.opsForZSet().add("zzset1","zset-1",1.0));</span></span><br><span class="line"><span class="comment">//System.out.println(template.opsForZSet().add("zzset1","zset-2",2.0));</span></span><br><span class="line"><span class="comment">//System.out.println(template.opsForZSet().add("zzset1","zset-3",3.0));</span></span><br><span class="line"><span class="comment">//System.out.println(template.opsForZSet().add("zzset1","zset-4",6.0));</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">//System.out.println(template.opsForZSet().add("zzset2","zset-1",1.0));</span></span><br><span class="line"><span class="comment">//System.out.println(template.opsForZSet().add("zzset2","zset-2",2.0));</span></span><br><span class="line"><span class="comment">//System.out.println(template.opsForZSet().add("zzset2","zset-3",3.0));</span></span><br><span class="line"><span class="comment">//System.out.println(template.opsForZSet().add("zzset2","zset-4",6.0));</span></span><br><span class="line"><span class="comment">//System.out.println(template.opsForZSet().add("zzset2","zset-5",7.0));</span></span><br><span class="line"></span><br><span class="line">System.out.println(template.opsForZSet().add(<span class="string">"zzset3"</span>,<span class="string">"zset-1"</span>,<span class="number">1.0</span>));</span><br><span class="line">System.out.println(template.opsForZSet().add(<span class="string">"zzset3"</span>,<span class="string">"zset-2"</span>,<span class="number">2.0</span>));</span><br><span class="line">System.out.println(template.opsForZSet().add(<span class="string">"zzset3"</span>,<span class="string">"zset-3"</span>,<span class="number">3.0</span>));</span><br><span class="line">System.out.println(template.opsForZSet().add(<span class="string">"zzset3"</span>,<span class="string">"zset-4"</span>,<span class="number">6.0</span>));</span><br><span class="line">System.out.println(template.opsForZSet().add(<span class="string">"zzset3"</span>,<span class="string">"zset-5"</span>,<span class="number">7.0</span>));</span><br><span class="line"></span><br><span class="line">List&lt;String&gt; stringList = <span class="keyword">new</span> ArrayList&lt;String&gt;();</span><br><span class="line">stringList.add(<span class="string">"zzset2"</span>);</span><br><span class="line">stringList.add(<span class="string">"zzset3"</span>);</span><br><span class="line">System.out.println(template.opsForZSet().unionAndStore(<span class="string">"zzset1"</span>,stringList,<span class="string">"destZset22"</span>));</span><br><span class="line"></span><br><span class="line">Set&lt;ZSetOperations.TypedTuple&lt;Object&gt;&gt; tuples = template.opsForZSet().rangeWithScores(<span class="string">"destZset22"</span>,<span class="number">0</span>,-<span class="number">1</span>);</span><br><span class="line">Iterator&lt;ZSetOperations.TypedTuple&lt;Object&gt;&gt; iterator = tuples.iterator();</span><br><span class="line"><span class="keyword">while</span> (iterator.hasNext())</span><br><span class="line">&#123;</span><br><span class="line">    ZSetOperations.TypedTuple&lt;Object&gt; typedTuple = iterator.next();</span><br><span class="line">    System.out.println(<span class="string">"value:"</span> + typedTuple.getValue() + <span class="string">"score:"</span> + typedTuple.getScore());</span><br><span class="line">&#125;</span><br><span class="line">结果：value:zset-<span class="number">1</span>score:<span class="number">3.0</span></span><br><span class="line">value:zset-<span class="number">2</span>score:<span class="number">6.0</span></span><br><span class="line">value:zset-<span class="number">3</span>score:<span class="number">9.0</span></span><br><span class="line">value:zset-<span class="number">5</span>score:<span class="number">14.0</span></span><br><span class="line">value:zset-<span class="number">4</span>score:<span class="number">18.0</span></span><br></pre></td></tr></table></figure>
+<h3 id="Long-intersectAndStore-K-key-K-otherKey-K-destKey-1"><a href="#Long-intersectAndStore-K-key-K-otherKey-K-destKey-1" class="headerlink" title="Long intersectAndStore(K key, K otherKey, K destKey)"></a>Long intersectAndStore(K key, K otherKey, K destKey)</h3><p>计算给定的一个或多个有序集的交集并将结果集存储在新的有序集合 key 中</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">System.out.println(template.opsForZSet().intersectAndStore(<span class="string">"zzset1"</span>,<span class="string">"zzset2"</span>,<span class="string">"destZset33"</span>));</span><br><span class="line">Set&lt;ZSetOperations.TypedTuple&lt;Object&gt;&gt; tuples = template.opsForZSet().rangeWithScores(<span class="string">"destZset33"</span>,<span class="number">0</span>,-<span class="number">1</span>);</span><br><span class="line">Iterator&lt;ZSetOperations.TypedTuple&lt;Object&gt;&gt; iterator = tuples.iterator();</span><br><span class="line"><span class="keyword">while</span> (iterator.hasNext())</span><br><span class="line">&#123;</span><br><span class="line">    ZSetOperations.TypedTuple&lt;Object&gt; typedTuple = iterator.next();</span><br><span class="line">    System.out.println(<span class="string">"value:"</span> + typedTuple.getValue() + <span class="string">"score:"</span> + typedTuple.getScore());</span><br><span class="line">&#125;</span><br><span class="line">结果：value:zset-<span class="number">1</span>score:<span class="number">2.0</span></span><br><span class="line">value:zset-<span class="number">2</span>score:<span class="number">4.0</span></span><br><span class="line">value:zset-<span class="number">3</span>score:<span class="number">6.0</span></span><br><span class="line">value:zset-<span class="number">4</span>score:<span class="number">12.0</span></span><br></pre></td></tr></table></figure>
+<h3 id="Long-intersectAndStore-K-key-Collection-otherKeys-K-destKey-1"><a href="#Long-intersectAndStore-K-key-Collection-otherKeys-K-destKey-1" class="headerlink" title="Long intersectAndStore(K key, Collection otherKeys, K destKey)"></a>Long intersectAndStore(K key, Collection<k> otherKeys, K destKey)</k></h3><p>计算给定的一个或多个有序集的交集并将结果集存储在新的有序集合 key 中</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">List&lt;String&gt; stringList = <span class="keyword">new</span> ArrayList&lt;String&gt;();</span><br><span class="line">stringList.add(<span class="string">"zzset2"</span>);</span><br><span class="line">stringList.add(<span class="string">"zzset3"</span>);</span><br><span class="line">System.out.println(template.opsForZSet().intersectAndStore(<span class="string">"zzset1"</span>,stringList,<span class="string">"destZset44"</span>));</span><br><span class="line"></span><br><span class="line">Set&lt;ZSetOperations.TypedTuple&lt;Object&gt;&gt; tuples = template.opsForZSet().rangeWithScores(<span class="string">"destZset44"</span>,<span class="number">0</span>,-<span class="number">1</span>);</span><br><span class="line">Iterator&lt;ZSetOperations.TypedTuple&lt;Object&gt;&gt; iterator = tuples.iterator();</span><br><span class="line"><span class="keyword">while</span> (iterator.hasNext())</span><br><span class="line">&#123;</span><br><span class="line">    ZSetOperations.TypedTuple&lt;Object&gt; typedTuple = iterator.next();</span><br><span class="line">    System.out.println(<span class="string">"value:"</span> + typedTuple.getValue() + <span class="string">"score:"</span> + typedTuple.getScore());</span><br><span class="line">&#125;</span><br><span class="line">结果：value:zset-<span class="number">1</span>score:<span class="number">3.0</span></span><br><span class="line">value:zset-<span class="number">2</span>score:<span class="number">6.0</span></span><br><span class="line">value:zset-<span class="number">3</span>score:<span class="number">9.0</span></span><br><span class="line">value:zset-<span class="number">4</span>score:<span class="number">18.0</span></span><br></pre></td></tr></table></figure>
+<h3 id="Cursor-lt-TypedTuple-gt-scan-K-key-ScanOptions-options"><a href="#Cursor-lt-TypedTuple-gt-scan-K-key-ScanOptions-options" class="headerlink" title="Cursor&lt;TypedTuple&gt; scan(K key, ScanOptions options)"></a>Cursor&lt;TypedTuple<v>&gt; scan(K key, ScanOptions options)</v></h3><p>遍历zset</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Cursor&lt;ZSetOperations.TypedTuple&lt;Object&gt;&gt; cursor = template.opsForZSet().scan(<span class="string">"zzset1"</span>, ScanOptions.NONE);</span><br><span class="line"><span class="keyword">while</span> (cursor.hasNext())&#123;</span><br><span class="line">    ZSetOperations.TypedTuple&lt;Object&gt; item = cursor.next();</span><br><span class="line">    System.out.println(item.getValue() + <span class="string">":"</span> + item.getScore());</span><br><span class="line">&#125;</span><br><span class="line">结果：zset-<span class="number">1</span>:<span class="number">1.0</span></span><br><span class="line">zset-<span class="number">2</span>:<span class="number">2.0</span></span><br><span class="line">zset-<span class="number">3</span>:<span class="number">3.0</span></span><br><span class="line">zset-<span class="number">4</span>:<span class="number">6.0</span></span><br></pre></td></tr></table></figure>
+<p>注：TimeUnit是java.util.concurrent包下面的一个类，表示给定单元粒度的时间段<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//常用的颗粒度</span></span><br><span class="line">TimeUnit.DAYS <span class="comment">//天</span></span><br><span class="line">TimeUnit.HOURS <span class="comment">//小时</span></span><br><span class="line">TimeUnit.MINUTES <span class="comment">//分钟</span></span><br><span class="line">TimeUnit.SECONDS <span class="comment">//秒</span></span><br><span class="line">TimeUnit.MILLISECONDS <span class="comment">//毫秒</span></span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持技术分享，您的支持将鼓励我继续创作！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/res/wechat.jpg" alt="Rui WeChat Pay">
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="/res/alipay.jpg" alt="Rui Alipay">
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Spring/" rel="tag"># Spring</a>
+          
+            <a href="/tags/Redis/" rel="tag"># Redis</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/09/19/google-fonts-proxy/" rel="next" title="Nginx配置Google Fonts反向代理">
+                <i class="fa fa-chevron-left"></i> Nginx配置Google Fonts反向代理
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/09/30/spring-restful-auth/" rel="prev" title="RESTful风格鉴权设计">
+                RESTful风格鉴权设计 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="/res/icon.jpg" alt="Rui">
+          <p class="site-author-name" itemprop="name">Rui</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">18</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/imrui" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://coding.net/u/hilo" target="_blank" title="Coding">
+                  
+                    <i class="fa fa-fw fa-code-fork"></i>
+                  
+                  Coding
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/qlcr" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              友情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://www.66hjh.com/" title="画江湖盟主" target="_blank">画江湖盟主</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://leetcode.com/" title="LeetCode" target="_blank">LeetCode</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis-数据结构简介"><span class="nav-number">1.</span> <span class="nav-text">Redis 数据结构简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RedisTemplate介绍"><span class="nav-number">2.</span> <span class="nav-text">RedisTemplate介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#RedisTemplate在spring代码中的结构如下："><span class="nav-number">2.1.</span> <span class="nav-text">RedisTemplate在spring代码中的结构如下：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RedisTemplate中定义了对5种数据结构操作"><span class="nav-number">2.2.</span> <span class="nav-text">RedisTemplate中定义了对5种数据结构操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RedisTemplate配置"><span class="nav-number">2.3.</span> <span class="nav-text">RedisTemplate配置</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis的String数据结构"><span class="nav-number">3.</span> <span class="nav-text">Redis的String数据结构</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#set-void-set-K-key-V-value"><span class="nav-number">3.1.</span> <span class="nav-text">set void set(K key, V value)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#set-void-set-K-key-V-value-long-timeout-TimeUnit-unit"><span class="nav-number">3.2.</span> <span class="nav-text">set void set(K key, V value, long timeout, TimeUnit unit)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#set-void-set-K-key-V-value-long-offset"><span class="nav-number">3.3.</span> <span class="nav-text">set void set(K key, V value, long offset)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#setIfAbsent-Boolean-setIfAbsent-K-key-V-value"><span class="nav-number">3.4.</span> <span class="nav-text">setIfAbsent Boolean setIfAbsent(K key, V value)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#multiSet-void-multiSet-Map-lt-extends-K-extends-V-gt-m"><span class="nav-number">3.5.</span> <span class="nav-text">multiSet void multiSet(Map&lt;? extends K, ? extends V&gt; m)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#multiSetIfAbsent-Boolean-multiSetIfAbsent-Map-lt-extends-K-extends-V-gt-m"><span class="nav-number">3.6.</span> <span class="nav-text">multiSetIfAbsent Boolean multiSetIfAbsent(Map&lt;? extends K, ? extends V&gt; m)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#get-V-get-Object-key"><span class="nav-number">3.7.</span> <span class="nav-text">get V get(Object key)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#getAndSet-V-getAndSet-K-key-V-value"><span class="nav-number">3.8.</span> <span class="nav-text">getAndSet V getAndSet(K key, V value)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#multiGet-List-multiGet-Collection-keys"><span class="nav-number">3.9.</span> <span class="nav-text">multiGet List multiGet(Collection keys)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#increment-Long-increment-K-key-long-delta"><span class="nav-number">3.10.</span> <span class="nav-text">increment Long increment(K key, long delta)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#increment-Double-increment-K-key-double-delta"><span class="nav-number">3.11.</span> <span class="nav-text">increment Double increment(K key, double delta)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#append-Integer-append-K-key-String-value"><span class="nav-number">3.12.</span> <span class="nav-text">append Integer append(K key, String value)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#get-String-get-K-key-long-start-long-end"><span class="nav-number">3.13.</span> <span class="nav-text">get String get(K key, long start, long end)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#size-Long-size-K-key"><span class="nav-number">3.14.</span> <span class="nav-text">size Long size(K key)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#setBit-Boolean-setBit-K-key-long-offset-boolean-value"><span class="nav-number">3.15.</span> <span class="nav-text">setBit Boolean setBit(K key, long offset, boolean value)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#K-key-long-offset"><span class="nav-number">3.16.</span> <span class="nav-text">(K key, long offset)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis的List数据结构"><span class="nav-number">4.</span> <span class="nav-text">Redis的List数据结构</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#List-range-K-key-long-start-long-end"><span class="nav-number">4.1.</span> <span class="nav-text">List range(K key, long start, long end)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#void-trim-K-key-long-start-long-end"><span class="nav-number">4.2.</span> <span class="nav-text">void trim(K key, long start, long end)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Long-size-K-key"><span class="nav-number">4.3.</span> <span class="nav-text">Long size(K key)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Long-leftPush-K-key-V-value"><span class="nav-number">4.4.</span> <span class="nav-text">Long leftPush(K key, V value)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Long-leftPushAll-K-key-V…-values"><span class="nav-number">4.5.</span> <span class="nav-text">Long leftPushAll(K key, V… values)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Long-leftPushAll-K-key-Collection-values"><span class="nav-number">4.6.</span> <span class="nav-text">Long leftPushAll(K key, Collection values)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Long-leftPushIfPresent-K-key-V-value"><span class="nav-number">4.7.</span> <span class="nav-text">Long leftPushIfPresent(K key, V value)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Long-leftPush-K-key-V-pivot-V-value"><span class="nav-number">4.8.</span> <span class="nav-text">Long leftPush(K key, V pivot, V value)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Long-rightPush-K-key-V-value"><span class="nav-number">4.9.</span> <span class="nav-text">Long rightPush(K key, V value)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Long-rightPushAll-K-key-V…-values"><span class="nav-number">4.10.</span> <span class="nav-text">Long rightPushAll(K key, V… values)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Long-rightPushAll-K-key-Collection-values"><span class="nav-number">4.11.</span> <span class="nav-text">Long rightPushAll(K key, Collection values)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Long-rightPushIfPresent-K-key-V-value"><span class="nav-number">4.12.</span> <span class="nav-text">Long rightPushIfPresent(K key, V value)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Long-rightPush-K-key-V-pivot-V-value"><span class="nav-number">4.13.</span> <span class="nav-text">Long rightPush(K key, V pivot, V value)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#void-set-K-key-long-index-V-value"><span class="nav-number">4.14.</span> <span class="nav-text">void set(K key, long index, V value)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Long-remove-K-key-long-count-Object-value"><span class="nav-number">4.15.</span> <span class="nav-text">Long remove(K key, long count, Object value)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#V-index-K-key-long-index"><span class="nav-number">4.16.</span> <span class="nav-text">V index(K key, long index)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#V-leftPop-K-key"><span class="nav-number">4.17.</span> <span class="nav-text">V leftPop(K key)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#V-leftPop-K-key-long-timeout-TimeUnit-unit"><span class="nav-number">4.18.</span> <span class="nav-text">V leftPop(K key, long timeout, TimeUnit unit)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#V-rightPop-K-key"><span class="nav-number">4.19.</span> <span class="nav-text">V rightPop(K key);</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#V-rightPop-K-key-long-timeout-TimeUnit-unit"><span class="nav-number">4.20.</span> <span class="nav-text">V rightPop(K key, long timeout, TimeUnit unit)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#V-rightPopAndLeftPush-K-sourceKey-K-destinationKey"><span class="nav-number">4.21.</span> <span class="nav-text">V rightPopAndLeftPush(K sourceKey, K destinationKey)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#V-rightPopAndLeftPush-K-sourceKey-K-destinationKey-long-timeout-TimeUnit-unit"><span class="nav-number">4.22.</span> <span class="nav-text">V rightPopAndLeftPush(K sourceKey, K destinationKey, long timeout, TimeUnit unit)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis的Hash数据机构"><span class="nav-number">5.</span> <span class="nav-text">Redis的Hash数据机构</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Long-delete-H-key-Object…-hashKeys"><span class="nav-number">5.1.</span> <span class="nav-text">Long delete(H key, Object… hashKeys)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Boolean-hasKey-H-key-Object-hashKey"><span class="nav-number">5.2.</span> <span class="nav-text">Boolean hasKey(H key, Object hashKey)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HV-get-H-key-Object-hashKey"><span class="nav-number">5.3.</span> <span class="nav-text">HV get(H key, Object hashKey)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#List-multiGet-H-key-Collection-hashKeys"><span class="nav-number">5.4.</span> <span class="nav-text">List multiGet(H key, Collection hashKeys)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Long-increment-H-key-HK-hashKey-long-delta"><span class="nav-number">5.5.</span> <span class="nav-text">Long increment(H key, HK hashKey, long delta)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Double-increment-H-key-HK-hashKey-double-delta"><span class="nav-number">5.6.</span> <span class="nav-text">Double increment(H key, HK hashKey, double delta)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Set-keys-H-key"><span class="nav-number">5.7.</span> <span class="nav-text">Set keys(H key)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Long-size-H-key"><span class="nav-number">5.8.</span> <span class="nav-text">Long size(H key)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#void-putAll-H-key-Map-lt-extends-HK-extends-HV-gt-m"><span class="nav-number">5.9.</span> <span class="nav-text">void putAll(H key, Map&lt;? extends HK, ? extends HV&gt; m)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#void-put-H-key-HK-hashKey-HV-value"><span class="nav-number">5.10.</span> <span class="nav-text">void put(H key, HK hashKey, HV value)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Boolean-putIfAbsent-H-key-HK-hashKey-HV-value"><span class="nav-number">5.11.</span> <span class="nav-text">Boolean putIfAbsent(H key, HK hashKey, HV value)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#List-values-H-key"><span class="nav-number">5.12.</span> <span class="nav-text">List values(H key)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Map-lt-HK-HV-gt-entries-H-key"><span class="nav-number">5.13.</span> <span class="nav-text">Map&lt;HK, HV&gt; entries(H key)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Cursor-lt-Map-Entry-lt-HK-HV-gt-gt-scan-H-key-ScanOptions-options"><span class="nav-number">5.14.</span> <span class="nav-text">Cursor&lt;Map.Entry&lt;HK, HV&gt;&gt; scan(H key, ScanOptions options)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis的Set数据结构"><span class="nav-number">6.</span> <span class="nav-text">Redis的Set数据结构</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Long-add-K-key-V…-values"><span class="nav-number">6.1.</span> <span class="nav-text">Long add(K key, V… values)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Long-remove-K-key-Object…-values"><span class="nav-number">6.2.</span> <span class="nav-text">Long remove(K key, Object… values)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#V-pop-K-key"><span class="nav-number">6.3.</span> <span class="nav-text">V pop(K key)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Boolean-move-K-key-V-value-K-destKey"><span class="nav-number">6.4.</span> <span class="nav-text">Boolean move(K key, V value, K destKey)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Long-size-K-key-1"><span class="nav-number">6.5.</span> <span class="nav-text">Long size(K key)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Boolean-isMember-K-key-Object-o"><span class="nav-number">6.6.</span> <span class="nav-text">Boolean isMember(K key, Object o)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Set-intersect-K-key-K-otherKey"><span class="nav-number">6.7.</span> <span class="nav-text">Set intersect(K key, K otherKey)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Set-intersect-K-key-Collection-otherKeys"><span class="nav-number">6.8.</span> <span class="nav-text">Set intersect(K key, Collection otherKeys)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Long-intersectAndStore-K-key-K-otherKey-K-destKey"><span class="nav-number">6.9.</span> <span class="nav-text">Long intersectAndStore(K key, K otherKey, K destKey)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Long-intersectAndStore-K-key-Collection-otherKeys-K-destKey"><span class="nav-number">6.10.</span> <span class="nav-text">Long intersectAndStore(K key, Collection otherKeys, K destKey)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Set-union-K-key-K-otherKey"><span class="nav-number">6.11.</span> <span class="nav-text">Set union(K key, K otherKey)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Set-union-K-key-Collection-otherKeys"><span class="nav-number">6.12.</span> <span class="nav-text">Set union(K key, Collection otherKeys)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Long-unionAndStore-K-key-K-otherKey-K-destKey"><span class="nav-number">6.13.</span> <span class="nav-text">Long unionAndStore(K key, K otherKey, K destKey)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Long-unionAndStore-K-key-Collection-otherKeys-K-destKey"><span class="nav-number">6.14.</span> <span class="nav-text">Long unionAndStore(K key, Collection otherKeys, K destKey)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Set-difference-K-key-K-otherKey"><span class="nav-number">6.15.</span> <span class="nav-text">Set difference(K key, K otherKey)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Set-difference-K-key-Collection-otherKeys"><span class="nav-number">6.16.</span> <span class="nav-text">Set difference(K key, Collection otherKeys)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Long-differenceAndStore-K-key-K-otherKey-K-destKey"><span class="nav-number">6.17.</span> <span class="nav-text">Long differenceAndStore(K key, K otherKey, K destKey)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Long-differenceAndStore-K-key-Collection-otherKeys-K-destKey"><span class="nav-number">6.18.</span> <span class="nav-text">Long differenceAndStore(K key, Collection otherKeys, K destKey)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#V-randomMember-K-key"><span class="nav-number">6.19.</span> <span class="nav-text">V randomMember(K key)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Set-distinctRandomMembers-K-key-long-count"><span class="nav-number">6.20.</span> <span class="nav-text">Set distinctRandomMembers(K key, long count)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#List-randomMembers-K-key-long-count"><span class="nav-number">6.21.</span> <span class="nav-text">List randomMembers(K key, long count)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Cursor-scan-K-key-ScanOptions-options"><span class="nav-number">6.22.</span> <span class="nav-text">Cursor scan(K key, ScanOptions options)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis的ZSet数据结构"><span class="nav-number">7.</span> <span class="nav-text">Redis的ZSet数据结构</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Boolean-add-K-key-V-value-double-score"><span class="nav-number">7.1.</span> <span class="nav-text">Boolean add(K key, V value, double score)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Long-add-K-key-Set-lt-TypedTuple-gt-tuples"><span class="nav-number">7.2.</span> <span class="nav-text">Long add(K key, Set&lt;TypedTuple&gt; tuples)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Long-remove-K-key-Object…-values-1"><span class="nav-number">7.3.</span> <span class="nav-text">Long remove(K key, Object… values)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Double-incrementScore-K-key-V-value-double-delta"><span class="nav-number">7.4.</span> <span class="nav-text">Double incrementScore(K key, V value, double delta)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Long-rank-K-key-Object-o"><span class="nav-number">7.5.</span> <span class="nav-text">Long rank(K key, Object o)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Long-reverseRank-K-key-Object-o"><span class="nav-number">7.6.</span> <span class="nav-text">Long reverseRank(K key, Object o)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Set-range-K-key-long-start-long-end"><span class="nav-number">7.7.</span> <span class="nav-text">Set range(K key, long start, long end)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Set-lt-TypedTuple-gt-rangeWithScores-K-key-long-start-long-end"><span class="nav-number">7.8.</span> <span class="nav-text">Set&lt;TypedTuple&gt; rangeWithScores(K key, long start, long end)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Set-rangeByScore-K-key-double-min-double-max"><span class="nav-number">7.9.</span> <span class="nav-text">Set rangeByScore(K key, double min, double max)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Set-lt-TypedTuple-gt-rangeByScoreWithScores-K-key-double-min-double-max"><span class="nav-number">7.10.</span> <span class="nav-text">Set&lt;TypedTuple&gt; rangeByScoreWithScores(K key, double min, double max)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Set-rangeByScore-K-key-double-min-double-max-long-offset-long-count"><span class="nav-number">7.11.</span> <span class="nav-text">Set rangeByScore(K key, double min, double max, long offset, long count)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Set-lt-TypedTuple-gt-rangeByScoreWithScores-K-key-double-min-double-max-long-offset-long-count"><span class="nav-number">7.12.</span> <span class="nav-text">Set&lt;TypedTuple&gt; rangeByScoreWithScores(K key, double min, double max, long offset, long count)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Set-reverseRange-K-key-long-start-long-end"><span class="nav-number">7.13.</span> <span class="nav-text">Set reverseRange(K key, long start, long end)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Set-lt-TypedTuple-gt-reverseRangeWithScores-K-key-long-start-long-end"><span class="nav-number">7.14.</span> <span class="nav-text">Set&lt;TypedTuple&gt; reverseRangeWithScores(K key, long start, long end)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Set-reverseRangeByScore-K-key-double-min-double-max"><span class="nav-number">7.15.</span> <span class="nav-text">Set reverseRangeByScore(K key, double min, double max)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Set-lt-TypedTuple-gt-reverseRangeByScoreWithScores-K-key-double-min-double-max"><span class="nav-number">7.16.</span> <span class="nav-text">Set&lt;TypedTuple&gt; reverseRangeByScoreWithScores(K key, double min, double max)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Set-reverseRangeByScore-K-key-double-min-double-max-long-offset-long-count"><span class="nav-number">7.17.</span> <span class="nav-text">Set reverseRangeByScore(K key, double min, double max, long offset, long count)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Set-lt-TypedTuple-gt-reverseRangeByScoreWithScores-K-key-double-min-double-max-long-offset-long-count"><span class="nav-number">7.18.</span> <span class="nav-text">Set&lt;TypedTuple&gt; reverseRangeByScoreWithScores(K key, double min, double max, long offset, long count)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Long-count-K-key-double-min-double-max"><span class="nav-number">7.19.</span> <span class="nav-text">Long count(K key, double min, double max)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Long-size-K-key-2"><span class="nav-number">7.20.</span> <span class="nav-text">Long size(K key)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Long-zCard-K-key"><span class="nav-number">7.21.</span> <span class="nav-text">Long zCard(K key)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Double-score-K-key-Object-o"><span class="nav-number">7.22.</span> <span class="nav-text">Double score(K key, Object o)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Long-removeRange-K-key-long-start-long-end"><span class="nav-number">7.23.</span> <span class="nav-text">Long removeRange(K key, long start, long end)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Long-removeRangeByScore-K-key-double-min-double-max"><span class="nav-number">7.24.</span> <span class="nav-text">Long removeRangeByScore(K key, double min, double max)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Long-unionAndStore-K-key-K-otherKey-K-destKey-1"><span class="nav-number">7.25.</span> <span class="nav-text">Long unionAndStore(K key, K otherKey, K destKey)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Long-unionAndStore-K-key-Collection-otherKeys-K-destKey-1"><span class="nav-number">7.26.</span> <span class="nav-text">Long unionAndStore(K key, Collection otherKeys, K destKey)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Long-intersectAndStore-K-key-K-otherKey-K-destKey-1"><span class="nav-number">7.27.</span> <span class="nav-text">Long intersectAndStore(K key, K otherKey, K destKey)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Long-intersectAndStore-K-key-Collection-otherKeys-K-destKey-1"><span class="nav-number">7.28.</span> <span class="nav-text">Long intersectAndStore(K key, Collection otherKeys, K destKey)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Cursor-lt-TypedTuple-gt-scan-K-key-ScanOptions-options"><span class="nav-number">7.29.</span> <span class="nav-text">Cursor&lt;TypedTuple&gt; scan(K key, ScanOptions options)</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Rui</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="powered-by">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+
+<div class="powered-by">
+  <a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=11010502033928" target="_blank"><img src="/res/beian.png" style="float:left;">京公网安备 11010502033928号</a>
+</div>
+
+
+
+<div class="theme-info">
+  <a href="http://www.miitbeian.gov.cn" target="_blank">京ICP备17046037号-1</a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+  
+  <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://imrui.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://www.imrui.net/2017/09/29/spring-redis-template/';
+          this.page.identifier = '2017/09/29/spring-redis-template/';
+          this.page.title = 'Spring RedisTemplate的使用';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://imrui.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+
+  
+
+</body>
+</html>
