@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://www.imrui.net/about/index.html</loc>
+    
+    <lastmod>2020-12-01</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://www.imrui.net/2016/07/06/%E4%B8%89%E4%BD%93%E4%B9%A6%E8%AF%84/</loc>
     
     <lastmod>2020-12-01</lastmod>
@@ -129,13 +136,6 @@
   
   <url>
     <loc>http://www.imrui.net/categories/index.html</loc>
-    
-    <lastmod>2020-11-30</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://www.imrui.net/about/index.html</loc>
     
     <lastmod>2020-11-30</lastmod>
     
