@@ -1,3 +1,5 @@
-# blog by hexo
+# Blog Site
 
-www.xxicon.com
+blog published by hexo
+
+### www.xxicon.com
