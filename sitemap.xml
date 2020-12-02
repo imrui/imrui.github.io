@@ -221,7 +221,21 @@
   </url>
   
   <url>
+    <loc>http://www.imrui.net/tags/%E4%B9%A6%E8%AF%84%E5%BD%B1%E8%AF%84/</loc>
+    <lastmod>2020-12-02</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>http://www.imrui.net/tags/Nginx/</loc>
+    <lastmod>2020-12-02</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.imrui.net/tags/Redis/</loc>
     <lastmod>2020-12-02</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -235,21 +249,7 @@
   </url>
   
   <url>
-    <loc>http://www.imrui.net/tags/%E4%B9%A6%E8%AF%84%E5%BD%B1%E8%AF%84/</loc>
-    <lastmod>2020-12-02</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>http://www.imrui.net/tags/OAuth2/</loc>
-    <lastmod>2020-12-02</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://www.imrui.net/tags/Redis/</loc>
     <lastmod>2020-12-02</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -258,14 +258,14 @@
 
   
   <url>
-    <loc>http://www.imrui.net/categories/%E6%96%87%E5%AD%97%E9%9A%8F%E7%AC%94/</loc>
+    <loc>http://www.imrui.net/categories/%E8%AF%97%E8%AF%8D/</loc>
     <lastmod>2020-12-02</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>http://www.imrui.net/categories/%E8%AF%97%E8%AF%8D/</loc>
+    <loc>http://www.imrui.net/categories/%E6%96%87%E5%AD%97%E9%9A%8F%E7%AC%94/</loc>
     <lastmod>2020-12-02</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
