@@ -186,7 +186,7 @@
 
   <url>
     <loc>http://www.imrui.net/</loc>
-    <lastmod>2020-12-04</lastmod>
+    <lastmod>2020-12-29</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
@@ -194,84 +194,84 @@
   
   <url>
     <loc>http://www.imrui.net/tags/%E6%96%87%E5%AD%97%E9%9A%8F%E7%AC%94/</loc>
-    <lastmod>2020-12-04</lastmod>
+    <lastmod>2020-12-29</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://www.imrui.net/tags/%E8%AF%97%E8%AF%8D/</loc>
-    <lastmod>2020-12-04</lastmod>
+    <lastmod>2020-12-29</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://www.imrui.net/tags/Spring/</loc>
-    <lastmod>2020-12-04</lastmod>
+    <lastmod>2020-12-29</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://www.imrui.net/tags/SpringMVC/</loc>
-    <lastmod>2020-12-04</lastmod>
+    <lastmod>2020-12-29</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://www.imrui.net/tags/%E4%B9%A6%E8%AF%84%E5%BD%B1%E8%AF%84/</loc>
-    <lastmod>2020-12-04</lastmod>
+    <lastmod>2020-12-29</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://www.imrui.net/tags/AngularJS/</loc>
-    <lastmod>2020-12-04</lastmod>
+    <lastmod>2020-12-29</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://www.imrui.net/tags/Redis/</loc>
-    <lastmod>2020-12-04</lastmod>
+    <lastmod>2020-12-29</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://www.imrui.net/tags/System/</loc>
-    <lastmod>2020-12-04</lastmod>
+    <lastmod>2020-12-29</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://www.imrui.net/tags/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/</loc>
-    <lastmod>2020-12-04</lastmod>
+    <lastmod>2020-12-29</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://www.imrui.net/tags/OAuth2/</loc>
-    <lastmod>2020-12-04</lastmod>
+    <lastmod>2020-12-29</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://www.imrui.net/tags/Nginx/</loc>
-    <lastmod>2020-12-04</lastmod>
+    <lastmod>2020-12-29</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://www.imrui.net/tags/OpenResty/</loc>
-    <lastmod>2020-12-04</lastmod>
+    <lastmod>2020-12-29</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
@@ -280,49 +280,49 @@
   
   <url>
     <loc>http://www.imrui.net/categories/%E8%AF%97%E8%AF%8D/</loc>
-    <lastmod>2020-12-04</lastmod>
+    <lastmod>2020-12-29</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://www.imrui.net/categories/%E6%96%87%E5%AD%97%E9%9A%8F%E7%AC%94/</loc>
-    <lastmod>2020-12-04</lastmod>
+    <lastmod>2020-12-29</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://www.imrui.net/categories/Spring/</loc>
-    <lastmod>2020-12-04</lastmod>
+    <lastmod>2020-12-29</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://www.imrui.net/categories/AngularJS/</loc>
-    <lastmod>2020-12-04</lastmod>
+    <lastmod>2020-12-29</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://www.imrui.net/categories/%E4%B9%A6%E8%AF%84%E5%BD%B1%E8%AF%84/</loc>
-    <lastmod>2020-12-04</lastmod>
+    <lastmod>2020-12-29</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://www.imrui.net/categories/Nginx/</loc>
-    <lastmod>2020-12-04</lastmod>
+    <lastmod>2020-12-29</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://www.imrui.net/categories/Web/</loc>
-    <lastmod>2020-12-04</lastmod>
+    <lastmod>2020-12-29</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
