@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://www.imrui.net/2020/12/02/nginx-lua-webhook/</loc>
+    
+    <lastmod>2021-11-25</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://www.imrui.net/2021/11/24/windows-terminal/</loc>
     
     <lastmod>2021-11-25</lastmod>
@@ -10,13 +17,6 @@
   
   <url>
     <loc>http://www.imrui.net/tags/index.html</loc>
-    
-    <lastmod>2021-11-25</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://www.imrui.net/2020/12/02/nginx-lua-webhook/</loc>
     
     <lastmod>2021-11-25</lastmod>
     
