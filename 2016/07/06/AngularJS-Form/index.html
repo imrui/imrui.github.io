@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.1/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.imrui.net","root":"/","scheme":"Mist","version":"8.0.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":true,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}};
+  </script>
+
+  <meta name="description" content="AngularJS provides a small and well-defined set of constructs that make standard form-based operations easier.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="AngularJS Form">
+<meta property="og:url" content="http://www.imrui.net/2016/07/06/AngularJS-Form/index.html">
+<meta property="og:site_name" content="七月流火 - 四零九六">
+<meta property="og:description" content="AngularJS provides a small and well-defined set of constructs that make standard form-based operations easier.">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2016-07-05T16:00:00.000Z">
+<meta property="article:modified_time" content="2021-11-25T15:05:37.839Z">
+<meta property="article:author" content="Rui">
+<meta property="article:tag" content="AngularJS">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://www.imrui.net/2016/07/06/AngularJS-Form/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>AngularJS Form | 七月流火 - 四零九六</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-80328712-1"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-80328712-1');
+      }
+    </script>
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?58f4c86270649dc42411a470eaf38998";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="七月流火 - 四零九六" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">七月流火 - 四零九六</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">imrui</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <section class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Validation"><span class="nav-number">1.</span> <span class="nav-text">Validation</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#error"><span class="nav-number">1.1.</span> <span class="nav-text">$error</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#States-by-ng-model"><span class="nav-number">1.2.</span> <span class="nav-text">States by ng-model</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CSS-to-an-input-element"><span class="nav-number">1.3.</span> <span class="nav-text">CSS to an input element</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Points-to-be-careful"><span class="nav-number">1.4.</span> <span class="nav-text">Points to be careful</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Error-messages-by-ng-messages"><span class="nav-number">1.5.</span> <span class="nav-text">Error messages by ng-messages</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ng-messages-multiple"><span class="nav-number">1.6.</span> <span class="nav-text">ng-messages-multiple</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Message-reuse-and-override"><span class="nav-number">1.7.</span> <span class="nav-text">Message reuse and override</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Reuse"><span class="nav-number">1.7.1.</span> <span class="nav-text">Reuse</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Override"><span class="nav-number">1.7.2.</span> <span class="nav-text">Override</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Custom-validation"><span class="nav-number">1.8.</span> <span class="nav-text">Custom validation</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#By-AngularJS-UI"><span class="nav-number">1.8.1.</span> <span class="nav-text">By AngularJS-UI</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#By-our-onw-directive"><span class="nav-number">1.8.2.</span> <span class="nav-text">By our onw directive</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Submit"><span class="nav-number">2.</span> <span class="nav-text">Submit</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Points-to-be-careful-1"><span class="nav-number">2.1.</span> <span class="nav-text">Points to be careful</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Reset"><span class="nav-number">3.</span> <span class="nav-text">Reset</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Ref"><span class="nav-number">4.</span> <span class="nav-text">Ref</span></a></li></ol></div>
+        </section>
+        <!--/noindex-->
+
+        <section class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Rui"
+      src="/images/avatar2.jpg">
+  <p class="site-author-name" itemprop="name">Rui</p>
+  <div class="site-description" itemprop="description">天道有常，或因人势而迟，然终不误。</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">20</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/imrui" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;imrui" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:hilo.sky.do@gmail.com" title="E-Mail → mailto:hilo.sky.do@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+        </section>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/imrui" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+      
+
+      
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://www.imrui.net/2016/07/06/AngularJS-Form/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar2.jpg">
+      <meta itemprop="name" content="Rui">
+      <meta itemprop="description" content="天道有常，或因人势而迟，然终不误。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="七月流火 - 四零九六">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          AngularJS Form
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-11-25 23:05:37" itemprop="dateModified" datetime="2021-11-25T23:05:37+08:00">2021-11-25</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/AngularJS/" itemprop="url" rel="index"><span itemprop="name">AngularJS</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2016/07/06/AngularJS-Form/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/07/06/AngularJS-Form/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>13k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>12 分钟</span>
+    </span>
+</div>
+
+            <div class="post-description">AngularJS provides a small and well-defined set of constructs that make standard form-based operations easier.</div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>AngularJS provides a small and well-defined set of constructs that make standard form-based operations easier. For a form, we should consider three points:</p>
+<ol>
+<li>Allowing user input</li>
+<li>Validating those inputs against business rules</li>
+<li>Submitting the data to the backend server</li>
+</ol>
+<p><code>form</code> in AngularJS is extend from html <code>form</code>. Now it’s a directive. When Angular encounters the <code>form</code> tag, it executes the <code>form</code> directive. This directive creates an instance of a special Angular class <code>FormController</code> that is made available to us on the current scope. It’s this controller which provides an API to check and manipulate the state of the form. The same as <code>ng-model</code> which creates an instance of <code>NgModelController</code>.</p>
+<h2 id="Validation"><a href="#Validation" class="headerlink" title="Validation"></a>Validation</h2><p>It already has <strong>built-in support for validating</strong>. Validations are automatically setup by AngularJS according to:</p>
+<ul>
+<li>Input type - text, numbers, e-mails, URLs, radios, checkboxes, and a few others. (such as <code>&lt;intput type=&#39;email&#39;/&gt;</code>).</li>
+<li>Validation attributes - <code>required</code>, <code>min</code>, <code>max</code>, and custom attributes such as <code>ng-pattern</code>, <code>ng-minlength</code>, and <code>ng-maxlength</code>.</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- novalidate is used to disable browser&#x27;s native form validation --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">name</span>=<span class="string">&quot;form&quot;</span> <span class="attr">novalidate</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">label</span> <span class="attr">for</span>=<span class="string">&quot;form-name&quot;</span>&gt;</span>Name:<span class="tag">&lt;/<span class="name">label</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">name</span>=<span class="string">&quot;formName&quot;</span> <span class="attr">id</span>=<span class="string">&quot;form-name&quot;</span> <span class="attr">class</span>=<span class="string">&quot;form-control&quot;</span> <span class="attr">type</span>=<span class="string">&quot;text&quot;</span> <span class="attr">ng-model</span>=<span class="string">&quot;user.name&quot;</span> <span class="attr">required</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">label</span> <span class="attr">ng-show</span>=<span class="string">&quot;form.formName.$error.required &amp;&amp; form.formName.$dirty&quot;</span> <span class="attr">class</span>=<span class="string">&quot;text-danger&quot;</span>&gt;</span>Name is required<span class="tag">&lt;/<span class="name">label</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>So AngularJS will check <code>required</code> attribute. When input is empty, the error label will be shown.</p>
+<p>More details, <code>from</code> directive creates an instace of <code>FormController</code> and published into the scope using the name attribute. Then the inside <code>ng-model</code> create <code>NgModelController</code> and published as a property of the form instance using the name attribute. <code>$error</code> and $dirty is of <code>NgModelController</code>.</p>
+<h3 id="error"><a href="#error" class="headerlink" title="$error"></a>$error</h3><p>It contains a list of all errors for the specific ng-model directive. From above example, <code>required</code> is validation attribute. So to check the validation, we need to follow this format:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">formName.inputName.$error.validation</span><br></pre></td></tr></table></figure>
+
+<p>For example:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">formName.inputName.$error.required <span class="comment">// For required</span></span><br><span class="line">formName.inputName.$error.number   <span class="comment">// For type=&quot;number&quot;</span></span><br><span class="line">formName.inputName.$error.pattern  <span class="comment">// For ng-pattern</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>When validation is failing, <code>$error.validation</code> will be true</strong>. We could use it to decide whether to show error messages.</p>
+<h3 id="States-by-ng-model"><a href="#States-by-ng-model" class="headerlink" title="States by ng-model"></a>States by ng-model</h3><p>Besides <code>$error</code>, every element that uses ng-model — including input, textarea, and select — has states defined on the associated model controller:</p>
+<ul>
+<li>$pristine: True if user does not interact with the input. Any updates to the input field and $pristine is set to false. <strong>Once false, it never flips, unless we call the <code>$setPristine()</code> function on the model controller</strong>.</li>
+<li>$dirty: Reverse of $pristine. This is true when the input data has been updated. <strong>This gets reset to false if <code>$setPristine()</code> is called.</strong></li>
+<li>$touched: True if the control ever had focus.</li>
+<li>$untouched: True if the control has never lost focus.</li>
+<li>$valid: True if there are validations defined on the input element and none of them are failing.</li>
+<li>$invalid: True if any of the validations defined on the element are failing.</li>
+</ul>
+<p>So from above example:</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">label</span> <span class="attr">ng-show</span>=<span class="string">&quot;form.formName.$error.required &amp;&amp; form.formName.$dirty&quot;</span> <span class="attr">class</span>=<span class="string">&quot;text-danger&quot;</span>&gt;</span>Name is required<span class="tag">&lt;/<span class="name">label</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>If there is no <code>form.formName.$dirty</code>, the validation message is shown as soon as we load the form. When user never interacts with the input, <code>$pristine</code> is true and <code>$pristine</code> is false. So here, the error message will never be shown until user begins to interact with the input.</p>
+<h3 id="CSS-to-an-input-element"><a href="#CSS-to-an-input-element" class="headerlink" title="CSS to an input element"></a>CSS to an input element</h3><p>Based on the model state, Angular also adds some CSS classes automatically to an input element.</p>
+<ul>
+<li><code>ng-valid/ng-invalid</code>: This is used if the model is valid or not</li>
+<li><code>ng-pristine/ng-dirty</code>: This is used if the model is pristine or ng-dirty.</li>
+<li><code>ng-untouched/ng-touched</code>:  This is used when the input is never visited or not.</li>
+<li><code>ng-invalid-&lt;errorkey&gt;/ng-valid-&lt;errorkey&gt;</code>: This is used for a specific failed/sucessed validation.</li>
+<li><code>ng-empty/ng-not-empty</code>:  This is used if the model is empty or not</li>
+</ul>
+<p>For example, when we check the page by Inspect of browser (not your own code), we could find a list of class already added in input:</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;text&quot;</span> <span class="attr">name</span>=<span class="string">&quot;test&quot;</span> <span class="attr">class</span>=<span class="string">&quot;ng-pristine ng-untouched ng-invalid ng-invalid-required&quot;</span> <span class="attr">...</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>When we type something, it could change to:</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;text&quot;</span> <span class="attr">name</span>=<span class="string">&quot;test&quot;</span> <span class="attr">class</span>=<span class="string">&quot;ng-dirty ng-touched ng-valid ng-valid-required&quot;</span> <span class="attr">...</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>So we could customize input element by these classes according to different state. For example:</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">input</span><span class="selector-class">.ng-invalid</span> &#123;</span><br><span class="line">	<span class="attribute">border</span>:<span class="number">1px</span> solid blue;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Points-to-be-careful"><a href="#Points-to-be-careful" class="headerlink" title="Points to be careful"></a>Points to be careful</h3><p><strong>If data in the model is invalid, it does not show up in the view and the view element is empty.</strong></p>
+<p>For example, we set age value as “2” in controller in init method. But on the view, we set a “min=’5’” validation. So the input is empty when we load page.</p>
+<h3 id="Error-messages-by-ng-messages"><a href="#Error-messages-by-ng-messages" class="headerlink" title="Error messages by ng-messages"></a>Error messages by ng-messages</h3><p><code>ng-messages</code> and <code>ng-message</code> that allow us to show/hide error messages with a less verbose syntax. It’s better to use them to show validation errors instead of <code>ng-show/ng-hide</code>.</p>
+<blockquote>
+<p>To use them, we need to add angular-messages.js and add ngMessages module.</p>
+</blockquote>
+<p>Think about a lot of validation in one input:</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">name</span>=<span class="string">&quot;form&quot;</span> <span class="attr">novalidate</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">label</span> <span class="attr">for</span>=<span class="string">&quot;test&quot;</span>&gt;</span>Demo:<span class="tag">&lt;/<span class="name">label</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;number&quot;</span> <span class="attr">name</span>=<span class="string">&quot;test&quot;</span> <span class="attr">id</span>=<span class="string">&quot;test&quot;</span> <span class="attr">ng-model</span>=<span class="string">&quot;user.demo&quot;</span> <span class="attr">min</span>=<span class="string">&quot;1&quot;</span> <span class="attr">ng-pattern</span>=<span class="string">&quot;/^-?\d+$/&quot;</span> <span class="attr">required</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">label</span> <span class="attr">ng-show</span>=<span class="string">&quot;form.test.$dirty &amp;&amp; form.test.$error.required&quot;</span> <span class="attr">class</span>=<span class="string">&quot;text-danger&quot;</span>&gt;</span>Required<span class="tag">&lt;/<span class="name">label</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">label</span> <span class="attr">ng-show</span>=<span class="string">&quot;form.test.$dirty &amp;&amp; form.test.$error.number&quot;</span> <span class="attr">class</span>=<span class="string">&quot;text-danger&quot;</span>&gt;</span>Must be number<span class="tag">&lt;/<span class="name">label</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">label</span> <span class="attr">ng-show</span>=<span class="string">&quot;form.test.$dirty &amp;&amp; form.test.$error.min&quot;</span> <span class="attr">class</span>=<span class="string">&quot;text-danger&quot;</span>&gt;</span>Min 1<span class="tag">&lt;/<span class="name">label</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">label</span> <span class="attr">ng-show</span>=<span class="string">&quot;form.test.$dirty &amp;&amp; form.test.$error.pattern&quot;</span> <span class="attr">class</span>=<span class="string">&quot;text-danger&quot;</span>&gt;</span>Must in right format<span class="tag">&lt;/<span class="name">label</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>We could change it to:</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">name</span>=<span class="string">&quot;form&quot;</span> <span class="attr">novalidate</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">label</span> <span class="attr">for</span>=<span class="string">&quot;test&quot;</span>&gt;</span>Demo:<span class="tag">&lt;/<span class="name">label</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;number&quot;</span> <span class="attr">name</span>=<span class="string">&quot;test&quot;</span> <span class="attr">id</span>=<span class="string">&quot;test&quot;</span> <span class="attr">ng-model</span>=<span class="string">&quot;user.demo&quot;</span> <span class="attr">min</span>=<span class="string">&quot;1&quot;</span> <span class="attr">ng-pattern</span>=<span class="string">&quot;/^-?\d+$/&quot;</span> <span class="attr">required</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">div</span> <span class="attr">ng-messages</span>=<span class="string">&quot;form.test.$error&quot;</span> <span class="attr">ng-if</span>=<span class="string">&quot;form.test.$dirty&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">label</span> <span class="attr">ng-message</span>=<span class="string">&quot;required&quot;</span> <span class="attr">class</span>=<span class="string">&quot;text-danger&quot;</span>&gt;</span>Required<span class="tag">&lt;/<span class="name">label</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">label</span> <span class="attr">ng-message</span>=<span class="string">&quot;number&quot;</span> <span class="attr">class</span>=<span class="string">&quot;text-danger&quot;</span>&gt;</span>Must be number<span class="tag">&lt;/<span class="name">label</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">label</span> <span class="attr">ng-message</span>=<span class="string">&quot;min&quot;</span> <span class="attr">class</span>=<span class="string">&quot;text-danger&quot;</span>&gt;</span>Min 1<span class="tag">&lt;/<span class="name">label</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">label</span> <span class="attr">ng-message</span>=<span class="string">&quot;pattern&quot;</span> <span class="attr">class</span>=<span class="string">&quot;text-danger&quot;</span>&gt;</span>Must in right format<span class="tag">&lt;/<span class="name">label</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="ng-messages-multiple"><a href="#ng-messages-multiple" class="headerlink" title="ng-messages-multiple"></a>ng-messages-multiple</h3><p>With above example, each time, only one message will be shown. (Always the upper one has higher priority). When user typed “-1”, both <code>$error.min</code> and <code>$error.pattern</code> will be true. But only error message for <code>min</code> will be shown. To avoid this problem:</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">ng-messages</span>=<span class="string">&quot;...&quot;</span> <span class="attr">ng-messages-multiple</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="Message-reuse-and-override"><a href="#Message-reuse-and-override" class="headerlink" title="Message reuse and override"></a>Message reuse and override</h3><h4 id="Reuse"><a href="#Reuse" class="headerlink" title="Reuse"></a>Reuse</h4><p>Because many messages are the same in a big and complex form, we could reuse them by defining all messages in a sepereted file:</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">ng-message</span>=<span class="string">&quot;required&quot;</span>&gt;</span>This field is required<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">ng-message</span>=<span class="string">&quot;minlength&quot;</span>&gt;</span>This field is too short<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">ng-message</span>=<span class="string">&quot;maxlength&quot;</span>&gt;</span>This field is too long<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">ng-message</span>=<span class="string">&quot;required&quot;</span>&gt;</span>This field is required<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">ng-message</span>=<span class="string">&quot;email&quot;</span>&gt;</span>This needs to be a valid email<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>And include it by <code>ng-messages-include</code>:</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">ng-messages</span>=<span class="string">&quot;form.test.$error&quot;</span> <span class="attr">ng-if</span>=<span class="string">&quot;form.test.$dirty&quot;</span>&gt;</span></span><br><span class="line">     <span class="tag">&lt;<span class="name">div</span> <span class="attr">ng-messages-include</span>=<span class="string">&quot;fileName.html&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span>    </span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="Override"><a href="#Override" class="headerlink" title="Override"></a>Override</h4><p>If generic messages are not enough to match all input fields, we could override messages defined in the remote template by redefining them within the directive container.</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">ng-messages</span>=<span class="string">&quot;form.test.$error&quot;</span> <span class="attr">ng-if</span>=<span class="string">&quot;form.test.$dirty&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">ng-message</span>=<span class="string">&quot;required&quot;</span>&gt;</span>Override the required message<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- Must put override ones above template --&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">ng-messages-include</span>=<span class="string">&quot;fileName.html&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span>    </span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="Custom-validation"><a href="#Custom-validation" class="headerlink" title="Custom validation"></a>Custom validation</h3><p>There two ways to create a custom validation:</p>
+<ol>
+<li>By <a target="_blank" rel="noopener" href="https://htmlpreview.github.io/?https://github.com/angular-ui/ui-validate/master/demo/index.html">AngularJS-UI</a></li>
+<li>By our own directive</li>
+</ol>
+<h4 id="By-AngularJS-UI"><a href="#By-AngularJS-UI" class="headerlink" title="By AngularJS-UI"></a>By AngularJS-UI</h4><p>Check <a target="_blank" rel="noopener" href="https://htmlpreview.github.io/?https://github.com/angular-ui/ui-validate/master/demo/index.html">AngularJS-UI</a></p>
+<h4 id="By-our-onw-directive"><a href="#By-our-onw-directive" class="headerlink" title="By our onw directive"></a>By our onw directive</h4><p>Define a directive:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// A validation works like a blacklist, user input can not be in this list</span></span><br><span class="line">app.directive(<span class="string">&#x27;blacklist&#x27;</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123; </span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">        <span class="built_in">require</span>: <span class="string">&#x27;ngModel&#x27;</span>,</span><br><span class="line">        link: <span class="function"><span class="keyword">function</span>(<span class="params">scope, elem, attr, ngModel</span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">var</span> blacklist = attr.blacklist.split(<span class="string">&#x27;,&#x27;</span>);</span><br><span class="line"></span><br><span class="line">            <span class="comment">//For DOM -&gt; model validation</span></span><br><span class="line">            ngModel.$parsers.unshift(<span class="function"><span class="keyword">function</span>(<span class="params">value</span>) </span>&#123;</span><br><span class="line">                <span class="keyword">var</span> valid = blacklist.indexOf(value) === -<span class="number">1</span>;</span><br><span class="line">                ngModel.$setValidity(<span class="string">&#x27;blacklist&#x27;</span>, valid);</span><br><span class="line">                <span class="keyword">return</span> valid ? value : <span class="literal">undefined</span>;</span><br><span class="line">            &#125;);</span><br><span class="line"></span><br><span class="line">            <span class="comment">//For model -&gt; DOM validation</span></span><br><span class="line">            ngModel.$formatters.unshift(<span class="function"><span class="keyword">function</span>(<span class="params">value</span>) </span>&#123;</span><br><span class="line">                ngModel.$setValidity(<span class="string">&#x27;blacklist&#x27;</span>, blacklist.indexOf(value) === -<span class="number">1</span>);</span><br><span class="line">                <span class="keyword">return</span> value;</span><br><span class="line">            &#125;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>Add it in input element:</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">name</span>=<span class="string">&quot;form&quot;</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;text&quot;</span> <span class="attr">name</span>=<span class="string">&quot;type&quot;</span> <span class="attr">ng-model</span>=<span class="string">&quot;data.fruitName&quot;</span> <span class="attr">blacklist</span>=<span class="string">&quot;coconuts,bananas,pears&quot;</span> <span class="attr">required</span>/&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">span</span> <span class="attr">ng-show</span>=<span class="string">&quot;myForm.fruitName.$error.blacklist&quot;</span>&gt;</span> The phrase &quot;&#123;&#123;data.fruitName&#125;&#125;&quot; is blacklisted<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">span</span> <span class="attr">ng-show</span>=<span class="string">&quot;myForm.fruitName.$error.required&quot;</span>&gt;</span>required<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="Submit"><a href="#Submit" class="headerlink" title="Submit"></a>Submit</h2><p>Form in Angular has a different role to play as compared to traditional html form that posts data to the server. We could not find <code>action</code> attribute. So how to submit data?!</p>
+<p>The standard form behavior of posting data to the server using full-page post-back does not make sense with a SPA framework such as AngularJS. In Angular, <strong>all server requests are made through AJAX</strong> invocations originating from controllers, directives, or services. While the traditional one will refresh the whole page.</p>
+<p>So two ways to do it:</p>
+<ol>
+<li>By <code>ng-submit</code></li>
+</ol>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">name</span>=<span class="string">&quot;form&quot;</span> <span class="attr">ng-submit</span>=<span class="string">&quot;submit()&quot;</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">button</span> <span class="attr">type</span>=<span class="string">&quot;submit&quot;</span> <span class="attr">ng-disabled</span>=<span class="string">&quot;form.$invalid&quot;</span>&gt;</span>Submit<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>By binding function to the button directly</li>
+</ol>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">name</span>=<span class="string">&quot;form&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">button</span> <span class="attr">ng-click</span>=<span class="string">&quot;submit()&quot;</span> <span class="attr">ng-disabled</span>=<span class="string">&quot;form.$invalid&quot;</span>&gt;</span>Submit<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>Then, we need to know that from controller also has some APIs and properties as model controller:</p>
+<ul>
+<li><code>$setValidity(validationKey, status, childController)</code>: This is similar to the <code>$setValidity</code> API of <code>NgModelController</code> but is used to set the validation state of the model controller inside form controller.</li>
+<li><code>$setDirty()</code>: This is used to mark the form dirty.</li>
+<li><code>$setPristine()</code>: This is used to make the form pristine. This is often used to mark the form pristine after persisting the data to server. The $setPristine call propagates to all model controllers registered with the form, so <strong>all child inputs are also set back to the pristine state</strong>.</li>
+<li><code>$setUntouched()</code>: This is used to mark the form untouched. This is mostly called in sync with <code>$setPristine</code>, after data is submitted.</li>
+</ul>
+<p>Other than the state manipulation API, there are some handy properties:</p>
+<ul>
+<li>$pristine</li>
+<li>$dirty</li>
+<li>$valid</li>
+<li>$invalid</li>
+<li>$error</li>
+</ul>
+<p>They are similar to model controller properties except for the $error property. It’s in fact a bit more complex. <strong>It aggregates all failures across all contained inputs</strong>. The <code>$error</code>‘s property corresponds to the failing error condition and the value is an array of controllers that are invalid. For example, If there are three <code>required</code> errors, <code>$error.required</code> should be an array with three controllers with this kind of error.</p>
+<p>Any way, we <strong>use the $invalid property of the form controller to verify if there are validation errors before we perform a submit</strong>.</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">ng-class</span>=<span class="string">&quot;&#123;&#x27;btn-default&#x27;:formName.$valid,&#x27;btn-warning&#x27;:formName.$invalid&#125;&quot;</span> <span class="attr">ng-click</span>=<span class="string">&quot;submit()&quot;</span> <span class="attr">ng-disabled</span>=<span class="string">&quot;formName.$invalid&quot;</span>&gt;</span>Submit<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>So submit button will only be available when no validation errors of its elements. We also use <code>$valid/$invalid</code> to set css :D.</p>
+<h3 id="Points-to-be-careful-1"><a href="#Points-to-be-careful-1" class="headerlink" title="Points to be careful"></a>Points to be careful</h3><p>In general, instead of disabling a submit button, we prefer to inform user all validation errors when user clicks submit button.<br>If we remove <code>ng-disabled</code>, when user loads the page and clicks submit button directly without touching others. Nothing is submitted as the form is invalid, but validation errors on its child elements like input do not show up at all. Look at one label:</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">label</span> <span class="attr">ng-show</span>=<span class="string">&quot;form.formName.$error.required &amp;&amp; form.formName.$dirty&quot;</span> <span class="attr">class</span>=<span class="string">&quot;text-danger&quot;</span>&gt;</span>Name is required<span class="tag">&lt;/<span class="name">label</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><code>form.formName.$dirty</code> disables validation messages until user has touched the element. It’s why here.</p>
+<p>So in <code>submit()</code>, we could set a flag to fix this problem.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">$scope.submit = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">    $scope.submitted = <span class="literal">true</span>; <span class="comment">// Will force validations</span></span><br><span class="line">    <span class="keyword">if</span> ($scope.form.$invalid) <span class="keyword">return</span>; <span class="comment">// Nothing will be submitted if invalid!</span></span><br><span class="line"></span><br><span class="line">    $scope.form.$setPristine();</span><br><span class="line">    $scope.submitted = <span class="literal">false</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Other operations</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>So now update label:</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">label</span> <span class="attr">ng-show</span>=<span class="string">&quot;form.formName.$error.required &amp;&amp; (submitted || form.formName.$dirty)&quot;</span> <span class="attr">class</span>=<span class="string">&quot;text-danger&quot;</span>&gt;</span>Name is required<span class="tag">&lt;/<span class="name">label</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>When user clicks submit button, we force validation to be true!. But still a problem here, we need to repeat this fix on all labels and a little complex to read. So why not create a function because all validations need to check <code>submitted</code></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$scope.hasError = <span class="function"><span class="keyword">function</span> (<span class="params">modelController, error</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> (modelController.$dirty || $scope.submitted) &amp;&amp; error;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>So now update label again:</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">label</span> <span class="attr">ng-show</span>=<span class="string">&quot;hasError(formName.inputName, formName.inputName.$error.required)&quot;</span> <span class="attr">class</span>=<span class="string">&quot;text-danger&quot;</span>&gt;</span>Name is required<span class="tag">&lt;/<span class="name">label</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>For the moment, we only need to pass model controller and its validation without caring the conditions!</p>
+<h2 id="Reset"><a href="#Reset" class="headerlink" title="Reset"></a>Reset</h2><p>The standard way to reset a form is to call the reset method on the form object such as <code>document.forms[&quot;formName&quot;].reset()</code> or to use <code>type=&quot;reset&quot;</code> for a button.</p>
+<p>But we could also define a function by ourselves to add on the reset button</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$scope.reset = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">	$scope.formName.$setPristine();</span><br><span class="line">	<span class="comment">// Restore other parameters</span></span><br><span class="line">	<span class="comment">// Other things to do</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Ref"><a href="#Ref" class="headerlink" title="Ref"></a>Ref</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://docs.angularjs.org/guide/forms">AngularJS Form</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.packtpub.com/web-development/angularjs-example">AngularJS by Example</a></li>
+<li><a target="_blank" rel="noopener" href="https://docs.angularjs.org/api/ngMessages">AngularJS ngMessage</a></li>
+<li><a target="_blank" rel="noopener" href="http://stackoverflow.com/questions/12581439/how-to-add-custom-validation-to-an-angularjs-form">Stackover Custom validation</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+      
+
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div></div>
+  <button onclick="document.querySelector('.post-reward').classList.toggle('active');">
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/wechatpay.jpg" alt="Rui 微信">
+        <span>微信</span>
+      </div>
+      <div>
+        <img src="/images/alipay.jpg" alt="Rui 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
+          <div class="followme">
+  <span>欢迎关注我的其它发布渠道</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+        <a target="_blank" class="social-link" href="/images/wxmp-qrcode.jpg">
+          <span class="icon">
+            <i class="fab fa-weixin"></i>
+          </span>
+
+          <span class="label">WeChat</span>
+        </a>
+      </div>
+
+      <div class="social-item">
+        <a target="_blank" class="social-link" href="/atom.xml">
+          <span class="icon">
+            <i class="fa fa-rss"></i>
+          </span>
+
+          <span class="label">RSS</span>
+        </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/AngularJS/" rel="tag"><i class="fa fa-tag"></i> AngularJS</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2016/07/05/%E6%9D%A5%E8%87%AA%E6%98%9F%E6%98%9F%E7%9A%84%E4%BD%A0/" rel="prev" title="《来自星星的你》观剧笔记">
+                  <i class="fa fa-chevron-left"></i> 《来自星星的你》观剧笔记
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2016/07/06/%E4%B8%89%E4%BD%93%E4%B9%A6%E8%AF%84/" rel="next" title="《三体》书评">
+                  《三体》书评 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+      
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      
+
+      
+  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">京ICP备17046037号 </a>
+      <img src="/images/beian.png" style="display: inline-block;"><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=11010502033928" rel="noopener" target="_blank">京公网安备11010502033928号 </a>
+  </div>
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Rui</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+      <span>站点总字数：</span>
+    <span title="站点总字数">112k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span>站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">1:42</span>
+  </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/mist/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script size="300" alpha="0.3" zIndex="-1" src="//cdn.jsdelivr.net/npm/ribbon.js@1.0.2/dist/ribbon.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+<script>
+if (document.querySelectorAll('.mermaid').length) {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mermaid@8.8.2/dist/mermaid.min.js', () => {
+    mermaid.init({
+      theme    : 'forest',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    }, '.mermaid');
+  }, window.mermaid);
+}
+</script>
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://imrui.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "http://www.imrui.net/2016/07/06/AngularJS-Form/";
+    this.page.identifier = "2016/07/06/AngularJS-Form/";
+    this.page.title = "AngularJS Form";
+    };
+  NexT.utils.loadComments('#disqus_thread', () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://imrui.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+</body>
+</html>
