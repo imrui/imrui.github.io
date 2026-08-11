@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"www.imrui.net","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.29.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"atom-one-dark","dark":"atom-one-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":true,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.json","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false,"trigger":"auto"}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="OpenClaw 引爆海外后，阿里、腾讯、字节、智谱一个月内相继入场。六款 Claw 工具横评：不做功能罗列，只帮你找到与工作环境真正匹配的那一只。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="养虾大战：六款 Claw，哪只是你的执行分身？">
+<meta property="og:url" content="https://www.imrui.net/2026/03/10/%E5%85%BB%E8%99%BE%E5%A4%A7%E6%88%98%EF%BC%9A%E5%85%AD%E6%AC%BE%20Claw%EF%BC%8C%E5%93%AA%E5%8F%AA%E6%98%AF%E4%BD%A0%E7%9A%84%E6%89%A7%E8%A1%8C%E5%88%86%E8%BA%AB%EF%BC%9F/index.html">
+<meta property="og:site_name" content="七月流火 - 四零九六">
+<meta property="og:description" content="OpenClaw 引爆海外后，阿里、腾讯、字节、智谱一个月内相继入场。六款 Claw 工具横评：不做功能罗列，只帮你找到与工作环境真正匹配的那一只。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-03-09T16:00:00.000Z">
+<meta property="article:modified_time" content="2026-08-11T06:57:23.904Z">
+<meta property="article:author" content="Rui">
+<meta property="article:tag" content="若白知行">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://www.imrui.net/2026/03/10/%E5%85%BB%E8%99%BE%E5%A4%A7%E6%88%98%EF%BC%9A%E5%85%AD%E6%AC%BE%20Claw%EF%BC%8C%E5%93%AA%E5%8F%AA%E6%98%AF%E4%BD%A0%E7%9A%84%E6%89%A7%E8%A1%8C%E5%88%86%E8%BA%AB%EF%BC%9F/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://www.imrui.net/2026/03/10/%E5%85%BB%E8%99%BE%E5%A4%A7%E6%88%98%EF%BC%9A%E5%85%AD%E6%AC%BE%20Claw%EF%BC%8C%E5%93%AA%E5%8F%AA%E6%98%AF%E4%BD%A0%E7%9A%84%E6%89%A7%E8%A1%8C%E5%88%86%E8%BA%AB%EF%BC%9F/","path":"2026/03/10/养虾大战：六款 Claw，哪只是你的执行分身？/","title":"养虾大战：六款 Claw，哪只是你的执行分身？"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>养虾大战：六款 Claw，哪只是你的执行分身？ | 七月流火 - 四零九六</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-80328712-1"></script>
+  <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"UA-80328712-1","only_pageview":false,"measure_protocol_api_secret":null}</script>
+  <script src="/js/third-party/analytics/google-analytics.js" defer></script>
+
+  <script src="/js/third-party/analytics/baidu-analytics.js" defer></script>
+  <script async src="https://hm.baidu.com/hm.js?58f4c86270649dc42411a470eaf38998"></script>
+
+
+
+
+
+
+
+  
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.5.0/dist/search.js" integrity="sha256-xFC6PJ82SL9b3WkGjFavNiA9gm5z6UBxWPiu4CYjptg=" crossorigin="anonymous" defer></script>
+<script src="/js/third-party/search/local-search.js" defer></script>
+
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":"forest","js":{"url":"https://cdn.jsdelivr.net/npm/mermaid@11.10.1/dist/mermaid.min.js","integrity":"sha256-BmQmdWDS8X2OTbrwELWK366LV6escyWhHHe0XCTU/Hk="}}</script>
+  <script src="/js/third-party/tags/mermaid.js" defer></script>
+
+
+
+
+
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="七月流火 - 四零九六" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">七月流火 - 四零九六</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">imrui</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#01-%E5%85%88%E8%AF%B4%E6%B8%85%E6%A5%9A%EF%BC%9AClaw-%E7%B1%BB%E5%B7%A5%E5%85%B7%E5%88%B0%E5%BA%95%E5%9C%A8%E5%81%9A%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="nav-number">1.</span> <span class="nav-text">01 先说清楚：Claw 类工具到底在做什么？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#02-%E5%85%AD%E6%AC%BE%E5%B7%A5%E5%85%B7%E7%9A%84%E7%9C%9F%E5%AE%9E%E5%AE%9A%E4%BD%8D"><span class="nav-number">2.</span> <span class="nav-text">02 六款工具的真实定位</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%F0%9F%8C%8D-OpenClaw-%C2%B7-%E7%94%9F%E6%80%81%E4%B9%8B%E6%BA%90"><span class="nav-number">2.1.</span> <span class="nav-text">🌍 OpenClaw · 生态之源</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%F0%9F%90%A7-QClaw-%C2%B7-%E5%BE%AE%E4%BF%A1%E7%9B%B4%E8%81%94"><span class="nav-number">2.2.</span> <span class="nav-text">🐧 QClaw · 微信直联</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%F0%9F%90%BC-CoPaw-%C2%B7-%E5%BC%80%E5%8F%91%E8%80%85%E9%A6%96%E9%80%89"><span class="nav-number">2.3.</span> <span class="nav-text">🐼 CoPaw · 开发者首选</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%F0%9F%8C%8B-ArkClaw-%C2%B7-%E4%BA%91%E7%AB%AF%E6%8C%81%E7%BB%AD"><span class="nav-number">2.4.</span> <span class="nav-text">🌋 ArkClaw · 云端持续</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%F0%9F%92%BC-WorkBuddy-%C2%B7-%E4%BC%81%E4%B8%9A%E7%BA%A7"><span class="nav-number">2.5.</span> <span class="nav-text">💼 WorkBuddy · 企业级</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%F0%9F%A6%9E-AutoClaw%E3%80%8C%E6%BE%B3%E9%BE%99%E3%80%8D%C2%B7-%E6%B5%8F%E8%A7%88%E5%99%A8%E4%B8%93%E5%AE%B6"><span class="nav-number">2.6.</span> <span class="nav-text">🦞 AutoClaw「澳龙」· 浏览器专家</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#03-%E9%80%89%E5%9E%8B%E5%9F%BA%E5%87%86%EF%BC%9A%E4%B8%89%E4%B8%AA%E9%97%AE%E9%A2%98%E5%86%B3%E5%AE%9A%E4%BD%A0%E7%9A%84%E7%AD%94%E6%A1%88"><span class="nav-number">3.</span> <span class="nav-text">03 选型基准：三个问题决定你的答案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#04-%E6%9C%80%E5%90%8E%E8%AF%B4%E4%B8%80%E5%8F%A5%E7%9C%9F%E8%AF%9D"><span class="nav-number">4.</span> <span class="nav-text">04 最后说一句真话</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Rui"
+      src="/images/avatar2.jpg">
+  <p class="site-author-name" itemprop="name">Rui</p>
+  <div class="site-description" itemprop="description">天道有常，或因人势而迟，然终不误。</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">28</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/imrui" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;imrui" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:hilo.sky.do@gmail.com" title="E-Mail → mailto:hilo.sky.do@gmail.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.imrui.net/2026/03/10/%E5%85%BB%E8%99%BE%E5%A4%A7%E6%88%98%EF%BC%9A%E5%85%AD%E6%AC%BE%20Claw%EF%BC%8C%E5%93%AA%E5%8F%AA%E6%98%AF%E4%BD%A0%E7%9A%84%E6%89%A7%E8%A1%8C%E5%88%86%E8%BA%AB%EF%BC%9F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar2.jpg">
+      <meta itemprop="name" content="Rui">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="七月流火 - 四零九六">
+      <meta itemprop="description" content="天道有常，或因人势而迟，然终不误。">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="养虾大战：六款 Claw，哪只是你的执行分身？ | 七月流火 - 四零九六">
+      <meta itemprop="description" content="OpenClaw 引爆海外后，阿里、腾讯、字节、智谱一个月内相继入场。六款 Claw 工具横评：不做功能罗列，只帮你找到与工作环境真正匹配的那一只。">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          养虾大战：六款 Claw，哪只是你的执行分身？
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2026-08-11 14:57:23" itemprop="dateModified" datetime="2026-08-11T14:57:23+08:00">2026-08-11</time>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2026/03/10/%E5%85%BB%E8%99%BE%E5%A4%A7%E6%88%98%EF%BC%9A%E5%85%AD%E6%AC%BE%20Claw%EF%BC%8C%E5%93%AA%E5%8F%AA%E6%98%AF%E4%BD%A0%E7%9A%84%E6%89%A7%E8%A1%8C%E5%88%86%E8%BA%AB%EF%BC%9F/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2026/03/10/养虾大战：六款 Claw，哪只是你的执行分身？/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>2.3k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>8 分钟</span>
+    </span>
+</div>
+
+            <div class="post-description">OpenClaw 引爆海外后，阿里、腾讯、字节、智谱一个月内相继入场。六款 Claw 工具横评：不做功能罗列，只帮你找到与工作环境真正匹配的那一只。</div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><blockquote>
+<p>若白知行 · 行 · 实战 | AGENT TOOLING REPORT · 2026.03</p>
+</blockquote>
+<hr>
+<p>2026 年初，一个开源项目在海外开发者社区突然沸腾——<strong>OpenClaw</strong>。</p>
+<p>它的走红逻辑很直接：过去两年我们一直在教 AI「说话」，而 OpenClaw 第一次让它真正开始「做事」——接管你的键鼠，跨越 App 边界，调度 API，通过微信&#x2F;Telegram 这类你本来就在用的 IM 接收指令，自主执行任务，再把结果反馈给你。</p>
+<p>国内大厂的反应速度超出预期。不到一个月，阿里、腾讯（两个团队）、字节、智谱相继推出各自版本，「养虾大战」正式开打。</p>
+<blockquote>
+<p>六款工具的底层逻辑是一致的：<strong>把 AI 从对话框里解放出来，变成一个有手有脚的执行分身。</strong> 但在部署方式、IM 入口、数据归属、安全边界上，它们走向了截然不同的路径。</p>
+</blockquote>
+<p>本文不做无谓的功能罗列，只做一件事：帮你找到和你的工作环境真正匹配的那只虾。</p>
+<hr>
+<h2 id="01-先说清楚：Claw-类工具到底在做什么？"><a href="#01-先说清楚：Claw-类工具到底在做什么？" class="headerlink" title="01 先说清楚：Claw 类工具到底在做什么？"></a>01 先说清楚：Claw 类工具到底在做什么？</h2><p>区分两个概念很重要：</p>
+<p><strong>Copilot 模式 · 辅助驾驶</strong></p>
+<p>AI 给建议，你来执行。它在副驾驶座，方向盘还在你手上。对话结束，任务结束。</p>
+<p><strong>Agent 模式 · 自动驾驶</strong></p>
+<p>你下达目标，AI 自主规划路径、执行动作、处理异常、反馈结果。你发完指令可以去喝咖啡。</p>
+<p>Claw 类工具属于后者。它的核心能力链条是：<strong>感知 → 规划 → 执行 → 记忆 → 反馈</strong>。</p>
+<p>「养虾」的本质，是你在为自己配置一个<strong>具备物理执行力的数字分身</strong>。分身的质量，取决于你选的虾。</p>
+<hr>
+<h2 id="02-六款工具的真实定位"><a href="#02-六款工具的真实定位" class="headerlink" title="02 六款工具的真实定位"></a>02 六款工具的真实定位</h2><h3 id="🌍-OpenClaw-·-生态之源"><a href="#🌍-OpenClaw-·-生态之源" class="headerlink" title="🌍 OpenClaw · 生态之源"></a>🌍 OpenClaw · 生态之源</h3><blockquote>
+<p>独立开源 · 原版</p>
+</blockquote>
+<p>所有国内版本的「祖龙」。最重要的设计决策是：<strong>技能（Skills）和上下文存在你自己的机器上</strong>，而不是某个公司的服务器。你对自己的分身拥有完整主权。</p>
+<p>ClawHub 拥有 5000+ 社区技能，更关键的是：<strong>AI 可以给自己写新技能并热加载</strong>，不需要重启，不需要你介入。这是当前六款中唯一实现「自进化」的架构。</p>
+<p>✅ <strong>适合：</strong> 有技术基础的极客；需要极致定制；能接受部署成本（Node.js + 命令行）；月均 API 支出 $200+ 在预算内</p>
+<p>❌ <strong>不适合：</strong> 不熟悉命令行；主要通讯工具是微信（OpenClaw 不支持微信）；在意成本</p>
+<hr>
+<h3 id="🐧-QClaw-·-微信直联"><a href="#🐧-QClaw-·-微信直联" class="headerlink" title="🐧 QClaw · 微信直联"></a>🐧 QClaw · 微信直联</h3><blockquote>
+<p>腾讯电脑管家 · 内测中</p>
+</blockquote>
+<p>六款产品里唯一一个<strong>原生打通微信</strong>的。这一点比所有功能罗列都更重要——对国内绝大多数用户来说，微信就是生活操作系统，而其他五款都需要你额外安装飞书、钉钉或 Telegram。</p>
+<p>扫码绑定，30 秒，内置 Kimi-2.5，数据完全本地。兼容 ClawHub 生态。唯一的风险点是它目前仍在内测，功能完整度有待验证。</p>
+<p>✅ <strong>适合：</strong> 主力 IM 是微信；不想额外安装通讯工具；非技术用户；重视数据本地化</p>
+<p>❌ <strong>不适合：</strong> 需要现在就能用的稳定方案（内测随时可能变动）；高度依赖自定义技能</p>
+<hr>
+<h3 id="🐼-CoPaw-·-开发者首选"><a href="#🐼-CoPaw-·-开发者首选" class="headerlink" title="🐼 CoPaw · 开发者首选"></a>🐼 CoPaw · 开发者首选</h3><blockquote>
+<p>阿里通义 AgentScope · 开源 Apache 2.0</p>
+</blockquote>
+<p>目前国内开发者综合体验最好的开源方案。三条命令本地跑通，Apache 2.0 协议，代码可审计。开源一天 Star 破 2400。</p>
+<p>两个技术亮点值得关注：<strong>ReMe 记忆引擎</strong>——切换 GPT &#x2F; Llama &#x2F; Qwen 等任意模型，历史上下文不丢失，解决了多模型协作中的真实痛点；<strong>Web Console</strong>——图形化配置界面，OpenClaw 目前没有这个功能。</p>
+<p>原生接入钉钉、飞书、QQ，无需代理，这是国内团队选它的主要原因。</p>
+<p>✅ <strong>适合：</strong> 国内开发者；钉钉 &#x2F; 飞书 &#x2F; QQ 用户；希望开源可控；多模型混用场景；中小团队快速验证</p>
+<p>❌ <strong>不适合：</strong> 完全不懂命令行；需要 7×24 不间断云端运行；对 Python 技术栈陌生</p>
+<hr>
+<h3 id="🌋-ArkClaw-·-云端持续"><a href="#🌋-ArkClaw-·-云端持续" class="headerlink" title="🌋 ArkClaw · 云端持续"></a>🌋 ArkClaw · 云端持续</h3><blockquote>
+<p>字节火山引擎</p>
+</blockquote>
+<p>ArkClaw 解决了本地部署版本共同的痛点：<strong>你关机，它还在跑</strong>。纯云端 SaaS，打开浏览器即用，7×24 小时持续运行，40G 云端记忆空间，与飞书深度集成。</p>
+<p>这是它最大的价值，也是最大的代价：<strong>数据在火山引擎的云上，不在你的机器里</strong>。如果工作流涉及敏感信息，这个问题需要在选型时想清楚。</p>
+<p>✅ <strong>适合：</strong> 飞书深度用户；需要 7×24 后台任务；完全不想折腾部署；对数据隐私要求不高的场景</p>
+<p>❌ <strong>不适合：</strong> 对数据主权有要求；需要接入内网私有资源；想深度定制执行逻辑</p>
+<hr>
+<h3 id="💼-WorkBuddy-·-企业级"><a href="#💼-WorkBuddy-·-企业级" class="headerlink" title="💼 WorkBuddy · 企业级"></a>💼 WorkBuddy · 企业级</h3><blockquote>
+<p>腾讯云 CodeBuddy · 已上线</p>
+</blockquote>
+<p>六款里唯一在设计层面认真考虑「企业安全」的产品。统一安全审计、高危指令拦截、安全网关代理（无需内网穿透）。</p>
+<p>这不是营销语言，而是一个真实的工程选型基准：<strong>在企业环境里，一个没有指令审计机制的 Agent，权限越大、风险越高</strong>。WorkBuddy 在这个维度上目前是六款中护城河最深的。</p>
+<p>覆盖企微 &#x2F; QQ &#x2F; 飞书 &#x2F; 钉钉全矩阵，兼容 OpenClaw Skills，新用户赠 5000 Credits。</p>
+<p>✅ <strong>适合：</strong> 企业 IT 推行自动化；有合规审计要求的团队；需覆盖多个 IM 平台；职场非技术角色</p>
+<p>❌ <strong>不适合：</strong> 极客深度定制需求；生态建设时间尚短，复杂 Skills 编排能力有限</p>
+<hr>
+<h3 id="🦞-AutoClaw「澳龙」·-浏览器专家"><a href="#🦞-AutoClaw「澳龙」·-浏览器专家" class="headerlink" title="🦞 AutoClaw「澳龙」· 浏览器专家"></a>🦞 AutoClaw「澳龙」· 浏览器专家</h3><blockquote>
+<p>智谱 AutoGLM · 已上线</p>
+</blockquote>
+<p>AutoClaw 的差异化不在功能广度，而在一个具体的技术深度：集成了智谱自研的 <strong>AutoGLM Browser-Use 引擎</strong>。</p>
+<p>多步骤、跨页面的浏览器操作——填表、数据采集、登录跳转、DOM 解析——是当前 Agent 工具的高频失败场景。AutoGLM 在这个维度上的稳定性和成功率，在六款中是当前最强的。如果你的工作流大量涉及这类任务，这是选它的唯一理由，但已经是一个强理由。</p>
+<p>一键安装，50+ 内置 Skills，飞书接入，本地执行，有免费额度。产品上线时间最短，成熟度有待时间验证。</p>
+<p>✅ <strong>适合：</strong> 大量浏览器操作任务（填表 &#x2F; 数据采集 &#x2F; 多页面跳转）；飞书用户；0 成本试错</p>
+<p>❌ <strong>不适合：</strong> 飞书以外 IM 需求较强；追求稳定成熟方案（刚上线）</p>
+<hr>
+<h2 id="03-选型基准：三个问题决定你的答案"><a href="#03-选型基准：三个问题决定你的答案" class="headerlink" title="03 选型基准：三个问题决定你的答案"></a>03 选型基准：三个问题决定你的答案</h2><p>抛开功能列表，决定选型的核心维度只有三个：</p>
+<p><strong>Q1 · 数据主权：你的任务数据，能接受放到云端吗？</strong></p>
+<p>如果答案是否——直接排除 ArkClaw。剩下五款数据均在本地执行，不上传。如果答案是可以，六款均可考虑，ArkClaw 反而是最省心的选择。</p>
+<p><strong>Q2 · 交互入口：你最常用哪个 IM？</strong></p>
+<table>
+<thead>
+<tr>
+<th>IM 工具</th>
+<th>推荐选择</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>📱 微信</td>
+<td>QClaw（唯一选项，其他五款均不支持）</td>
+</tr>
+<tr>
+<td>💙 飞书</td>
+<td>ArkClaw（最深集成）或 AutoClaw（浏览器任务强）</td>
+</tr>
+<tr>
+<td>🏢 企微 &#x2F; 钉钉</td>
+<td>WorkBuddy（安全）或 CoPaw（灵活）</td>
+</tr>
+<tr>
+<td>🌐 Telegram</td>
+<td>OpenClaw 原版</td>
+</tr>
+</tbody></table>
+<p><strong>Q3 · 部署门槛：你愿意花多少时间配置环境？</strong></p>
+<table>
+<thead>
+<tr>
+<th>时间成本</th>
+<th>工具</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>≥ 30 分钟</td>
+<td>OpenClaw</td>
+<td>需配置 Node.js、API Key、IM 机器人</td>
+</tr>
+<tr>
+<td>≈ 10 分钟</td>
+<td>CoPaw</td>
+<td>3 条命令，Docker 可选</td>
+</tr>
+<tr>
+<td>≈ 3 分钟</td>
+<td>QClaw &#x2F; WorkBuddy &#x2F; AutoClaw</td>
+<td>下载安装即用</td>
+</tr>
+<tr>
+<td>0 分钟</td>
+<td>ArkClaw</td>
+<td>打开浏览器即用</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="04-最后说一句真话"><a href="#04-最后说一句真话" class="headerlink" title="04 最后说一句真话"></a>04 最后说一句真话</h2><p>「养虾」这个比喻是对的——它是一种需要持续投入的关系，不是买个工具扔在那里就能自己长大的。</p>
+<p>每一款工具都需要你花时间定义任务边界、设计技能流、测试异常处理。这个投入不会因为选了「更强」的工具而消失，只会因为你的场景设计更清晰而降低。</p>
+<blockquote>
+<p><strong>这六款工具是「手脚」，不是「大脑」。</strong></p>
+<p>它们能做的事，上限取决于你给它们定义的任务逻辑有多清晰——哪些边界不能碰，哪些状态需要人工介入，哪些异常直接中止。这些判断是你的，不是 AI 的。工具选得再好，逻辑建立在沙上，迟早会翻车。</p>
+</blockquote>
+<p>我的建议是：<strong>先跑通一个真实的、最高频的场景，再谈扩展</strong>。比如「每天早上 8 点抓取飞书日历并生成日报发到群里」——就这一件事，把它跑稳了，你会对这类工具的能力边界有非常清醒的认识。</p>
+<p>不确定从哪里开始？国内环境用 <strong>CoPaw</strong> 或 <strong>WorkBuddy</strong> 起步，前者适合有技术基础的，后者适合职场非技术用户。两者都有免费额度，试错成本为零。</p>
+<hr>
+<p><em>若白知行 · Rubai AI</em></p>
+<p><em>Logic is the Soul, Action is the Protocol.</em></p>
+<p><em>逻辑为魂，知行为本</em></p>
+<p><em>收录于「行 · 实战」合集 · 本文信息基于公开资料整理，产品特性以各官方最新版本为准</em></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div>请我一杯咖啡吧！</div>
+  <button>
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/wechatpay.jpg" alt="Rui 微信">
+        <span>微信</span>
+      </div>
+      <div>
+        <img src="/images/alipay.jpg" alt="Rui 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
+          <div class="followme">
+  <span>欢迎关注我的其它发布渠道</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+          <span class="social-link">
+            <span class="icon">
+              <i class="fab fa-weixin"></i>
+            </span>
+
+            <span class="label">WeChat</span>
+          </span>
+
+          <img class="social-item-img" src="/images/wxmp-qrcode.jpg">
+      </div>
+
+      <div class="social-item">
+          <a target="_blank" class="social-link" href="/atom.xml">
+            <span class="icon">
+              <i class="fa fa-rss"></i>
+            </span>
+
+            <span class="label">RSS</span>
+          </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/%E8%8B%A5%E7%99%BD%E7%9F%A5%E8%A1%8C/" rel="tag"><i class="fa fa-tag"></i> 若白知行</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2026/01/15/%E6%8B%92%E7%BB%9D%E2%80%9C%E6%8A%BD%E5%8D%A1%E5%BC%8F%E2%80%9D%E7%BC%96%E7%A8%8B%EF%BC%9A%E7%81%B5%E6%9E%A2%20(LingShu)%20%E2%80%94%E2%80%94%202026%20AI%20%E5%8E%9F%E7%94%9F%E6%9E%B6%E6%9E%84%E7%9A%84%E5%B7%A5%E7%A8%8B%E5%8C%96%E8%A7%89%E9%86%92/" rel="prev" title="拒绝“抽卡式”编程：灵枢 (LingShu) —— 2026 AI 原生架构的工程化觉醒">
+                  <i class="fa fa-angle-left"></i> 拒绝“抽卡式”编程：灵枢 (LingShu) —— 2026 AI 原生架构的工程化觉醒
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2026/04/13/AI%E4%B8%8D%E6%98%AF%E9%AD%94%E6%B3%95%EF%BC%8C%E8%80%8C%E6%98%AF%E7%94%BB%E7%AC%94%EF%BC%9A%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91%E8%80%85%E5%A6%82%E4%BD%95%E7%9C%9F%E6%AD%A3%E7%94%A8%E5%A5%BD%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/" rel="next" title="AI不是魔法，而是画笔：游戏开发者如何真正用好人工智能">
+                  AI不是魔法，而是画笔：游戏开发者如何真正用好人工智能 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  <div class="comments" id="disqus_thread">
+    <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+  </div>
+  
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">京ICP备17046037号 </a>
+      <img src="/images/beian.png" alt=""><a href="https://beian.mps.gov.cn/#/query/webSearch?code=11010502033928" rel="noopener" target="_blank">京公网安备11010502033928号 </a>
+  </div>
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Rui</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+      <span>站点总字数：</span>
+    <span title="站点总字数">50k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span>站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">3:02</span>
+  </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/mist/" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/imrui" class="github-corner" title="在 GitHub 上关注我" aria-label="在 GitHub 上关注我" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+<script class="next-config" data-name="disqus" type="application/json">{"enable":true,"shortname":"imrui","count":true,"i18n":{"disqus":"disqus"}}</script>
+<script src="/js/third-party/comments/disqus.js" defer></script>
+
+<script>
+  (function() {
+    var s = document.createElement('script');
+    s.src = 'https://cdn.jsdelivr.net/npm/ribbon.js@1.0.2/dist/ribbon.min.js';
+    s.setAttribute('size', '300');
+    s.setAttribute('alpha', '0.3');
+    s.setAttribute('zIndex', '-1');
+    document.body.appendChild(s);
+  })();
+</script>
+
+</body>
+</html>
