@@ -26,11 +26,18 @@
 <meta property="og:site_name" content="七月流火 - 四零九六">
 <meta property="og:description" content="Vibe Coding 的狂欢之后是熵增宿醉——AI 战术上是快手，战略上是近视眼。灵枢 (LingShu) 试图用 AI 原生开发范式，终结「抽卡式」编程。">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://maxcdn.hjhblr.com/blog/posts/2026-01-15-lingshu-intro/01.png">
+<meta property="og:image" content="https://maxcdn.hjhblr.com/blog/posts/2026-01-15-lingshu-intro/02.png">
+<meta property="og:image" content="https://maxcdn.hjhblr.com/blog/posts/2026-01-15-lingshu-intro/03.png">
+<meta property="og:image" content="https://maxcdn.hjhblr.com/blog/posts/2026-01-15-lingshu-intro/04.png">
+<meta property="og:image" content="https://maxcdn.hjhblr.com/blog/posts/2026-01-15-lingshu-intro/05.png">
 <meta property="article:published_time" content="2026-01-14T16:00:00.000Z">
-<meta property="article:modified_time" content="2026-08-11T06:57:23.904Z">
+<meta property="article:modified_time" content="2026-08-12T11:02:05.114Z">
 <meta property="article:author" content="Rui">
 <meta property="article:tag" content="若白知行">
+<meta property="article:tag" content="知·架构论">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://maxcdn.hjhblr.com/blog/posts/2026-01-15-lingshu-intro/01.png">
 
 
 <link rel="canonical" href="https://www.imrui.net/2026/01/15/%E6%8B%92%E7%BB%9D%E2%80%9C%E6%8A%BD%E5%8D%A1%E5%BC%8F%E2%80%9D%E7%BC%96%E7%A8%8B%EF%BC%9A%E7%81%B5%E6%9E%A2%20(LingShu)%20%E2%80%94%E2%80%94%202026%20AI%20%E5%8E%9F%E7%94%9F%E6%9E%B6%E6%9E%84%E7%9A%84%E5%B7%A5%E7%A8%8B%E5%8C%96%E8%A7%89%E9%86%92/">
@@ -165,7 +172,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E3%80%90%E5%89%8D%E8%A8%80%EF%BC%9A%E7%B9%81%E5%8D%8E%E8%83%8C%E5%90%8E%E7%9A%84%E7%86%B5%E5%A2%9E%E5%8D%B1%E6%9C%BA%E3%80%91"><span class="nav-number">1.</span> <span class="nav-text">【前言：繁华背后的熵增危机】</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#01-%E8%B5%B7%E6%BA%90%EF%BC%9A%E4%B8%BA%E4%BB%80%E4%B9%88%E8%B0%93%E4%B9%8B%E2%80%9C%E7%81%B5%E6%9E%A2%E2%80%9D%EF%BC%9F"><span class="nav-number"></span> <span class="nav-text">01 起源：为什么谓之“灵枢”？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#02-%E6%A0%B8%E5%BF%83%E8%8C%83%E5%BC%8F%EF%BC%9A%E4%BB%8E%E2%80%9C%E6%B3%A5%E7%93%A6%E5%8C%A0%E2%80%9D%E5%88%B0%E2%80%9C%E7%8E%AF%E5%A2%83%E8%AE%BE%E8%AE%A1%E5%B8%88%E2%80%9D"><span class="nav-number"></span> <span class="nav-text">02 核心范式：从“泥瓦匠”到“环境设计师”</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%81%B5%E6%9E%A2%E7%9A%84%E2%80%9C%E8%84%91%E4%BD%93%E5%88%86%E7%A6%BB%E2%80%9D%E7%BB%93%E6%9E%84%EF%BC%9A"><span class="nav-number">1.</span> <span class="nav-text">灵枢的“脑体分离”结构：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#03-%E7%81%B5%E6%9E%A2-vs-%E6%8A%BD%E5%8D%A1%EF%BC%9A%E4%B8%80%E5%9C%BA%E5%B7%A5%E7%A8%8B%E5%8C%96%E7%9A%84%E9%99%8D%E7%BB%B4%E6%89%93%E5%87%BB"><span class="nav-number"></span> <span class="nav-text">03 灵枢 vs. 抽卡：一场工程化的降维打击</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#04-%E5%AE%9E%E6%88%98%E8%90%BD%E5%9C%B0%EF%BC%9A%E7%81%B5%E6%9E%A2%E6%9E%B6%E6%9E%84%E7%9A%84%E4%B8%80%E5%A4%A9"><span class="nav-number"></span> <span class="nav-text">04 实战落地：灵枢架构的一天</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%E6%AD%A5%EF%BC%9A%E5%AE%9A%E6%A1%88-Define"><span class="nav-number">1.</span> <span class="nav-text">第一步：定案 (Define)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AC%AC%E4%BA%8C%E6%AD%A5%EF%BC%9A%E6%8B%A8%E5%8F%B7-Trigger"><span class="nav-number">2.</span> <span class="nav-text">第二步：拨号 (Trigger)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AC%AC%E4%B8%89%E6%AD%A5%EF%BC%9A%E5%90%8C%E6%AD%A5-Sync"><span class="nav-number">3.</span> <span class="nav-text">第三步：同步 (Sync)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AC%AC%E5%9B%9B%E6%AD%A5%EF%BC%9A%E5%AE%A1%E8%AE%A1-Audit"><span class="nav-number">4.</span> <span class="nav-text">第四步：审计 (Audit)</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#05-%E7%BB%93%E8%AF%AD%EF%BC%9A%E5%81%9A-AI-%E6%97%B6%E4%BB%A3%E7%9A%84%E2%80%9C%E6%9E%B6%E6%9E%84%E6%8C%87%E6%8C%A5%E5%AE%98%E2%80%9D"><span class="nav-number"></span> <span class="nav-text">05 结语：做 AI 时代的“架构指挥官”</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%F0%9F%94%97-%E8%B5%84%E6%BA%90%E4%B8%8E%E5%AE%9E%E6%88%98%E5%AF%BC%E8%88%AA"><span class="nav-number"></span> <span class="nav-text">🔗 资源与实战导航</span></a></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E3%80%90%E5%89%8D%E8%A8%80%EF%BC%9A%E7%B9%81%E5%8D%8E%E8%83%8C%E5%90%8E%E7%9A%84%E7%86%B5%E5%A2%9E%E5%8D%B1%E6%9C%BA%E3%80%91"><span class="nav-number">1.</span> <span class="nav-text">【前言：繁华背后的熵增危机】</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#01-%E8%B5%B7%E6%BA%90%EF%BC%9A%E4%B8%BA%E4%BB%80%E4%B9%88%E8%B0%93%E4%B9%8B%E2%80%9C%E7%81%B5%E6%9E%A2%E2%80%9D%EF%BC%9F"><span class="nav-number">2.</span> <span class="nav-text">01 起源：为什么谓之“灵枢”？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#02-%E6%A0%B8%E5%BF%83%E8%8C%83%E5%BC%8F%EF%BC%9A%E4%BB%8E%E2%80%9C%E6%B3%A5%E7%93%A6%E5%8C%A0%E2%80%9D%E5%88%B0%E2%80%9C%E7%8E%AF%E5%A2%83%E8%AE%BE%E8%AE%A1%E5%B8%88%E2%80%9D"><span class="nav-number">3.</span> <span class="nav-text">02 核心范式：从“泥瓦匠”到“环境设计师”</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%81%B5%E6%9E%A2%E7%9A%84%E2%80%9C%E8%84%91%E4%BD%93%E5%88%86%E7%A6%BB%E2%80%9D%E7%BB%93%E6%9E%84%EF%BC%9A"><span class="nav-number">3.1.</span> <span class="nav-text">灵枢的“脑体分离”结构：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#03-%E7%81%B5%E6%9E%A2-vs-%E6%8A%BD%E5%8D%A1%EF%BC%9A%E4%B8%80%E5%9C%BA%E5%B7%A5%E7%A8%8B%E5%8C%96%E7%9A%84%E9%99%8D%E7%BB%B4%E6%89%93%E5%87%BB"><span class="nav-number">4.</span> <span class="nav-text">03 灵枢 vs. 抽卡：一场工程化的降维打击</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#04-%E5%AE%9E%E6%88%98%E8%90%BD%E5%9C%B0%EF%BC%9A%E7%81%B5%E6%9E%A2%E6%9E%B6%E6%9E%84%E7%9A%84%E4%B8%80%E5%A4%A9"><span class="nav-number">5.</span> <span class="nav-text">04 实战落地：灵枢架构的一天</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%E6%AD%A5%EF%BC%9A%E5%AE%9A%E6%A1%88-Define"><span class="nav-number">5.1.</span> <span class="nav-text">第一步：定案 (Define)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AC%AC%E4%BA%8C%E6%AD%A5%EF%BC%9A%E6%8B%A8%E5%8F%B7-Trigger"><span class="nav-number">5.2.</span> <span class="nav-text">第二步：拨号 (Trigger)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AC%AC%E4%B8%89%E6%AD%A5%EF%BC%9A%E5%90%8C%E6%AD%A5-Sync"><span class="nav-number">5.3.</span> <span class="nav-text">第三步：同步 (Sync)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AC%AC%E5%9B%9B%E6%AD%A5%EF%BC%9A%E5%AE%A1%E8%AE%A1-Audit"><span class="nav-number">5.4.</span> <span class="nav-text">第四步：审计 (Audit)</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#05-%E7%BB%93%E8%AF%AD%EF%BC%9A%E5%81%9A-AI-%E6%97%B6%E4%BB%A3%E7%9A%84%E2%80%9C%E6%9E%B6%E6%9E%84%E6%8C%87%E6%8C%A5%E5%AE%98%E2%80%9D"><span class="nav-number">6.</span> <span class="nav-text">05 结语：做 AI 时代的“架构指挥官”</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%F0%9F%94%97-%E8%B5%84%E6%BA%90%E4%B8%8E%E5%AE%9E%E6%88%98%E5%AF%BC%E8%88%AA"><span class="nav-number">7.</span> <span class="nav-text">🔗 资源与实战导航</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -191,7 +198,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-count">17</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -254,7 +261,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2026-08-11 14:57:23" itemprop="dateModified" datetime="2026-08-11T14:57:23+08:00">2026-08-11</time>
+      <time title="修改时间：2026-08-12 19:02:05" itemprop="dateModified" datetime="2026-08-12T19:02:05+08:00">2026-08-12</time>
     </span>
 
   
@@ -295,10 +302,12 @@
     
     
     
-    <div class="post-body" itemprop="articleBody"><h4 id="【前言：繁华背后的熵增危机】"><a href="#【前言：繁华背后的熵增危机】" class="headerlink" title="【前言：繁华背后的熵增危机】"></a>【前言：繁华背后的熵增危机】</h4><p>2025 年，我们集体沉溺于 <strong>“Vibe Coding” (氛围感编程)</strong> 的快感。在 Cursor、Trae 或 Windsurf 的对话框里输入一段 Prompt，代码如瀑布流般倾泻，那种“上帝视角”的错觉令人上瘾。</p>
+    <div class="post-body" itemprop="articleBody"><p><img src="https://maxcdn.hjhblr.com/blog/posts/2026-01-15-lingshu-intro/01.png" alt="Image 1"></p>
+<h3 id="【前言：繁华背后的熵增危机】"><a href="#【前言：繁华背后的熵增危机】" class="headerlink" title="【前言：繁华背后的熵增危机】"></a>【前言：繁华背后的熵增危机】</h3><p>2025 年，我们集体沉溺于 <strong>“Vibe Coding” (氛围感编程)</strong> 的快感。在 Cursor、Trae 或 Windsurf 的对话框里输入一段 Prompt，代码如瀑布流般倾泻，那种“上帝视角”的错觉令人上瘾。</p>
 <p>但狂欢之后，宿醉随之而来。当 Demo 演进为生产级项目，当单体演进为跨端微服务，我们痛苦地发现：<strong>AI 是战术上的“快手”，却是战略上的“近视眼”。</strong> 后端改了接口，前端 AI 毫不知情；需求文档在飞书，逻辑上下文在 Chat 窗口——信息差导致逻辑撕裂，熵增呈指数级爆发。开发者沦为了 AI 垃圾代码的终极清理工。</p>
 <p>这种依赖 AI 随机灵感的模式，本质上是**“抽卡式”编程**。</p>
 <p>在 <strong>「若白知行 ·Rubai AI」</strong> 的实战体系中，我们拒绝这种“抽卡式”的随机生产力。为此，我们正式推出一套 AI 原生开发范式 —— <strong>灵枢 (LingShu)</strong>。</p>
+<p><img src="https://maxcdn.hjhblr.com/blog/posts/2026-01-15-lingshu-intro/02.png" alt="Image 2"></p>
 <hr>
 <h3 id="01-起源：为什么谓之“灵枢”？"><a href="#01-起源：为什么谓之“灵枢”？" class="headerlink" title="01 起源：为什么谓之“灵枢”？"></a>01 起源：为什么谓之“灵枢”？</h3><p>“灵枢”一词，取自中国最早的医学典籍《黄帝内经·灵枢》。</p>
 <ul>
@@ -315,6 +324,7 @@
 <p>现在的 Vibe Coding 是 <strong>Chat 模式</strong>：人发指令，AI 生成。</p>
 <p>而 灵枢架构 属于 <strong>Agentic Engineering (智能体工程)</strong> 模式。</p>
 <p>在这种范式下，开发者不再是“泥瓦匠”，而是**“环境设计师”<strong>。我们不直接编写业务代码，而是通过维护一个</strong>“高可读性的上下文环境”**（中枢仓），来驱动多个 AI Agent 自动完成跨端协作。</p>
+<p><img src="https://maxcdn.hjhblr.com/blog/posts/2026-01-15-lingshu-intro/03.png" alt="Image 3"></p>
 <h4 id="灵枢的“脑体分离”结构："><a href="#灵枢的“脑体分离”结构：" class="headerlink" title="灵枢的“脑体分离”结构："></a>灵枢的“脑体分离”结构：</h4><ol>
 <li><p><strong>中枢仓 (The Brain - <code>*-lingshu</code>)</strong>：</p>
 <ul>
@@ -330,7 +340,8 @@
 </li>
 </ol>
 <hr>
-<h3 id="03-灵枢-vs-抽卡：一场工程化的降维打击"><a href="#03-灵枢-vs-抽卡：一场工程化的降维打击" class="headerlink" title="03 灵枢 vs. 抽卡：一场工程化的降维打击"></a>03 灵枢 vs. 抽卡：一场工程化的降维打击</h3><p>Vibe Coding 依赖 AI 的随机灵感；而灵枢架构是为 Vibe Coding 穿上了一套“理性的外骨骼”。</p>
+<h3 id="03-灵枢-vs-抽卡：一场工程化的降维打击"><a href="#03-灵枢-vs-抽卡：一场工程化的降维打击" class="headerlink" title="03 灵枢 vs. 抽卡：一场工程化的降维打击"></a>03 灵枢 vs. 抽卡：一场工程化的降维打击</h3><p><img src="https://maxcdn.hjhblr.com/blog/posts/2026-01-15-lingshu-intro/04.png" alt="Image 4"></p>
+<p>Vibe Coding 依赖 AI 的随机灵感；而灵枢架构是为 Vibe Coding 穿上了一套“理性的外骨骼”。</p>
 <table>
 <thead>
 <tr>
@@ -361,7 +372,8 @@
 </tr>
 </tbody></table>
 <hr>
-<h3 id="04-实战落地：灵枢架构的一天"><a href="#04-实战落地：灵枢架构的一天" class="headerlink" title="04 实战落地：灵枢架构的一天"></a>04 实战落地：灵枢架构的一天</h3><p>基于 <strong>Rubai AI</strong> 的标准规范，一个典型的开发闭环如下：</p>
+<h3 id="04-实战落地：灵枢架构的一天"><a href="#04-实战落地：灵枢架构的一天" class="headerlink" title="04 实战落地：灵枢架构的一天"></a>04 实战落地：灵枢架构的一天</h3><p><img src="https://maxcdn.hjhblr.com/blog/posts/2026-01-15-lingshu-intro/05.png" alt="Image 5"></p>
+<p>基于 <strong>Rubai AI</strong> 的标准规范，一个典型的开发闭环如下：</p>
 <h4 id="第一步：定案-Define"><a href="#第一步：定案-Define" class="headerlink" title="第一步：定案 (Define)"></a>第一步：定案 (Define)</h4><p>开发者不在 IDE 里直接改逻辑，而是修改中枢仓的 <code>api-contract.md</code>。</p>
 <ul>
 <li><em>“将订单状态增加一个 EXPIRED 枚举。”</em> —— 这是对系统“真理”的重新定义。</li>
@@ -446,6 +458,7 @@
 
           <div class="post-tags">
               <a href="/tags/%E8%8B%A5%E7%99%BD%E7%9F%A5%E8%A1%8C/" rel="tag"><i class="fa fa-tag"></i> 若白知行</a>
+              <a href="/tags/%E7%9F%A5%C2%B7%E6%9E%B6%E6%9E%84%E8%AE%BA/" rel="tag"><i class="fa fa-tag"></i> 知·架构论</a>
           </div>
 
         

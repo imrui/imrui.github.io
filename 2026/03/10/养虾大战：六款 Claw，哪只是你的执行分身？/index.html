@@ -26,11 +26,17 @@
 <meta property="og:site_name" content="七月流火 - 四零九六">
 <meta property="og:description" content="OpenClaw 引爆海外后，阿里、腾讯、字节、智谱一个月内相继入场。六款 Claw 工具横评：不做功能罗列，只帮你找到与工作环境真正匹配的那一只。">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://maxcdn.hjhblr.com/blog/posts/2026-03-10-claw-showdown/01.png">
+<meta property="og:image" content="https://maxcdn.hjhblr.com/blog/posts/2026-03-10-claw-showdown/02.png">
+<meta property="og:image" content="https://maxcdn.hjhblr.com/blog/posts/2026-03-10-claw-showdown/03.png">
+<meta property="og:image" content="https://maxcdn.hjhblr.com/blog/posts/2026-03-10-claw-showdown/04.png">
 <meta property="article:published_time" content="2026-03-09T16:00:00.000Z">
-<meta property="article:modified_time" content="2026-08-11T06:57:23.904Z">
+<meta property="article:modified_time" content="2026-08-12T11:03:01.193Z">
 <meta property="article:author" content="Rui">
 <meta property="article:tag" content="若白知行">
+<meta property="article:tag" content="器·工具志">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://maxcdn.hjhblr.com/blog/posts/2026-03-10-claw-showdown/01.png">
 
 
 <link rel="canonical" href="https://www.imrui.net/2026/03/10/%E5%85%BB%E8%99%BE%E5%A4%A7%E6%88%98%EF%BC%9A%E5%85%AD%E6%AC%BE%20Claw%EF%BC%8C%E5%93%AA%E5%8F%AA%E6%98%AF%E4%BD%A0%E7%9A%84%E6%89%A7%E8%A1%8C%E5%88%86%E8%BA%AB%EF%BC%9F/">
@@ -191,7 +197,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-count">17</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -254,7 +260,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2026-08-11 14:57:23" itemprop="dateModified" datetime="2026-08-11T14:57:23+08:00">2026-08-11</time>
+      <time title="修改时间：2026-08-12 19:03:01" itemprop="dateModified" datetime="2026-08-12T19:03:01+08:00">2026-08-12</time>
     </span>
 
   
@@ -298,6 +304,7 @@
     <div class="post-body" itemprop="articleBody"><blockquote>
 <p>若白知行 · 行 · 实战 | AGENT TOOLING REPORT · 2026.03</p>
 </blockquote>
+<p><img src="https://maxcdn.hjhblr.com/blog/posts/2026-03-10-claw-showdown/01.png" alt="Image 1"></p>
 <hr>
 <p>2026 年初，一个开源项目在海外开发者社区突然沸腾——<strong>OpenClaw</strong>。</p>
 <p>它的走红逻辑很直接：过去两年我们一直在教 AI「说话」，而 OpenClaw 第一次让它真正开始「做事」——接管你的键鼠，跨越 App 边界，调度 API，通过微信&#x2F;Telegram 这类你本来就在用的 IM 接收指令，自主执行任务，再把结果反馈给你。</p>
@@ -307,7 +314,8 @@
 </blockquote>
 <p>本文不做无谓的功能罗列，只做一件事：帮你找到和你的工作环境真正匹配的那只虾。</p>
 <hr>
-<h2 id="01-先说清楚：Claw-类工具到底在做什么？"><a href="#01-先说清楚：Claw-类工具到底在做什么？" class="headerlink" title="01 先说清楚：Claw 类工具到底在做什么？"></a>01 先说清楚：Claw 类工具到底在做什么？</h2><p>区分两个概念很重要：</p>
+<h2 id="01-先说清楚：Claw-类工具到底在做什么？"><a href="#01-先说清楚：Claw-类工具到底在做什么？" class="headerlink" title="01 先说清楚：Claw 类工具到底在做什么？"></a>01 先说清楚：Claw 类工具到底在做什么？</h2><p><img src="https://maxcdn.hjhblr.com/blog/posts/2026-03-10-claw-showdown/02.png" alt="Image 2"></p>
+<p>区分两个概念很重要：</p>
 <p><strong>Copilot 模式 · 辅助驾驶</strong></p>
 <p>AI 给建议，你来执行。它在副驾驶座，方向盘还在你手上。对话结束，任务结束。</p>
 <p><strong>Agent 模式 · 自动驾驶</strong></p>
@@ -366,7 +374,8 @@
 <p>✅ <strong>适合：</strong> 大量浏览器操作任务（填表 &#x2F; 数据采集 &#x2F; 多页面跳转）；飞书用户；0 成本试错</p>
 <p>❌ <strong>不适合：</strong> 飞书以外 IM 需求较强；追求稳定成熟方案（刚上线）</p>
 <hr>
-<h2 id="03-选型基准：三个问题决定你的答案"><a href="#03-选型基准：三个问题决定你的答案" class="headerlink" title="03 选型基准：三个问题决定你的答案"></a>03 选型基准：三个问题决定你的答案</h2><p>抛开功能列表，决定选型的核心维度只有三个：</p>
+<h2 id="03-选型基准：三个问题决定你的答案"><a href="#03-选型基准：三个问题决定你的答案" class="headerlink" title="03 选型基准：三个问题决定你的答案"></a>03 选型基准：三个问题决定你的答案</h2><p><img src="https://maxcdn.hjhblr.com/blog/posts/2026-03-10-claw-showdown/03.png" alt="Image 3"></p>
+<p>抛开功能列表，决定选型的核心维度只有三个：</p>
 <p><strong>Q1 · 数据主权：你的任务数据，能接受放到云端吗？</strong></p>
 <p>如果答案是否——直接排除 ArkClaw。剩下五款数据均在本地执行，不上传。如果答案是可以，六款均可考虑，ArkClaw 反而是最省心的选择。</p>
 <p><strong>Q2 · 交互入口：你最常用哪个 IM？</strong></p>
@@ -431,6 +440,7 @@
 <p><strong>这六款工具是「手脚」，不是「大脑」。</strong></p>
 <p>它们能做的事，上限取决于你给它们定义的任务逻辑有多清晰——哪些边界不能碰，哪些状态需要人工介入，哪些异常直接中止。这些判断是你的，不是 AI 的。工具选得再好，逻辑建立在沙上，迟早会翻车。</p>
 </blockquote>
+<p><img src="https://maxcdn.hjhblr.com/blog/posts/2026-03-10-claw-showdown/04.png" alt="Image 4"></p>
 <p>我的建议是：<strong>先跑通一个真实的、最高频的场景，再谈扩展</strong>。比如「每天早上 8 点抓取飞书日历并生成日报发到群里」——就这一件事，把它跑稳了，你会对这类工具的能力边界有非常清醒的认识。</p>
 <p>不确定从哪里开始？国内环境用 <strong>CoPaw</strong> 或 <strong>WorkBuddy</strong> 起步，前者适合有技术基础的，后者适合职场非技术用户。两者都有免费额度，试错成本为零。</p>
 <hr>
@@ -495,6 +505,7 @@
 
           <div class="post-tags">
               <a href="/tags/%E8%8B%A5%E7%99%BD%E7%9F%A5%E8%A1%8C/" rel="tag"><i class="fa fa-tag"></i> 若白知行</a>
+              <a href="/tags/%E5%99%A8%C2%B7%E5%B7%A5%E5%85%B7%E5%BF%97/" rel="tag"><i class="fa fa-tag"></i> 器·工具志</a>
           </div>
 
         
