@@ -119,7 +119,7 @@
   </url>
   
   <url>
-    <loc>https://www.imrui.net/about/index-2018-03-03.html</loc>
+    <loc>https://www.imrui.net/about/index-2017-05-16.html</loc>
     
     <lastmod>2022-12-09</lastmod>
     
@@ -137,7 +137,7 @@
   </url>
   
   <url>
-    <loc>https://www.imrui.net/about/index-2017-05-16.html</loc>
+    <loc>https://www.imrui.net/about/index-2018-03-03.html</loc>
     
     <lastmod>2022-12-09</lastmod>
     
@@ -173,7 +173,7 @@
   </url>
   
   <url>
-    <loc>https://www.imrui.net/2017/09/29/spring-redis-template/</loc>
+    <loc>https://www.imrui.net/2017/09/30/spring-restful-auth/</loc>
     
     <lastmod>2022-12-09</lastmod>
     
@@ -182,7 +182,7 @@
   </url>
   
   <url>
-    <loc>https://www.imrui.net/2017/09/30/spring-restful-auth/</loc>
+    <loc>https://www.imrui.net/2017/09/29/spring-redis-template/</loc>
     
     <lastmod>2022-12-09</lastmod>
     
@@ -245,6 +245,15 @@
   </url>
   
   <url>
+    <loc>https://www.imrui.net/2010/07/15/%E5%9C%A8%E7%9C%BC%E5%89%8D%E5%8D%B4%E5%9C%A8%E5%A4%A9%E8%BE%B9/</loc>
+    
+    <lastmod>2022-12-09</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://www.imrui.net/2010/06/19/%E8%BF%91%E6%9C%9F%E7%9A%84%E7%83%A6%E8%BA%81/</loc>
     
     <lastmod>2022-12-09</lastmod>
@@ -263,15 +272,6 @@
   </url>
   
   <url>
-    <loc>https://www.imrui.net/2010/07/15/%E5%9C%A8%E7%9C%BC%E5%89%8D%E5%8D%B4%E5%9C%A8%E5%A4%A9%E8%BE%B9/</loc>
-    
-    <lastmod>2022-12-09</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://www.imrui.net/2010/04/28/%E5%BF%86%E9%AB%98%E8%80%83%E8%AA%93%E8%A8%80/</loc>
     
     <lastmod>2022-12-09</lastmod>
@@ -281,7 +281,7 @@
   </url>
   
   <url>
-    <loc>https://www.imrui.net/2010/06/19/%E7%94%9F%E5%B9%B3%E5%B0%8F%E5%8F%AF%E4%B9%8B%E6%AF%94/</loc>
+    <loc>https://www.imrui.net/2010/05/14/%E6%83%B3%E4%BD%A0%E5%8D%B4%E4%B8%8D%E8%83%BD%E5%91%8A%E8%AF%89%E4%BD%A0/</loc>
     
     <lastmod>2022-12-09</lastmod>
     
@@ -290,7 +290,7 @@
   </url>
   
   <url>
-    <loc>https://www.imrui.net/2010/05/14/%E6%83%B3%E4%BD%A0%E5%8D%B4%E4%B8%8D%E8%83%BD%E5%91%8A%E8%AF%89%E4%BD%A0/</loc>
+    <loc>https://www.imrui.net/2010/06/19/%E7%94%9F%E5%B9%B3%E5%B0%8F%E5%8F%AF%E4%B9%8B%E6%AF%94/</loc>
     
     <lastmod>2022-12-09</lastmod>
     
@@ -391,14 +391,14 @@
   </url>
   
   <url>
-    <loc>https://www.imrui.net/tags/OAuth2/</loc>
+    <loc>https://www.imrui.net/tags/OpenResty/</loc>
     <lastmod>2026-10-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://www.imrui.net/tags/OpenResty/</loc>
+    <loc>https://www.imrui.net/tags/OAuth2/</loc>
     <lastmod>2026-10-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
